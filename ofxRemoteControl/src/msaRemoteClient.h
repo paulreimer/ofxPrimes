@@ -32,7 +32,7 @@ public:
 		receiver.setup( PORT );
 	};
 	
-	bool hasMessage(){
+	bool hasMessage() {
 		return receiver.hasWaitingMessages();
 	}
 	
@@ -224,8 +224,8 @@ public:
 		}
 	};
 	
-	void drawCursors(){
-		list<ofxTuioCursor*>::iterator tit;
+	void drawCursors() const {
+		list<ofxTuioCursor*>::const_iterator tit;
 		for (tit=cursorList.begin(); tit != cursorList.end(); tit++) {
 			ofxTuioCursor *blob = (*tit);
 			
@@ -236,9 +236,9 @@ public:
 		}
 	};
 	
-	void drawObjects(){
+	void drawObjects() const {
 		
-		list<ofxTuioObject*>::iterator tobj;
+		list<ofxTuioObject*>::const_iterator tobj;
 		for (tobj=objectList.begin(); tobj != objectList.end(); tobj++) {
 			ofxTuioObject *blob = (*tobj);
 			glColor3f(1.0,0.0,0.0);
@@ -256,11 +256,11 @@ public:
 		}
 	};
 	
-	list<ofxTuioObject*> getTuioObjects() {
+	list<ofxTuioObject*> getTuioObjects() const {
 		return objectList;
 	};
 	
-	list<ofxTuioCursor*> getTuioCursors() {
+	list<ofxTuioCursor*> getTuioCursors() const {
 		return cursorList;
 	};
 	

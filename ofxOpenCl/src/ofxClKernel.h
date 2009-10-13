@@ -42,7 +42,7 @@ public:
 
 	bool loadFromFile(char* _kernelFile);
 	bool loadFromSource(char* _kernelSource, size_t kernelSourceSize);
-	virtual bool setup(cl_context _context, cl_command_queue _commandQ);
+	virtual bool setup(const cl_context& _context, const cl_command_queue& _commandQ);
 	bool enqueue();
 		
 	void destroy();

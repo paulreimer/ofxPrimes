@@ -2,7 +2,7 @@
 
 #include <OpenCL/cl.h>
 
-void DEBUG_clSetKernelArg(cl_int clErr) {
+void DEBUG_clSetKernelArg(cl_int clErr) const {
 	printf("clSetKernelArg error was: ");
 	switch(clErr) {
 		case CL_SUCCESS:
@@ -33,7 +33,7 @@ void DEBUG_clSetKernelArg(cl_int clErr) {
 	printf(".\n");
 }
 
-void DEBUG__clEnqueueNDRangeKernel(cl_int clErr) {
+void DEBUG__clEnqueueNDRangeKernel(cl_int clErr) const {
 	printf("clEnqueueNDRangeKernel, error was: ");
 	switch(clErr) {
 		case CL_SUCCESS:
@@ -82,7 +82,7 @@ void DEBUG__clEnqueueNDRangeKernel(cl_int clErr) {
 	printf(".\n");
 }
 
-void DEBUG_clCreateCommandQueue(cl_int clErr) {
+void DEBUG_clCreateCommandQueue(cl_int clErr) const {
 	printf("clCreateCommandQueue error was: ");
 	switch(clErr) {
 		case CL_SUCCESS:
@@ -110,7 +110,7 @@ void DEBUG_clCreateCommandQueue(cl_int clErr) {
 	printf(".\n");
 }
 
-void DEBUG_clGetContextInfo(cl_int clErr) {
+void DEBUG_clGetContextInfo(cl_int clErr) const {
 	printf("clGetContextInfo error was: ");
 	switch(clErr) {
 		case CL_SUCCESS:
@@ -129,7 +129,7 @@ void DEBUG_clGetContextInfo(cl_int clErr) {
 	printf(".\n");
 }
 
-void DEBUG_clCreateFromGLBuffer(cl_int clErr) {
+void DEBUG_clCreateFromGLBuffer(cl_int clErr) const {
 	printf("clCreateFromGLBuffer error was: ");
 	switch(clErr) {
 		case CL_SUCCESS:
@@ -154,7 +154,7 @@ void DEBUG_clCreateFromGLBuffer(cl_int clErr) {
 	printf(".\n");
 }
 /*
-void DEBUG_clCreateFromGLBuffer(cl_int clErr) {
+void DEBUG_clCreateFromGLBuffer(cl_int clErr) const {
 	printf("clCreateFromGLBuffer error was: ");
 	switch(clErr) {
 		case CL_SUCCESS:

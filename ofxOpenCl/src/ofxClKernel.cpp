@@ -35,7 +35,7 @@ bool ofxClKernel::loadFromSource(char* _kernelSource, size_t _kernelSourceSize) 
 	return true;
 }
 
-bool ofxClKernel::setup(cl_context _context, cl_command_queue _commandQ) {
+bool ofxClKernel::setup(const cl_context& _context, const cl_command_queue& _commandQ) {
 	context = _context;
 	commandQ = _commandQ;
 	// Create the program

@@ -6,7 +6,13 @@
 
 #include "ofxMSAInteractiveObject.h"
 
-#include "settings.h"
+#ifndef USE_MSAREMOTE
+#define USE_MSAREMOTE
+#endif
+
+#ifndef USE_TOON
+#undef	USE_TOON
+#endif
 
 #define DEFAULT_PORT 3333
 #define tuioCursorSpeedMult	0.01f
@@ -31,12 +37,12 @@ public:
 	
 	void destroy();
 
-	virtual void cursorAdded	(ofxTuioCursor &cursor) {};
-	virtual void cursorRemoved	(ofxTuioCursor &cursor) {};
-	virtual void cursorUpdated	(ofxTuioCursor &cursor) {};
+	virtual void cursorAdded	(const ofxTuioCursor &cursor) {};
+	virtual void cursorRemoved	(const ofxTuioCursor &cursor) {};
+	virtual void cursorUpdated	(const ofxTuioCursor &cursor) {};
 	
 #ifdef USE_TOON
-	TooN::SE3<> se3FromRemote();
+	TooN::SE3<> se3FromRemote() const;
 #endif
 
 	struct RemotePosition {
@@ -45,9 +51,9 @@ public:
 	} pos;
 	
 protected:
-	void _cursorAdded(ofxTuioCursor& tuioCursor);
-	void _cursorRemoved(ofxTuioCursor& tuioCursor);
-	void _cursorUpdated(ofxTuioCursor& tuioCursor);
+	void _cursorAdded			(ofxTuioCursor& tuioCursor);
+	void _cursorRemoved			(ofxTuioCursor& tuioCursor);
+	void _cursorUpdated			(ofxTuioCursor& tuioCursor);
 
 	int port;
 	

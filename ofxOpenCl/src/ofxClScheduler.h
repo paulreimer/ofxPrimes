@@ -31,7 +31,7 @@ public:
 
 	void printDeviceInfo(int device_nr = -1);
 
-	cl_device_id getMaxFlopsDev(cl_context ctx);
+	cl_device_id getMaxFlopsDev(cl_context ctx) const;
 	
 	//	cl_device_id* findAllDevices();
 //	cl_device_id findDeviceById(short _id);

@@ -7,6 +7,10 @@
 #include "ofxFiducialTracker.h"
 #include "ofxFiducial.h"
 
+#ifndef USE_FIDUCIALS
+#define USE_FIDUCIALS
+#endif
+
 #define NULL_FIDUCIAL_ID -1
 
 class ofxFiducialBackedGui  : public ofxSimpleGuiPage {

@@ -1,12 +1,11 @@
 #pragma once
 
 #include "ofxRemoteControl.h"
-#include "testApp.h"
 #include "ofxTuioCursor.h"
 
+#ifdef USE_TOON
 using namespace TooN;
-
-extern testApp* myApp;
+#endif
 
 ofxRemoteControl::ofxRemoteControl(int port) {
 	this->port = port;
@@ -35,6 +34,7 @@ void ofxRemoteControl::setup() {
 }
 
 void ofxRemoteControl::update() {
+#ifdef USE_MSAREMOTE
 	if (!msaRemote.hasMessage()) return;
 	
 	msaRemote.getMessage();
@@ -70,10 +70,11 @@ void ofxRemoteControl::update() {
 		pos.offset.x += first->getXSpeed() * tuioCursorSpeedMult;
 		pos.offset.y += first->getYSpeed() * tuioCursorSpeedMult;
 	}
+#endif
 }
 
 #ifdef USE_TOON
-SE3<> ofxRemoteControl::se3FromRemote() {
+SE3<> ofxRemoteControl::se3FromRemote() const {
 	/*	from http:/www.j3d.org/matrix_faq/matrfaq_latest.html
 	 
 		|  CE      -CF       D  |

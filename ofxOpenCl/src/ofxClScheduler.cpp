@@ -56,7 +56,7 @@ void ofxClScheduler::printDeviceInfo(int device_nr) {
 }
 
 //--------------------------------------------------------------
-cl_device_id ofxClScheduler::getMaxFlopsDev(cl_context ctx) {
+cl_device_id ofxClScheduler::getMaxFlopsDev(cl_context ctx) const {
 	cl_int clErr;
 	
 	cl_uint platform_count = 0;
