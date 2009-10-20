@@ -45,7 +45,9 @@
 #include "ofxSimpleGuiSliderInt.h"
 #include "ofxSimpleGuiSliderByte.h"
 #include "ofxSimpleGuiSlider2d.h"
+#ifndef TARGET_OF_IPHONE
 #include "ofxSimpleGuiMovieSlider.h"
+#endif
 #include "ofxSimpleGuiSliderString.h"
 #include "ofxSimpleGuiToggle.h"
 #include "ofxSimpleGuiTitle.h"

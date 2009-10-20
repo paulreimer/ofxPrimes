@@ -331,10 +331,12 @@ ofxSimpleGuiFPSCounter &ofxSimpleGuiToo::addFPSCounter() {
 //  	return pages[currentPage]->addQuadWarper(name, x, y, sw, sh, pts);
 //}
 
+#ifndef TARGET_OF_IPHONE
 ofxSimpleGuiMovieSlider &ofxSimpleGuiToo::addMovieSlider(string name, ofVideoPlayer* input) {
 	if(!config) setup();
 	return pages[currentPage]->addMovieSlider(name, input);
 }
+#endif
 
 ofxSimpleGuiSliderInt &ofxSimpleGuiToo::addSlider(string name, int &value, int min, int max) {
 	if(!config) setup();

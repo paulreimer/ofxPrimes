@@ -148,9 +148,11 @@ ofxSimpleGuiFPSCounter &ofxSimpleGuiPage::addFPSCounter() {
 //	return (ofxSimpleGuiQuadWarp &)addControl(* new ofxSimpleGuiQuadWarp(name, x, y, sw, sh, pts));
 //}
 //
+#ifndef TARGET_OF_IPHONE
 ofxSimpleGuiMovieSlider &ofxSimpleGuiPage::addMovieSlider(string name, ofVideoPlayer* input) {
 	return (ofxSimpleGuiMovieSlider &)addControl(* new ofxSimpleGuiMovieSlider(name, input));
 }
+#endif
 
 ofxSimpleGuiSliderInt &ofxSimpleGuiPage::addSlider(string name, int &value, int min, int max) {
 	return (ofxSimpleGuiSliderInt &)addControl(* new ofxSimpleGuiSliderInt(name, value, min, max, 0));

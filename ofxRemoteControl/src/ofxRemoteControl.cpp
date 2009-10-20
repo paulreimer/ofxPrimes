@@ -27,7 +27,8 @@ void ofxRemoteControl::setup() {
 #endif
 	
 	pos.rot.set		(0, 0, 0);
-	pos.offset.set	(0.5f, 0.5f, 4.0f);
+	pos.offset.set	(0, 0, 0);
+//	pos.offset.set	(0.5f, 0.5f, 4.0f);
 	
 	touchesAnglePrev = touchesAngle = 0.0;
 	touchesDistPrev = touchesDist = 0.0;
@@ -40,8 +41,8 @@ void ofxRemoteControl::update() {
 	msaRemote.getMessage();
 	
 	// invert x axis, and subtract 90 degrees
-	pos.rot.x =	(1-msaRemote.accelData.x)*90;
-	pos.rot.y = -msaRemote.accelData.y*90;
+	pos.rot.x =	msaRemote.accelData.x*90;
+	pos.rot.y = msaRemote.accelData.y*90;
 	
 	// do finger stuff
 	list<ofxTuioCursor*>cursorList = msaRemote.getTuioCursors();

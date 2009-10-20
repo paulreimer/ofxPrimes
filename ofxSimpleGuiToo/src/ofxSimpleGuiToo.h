@@ -86,8 +86,10 @@ public:
 	ofxSimpleGuiContent		&addContent(string name, ofBaseDraws &content, float fixwidth = -1);
 	ofxSimpleGuiButton		&addButton(string name, bool &value);
 	ofxSimpleGuiFPSCounter	&addFPSCounter();
+#ifndef TARGET_OF_IPHONE
 	ofxSimpleGuiMovieSlider	&addMovieSlider(string name, ofVideoPlayer* input);
-//	ofxSimpleGuiQuadWarp	&addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts);
+#endif
+	//	ofxSimpleGuiQuadWarp	&addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts);
 	ofxSimpleGuiSliderInt	&addSlider(string name, int &value, int min, int max);
 	ofxSimpleGuiSliderByte	&addSlider(string name, byte &value, byte min=0, byte max=255);
 	ofxSimpleGuiSliderFloat	&addSlider(string name, float &value, float min, float max, float smoothing = 0);

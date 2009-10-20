@@ -44,7 +44,7 @@ public:
 	ofxSimpleGuiPage(string name);
 	~ofxSimpleGuiPage();
 
-	void					draw(float x, float y, bool alignRight);
+	void					draw(float x=0, float y=0, bool alignRight=false);
 
 	void					loadFromXML(ofxXmlSettings &XML);
 	void					saveToXML(ofxXmlSettings &XML);
@@ -55,7 +55,9 @@ public:
 	ofxSimpleGuiContent		&addContent(string name, ofBaseDraws &content, float fixwidth = -1);
 	ofxSimpleGuiFPSCounter	&addFPSCounter();
 //	ofxSimpleGuiQuadWarp	&addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts);
+#ifndef TARGET_OF_IPHONE
 	ofxSimpleGuiMovieSlider	&addMovieSlider(string name, ofVideoPlayer* input);
+#endif
 	ofxSimpleGuiSliderInt	&addSlider(string name, int &value, int min, int max);
 	ofxSimpleGuiSliderByte	&addSlider(string name, byte &value, byte min=0, byte max=255);
 	ofxSimpleGuiSliderFloat	&addSlider(string name, float &value, float min, float max, float smoothing = 0);
