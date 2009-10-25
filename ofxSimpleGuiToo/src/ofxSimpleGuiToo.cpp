@@ -363,6 +363,11 @@ ofxSimpleGuiSlider2d &ofxSimpleGuiToo::addSlider2d(string name, ofPoint& value, 
 	return pages[currentPage]->addSlider2d(name, value, xmin, xmax, ymin, ymax);
 }
 
+ofxSimpleGuiSliderString &ofxSimpleGuiToo::addSlider(string name, int &value, map<int,string> strs, int min, int max) {
+	if(!config) setup();
+	return pages[currentPage]->addSlider(name, value, strs, min, max);
+}
+
 ofxSimpleGuiTitle &ofxSimpleGuiToo::addTitle(string name) {
 	if(!config) setup();
 	return pages[currentPage]->addTitle(name);

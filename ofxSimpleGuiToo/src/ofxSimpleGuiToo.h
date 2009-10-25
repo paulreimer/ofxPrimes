@@ -90,14 +90,14 @@ public:
 	ofxSimpleGuiMovieSlider	&addMovieSlider(string name, ofVideoPlayer* input);
 #endif
 	//	ofxSimpleGuiQuadWarp	&addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts);
-	ofxSimpleGuiSliderInt	&addSlider(string name, int &value, int min, int max);
-	ofxSimpleGuiSliderByte	&addSlider(string name, byte &value, byte min=0, byte max=255);
-	ofxSimpleGuiSliderFloat	&addSlider(string name, float &value, float min, float max, float smoothing = 0);
-	ofxSimpleGuiSliderDouble &addSlider(string name, double &value, double min, double max, double smoothing = 0);
-	ofxSimpleGuiSliderString &addSlider(string name, int &value, map<int,string> strs, int min=0, int max=0);
-	ofxSimpleGuiSlider2d	&addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax);
-	ofxSimpleGuiTitle		&addTitle(string name);
-	ofxSimpleGuiToggle		&addToggle(string name, bool &value);
+	ofxSimpleGuiSliderInt		&addSlider(string name, int &value, int min, int max);
+	ofxSimpleGuiSliderByte		&addSlider(string name, byte &value, byte min=0, byte max=255);
+	ofxSimpleGuiSliderFloat		&addSlider(string name, float &value, float min, float max, float smoothing = 0);
+	ofxSimpleGuiSliderDouble	&addSlider(string name, double &value, double min, double max, double smoothing = 0);
+	ofxSimpleGuiSliderString	&addSlider(string name, int &value, map<int,string> strs, int min=0, int max=0);
+	ofxSimpleGuiSlider2d		&addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax);
+	ofxSimpleGuiTitle			&addTitle(string name);
+	ofxSimpleGuiToggle			&addToggle(string name, bool &value);
 	
 protected:
 	bool							doAutoSave;
