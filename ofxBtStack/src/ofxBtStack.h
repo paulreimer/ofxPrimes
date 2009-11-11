@@ -1,33 +1,36 @@
 #pragma once
 
-#include "ofMain.h"
-#include "ofxThread.h"
-#include "ofxMSAInteractiveObject.h"
-
 extern "C" {
 #include <btstack/utils.h>
 }
 
-class ofxBtStack : /*public ofxThread, */public ofxMSAInteractiveObject
+#include "ofMain.h"
+
+class ofxBtStack
 {
 public:
 	ofxBtStack();
-//	virtual ofxBtStack();
-	void init();
+//	virtual ~ofxBtStack();
+	void start();
+	void stop();
 	
-	virtual void setup()	{};
-	virtual void update()	{};
-	virtual void draw()		{};
-	
-//	void threadedFunction();
-//	void destroy();
-	
-	int fps;
-
 	bd_addr_t addr;
+
+	void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
+
+	ofEvent<uint8_t*>	startup;
+	ofEvent<uint8_t*>	startup_failure;
+	ofEvent<uint8_t*>	pin_request;
+
+	ofEvent<uint8_t*>	hci_connection_closed;
+	ofEvent<uint8_t*>	hci_command_complete;
+
+	ofEvent<uint8_t*>	l2cap_data_packet;
+	ofEvent<uint8_t*>	l2cap_channel_opened;
+	ofEvent<uint8_t*>	l2cap_channel_failed;
+
+	ofEvent<char*>		new_state;
 	
-	void packet_handler(uint8_t packet_type, uint8_t *packet, uint16_t size);
-	
-	virtual void newData	(uint8_t x, uint8_t y, uint8_t z) {};
-	virtual void newState	(char *text) {};
+private:
+	bool bRunLoopEnabled;
 };
