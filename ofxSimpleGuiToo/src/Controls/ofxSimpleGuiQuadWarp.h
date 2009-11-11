@@ -48,7 +48,7 @@ public:
 				mouseOn = true;
 				onPnt = i;
 			}
-		}	
+		}
 	}
 	//---------------------------------------------------------------------
 	void mousePressed(int x, int y, int button) {

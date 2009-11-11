@@ -368,6 +368,14 @@ ofxSimpleGuiSliderString &ofxSimpleGuiToo::addSlider(string name, int &value, ma
 	return pages[currentPage]->addSlider(name, value, strs, min, max);
 }
 
+ofxSimpleGuiSliderContent &ofxSimpleGuiToo::addSlider(string name, int &value,
+													  map<int, string> strs,
+													  map<int, ofBaseDraws*> contents,
+													  int min, int max) {
+	if(!config) setup();
+	return pages[currentPage]->addSlider(name, value, strs, contents, min, max);
+}
+
 ofxSimpleGuiTitle &ofxSimpleGuiToo::addTitle(string name) {
 	if(!config) setup();
 	return pages[currentPage]->addTitle(name);

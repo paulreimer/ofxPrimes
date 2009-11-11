@@ -80,6 +80,9 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight) {
 	for(int i=0; i<controls.size(); i++) {
 		ofxSimpleGuiControl &control = *controls[i];
 
+		if (!control.enabled)
+			continue;
+
 		if(control.newColumn) {
 			if(alignRight) posX -= config->gridSize.x;
 			else posX += config->gridSize.x;
@@ -178,6 +181,13 @@ ofxSimpleGuiSliderString &ofxSimpleGuiPage::addSlider(string name, int &value, m
 	return (ofxSimpleGuiSliderString &)addControl(* new ofxSimpleGuiSliderString(name, value, strs, min, max));
 }
 
+ofxSimpleGuiSliderContent &ofxSimpleGuiPage::addSlider(string name, int &value,
+													  map<int, string> strs,
+													  map<int, ofBaseDraws*> contents,
+													  int min, int max) {
+	return (ofxSimpleGuiSliderContent &)addControl(* new ofxSimpleGuiSliderContent(name, value, strs, contents, min, max));
+}
+	
 ofxSimpleGuiTitle &ofxSimpleGuiPage::addTitle(string name, bool* value) {
 	return (ofxSimpleGuiTitle &)addControl(* new ofxSimpleGuiTitle(name, value));
 }

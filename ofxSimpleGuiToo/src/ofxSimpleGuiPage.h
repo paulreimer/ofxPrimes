@@ -41,7 +41,7 @@ typedef unsigned char byte;
 
 class ofxSimpleGuiPage : public ofxSimpleGuiControl {
 public:
-	ofxSimpleGuiPage(string name);
+	ofxSimpleGuiPage(string name = "GUI");
 	~ofxSimpleGuiPage();
 
 	void					draw(float x=0, float y=0, bool alignRight=false);
@@ -59,14 +59,18 @@ public:
 	ofxSimpleGuiMovieSlider	&addMovieSlider(string name, ofVideoPlayer* input);
 #endif
 	ofxSimpleGuiSliderInt	&addSlider(string name, int &value, int min, int max);
-	ofxSimpleGuiSliderByte	&addSlider(string name, byte &value, byte min=0, byte max=255);
 	ofxSimpleGuiSliderFloat	&addSlider(string name, float &value, float min, float max, float smoothing = 0);
-	ofxSimpleGuiSliderDouble &addSlider(string name, double &value, double min, double max, double smoothing);
 	ofxSimpleGuiSlider2d	&addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax);
-	ofxSimpleGuiSliderString &addSlider(string name, int &value, map<int,string> strs, int min=0, int max=0);
 	ofxSimpleGuiTitle		&addTitle(string name, bool* value=NULL);
 	ofxSimpleGuiToggle		&addToggle(string name, bool &value);
-
+	ofxSimpleGuiSliderByte		&addSlider(string name, byte &value, byte min=0, byte max=255);
+	ofxSimpleGuiSliderDouble	&addSlider(string name, double &value, double min, double max, double smoothing);
+	ofxSimpleGuiSliderString	&addSlider(string name, int &value, map<int,string> strs, int min=0, int max=0);
+	ofxSimpleGuiSliderContent	&addSlider(string name, int &value,
+										   map<int, string> strs,
+										   map<int, ofBaseDraws*> contents,
+										   int min=0, int max=0);
+	
 	ofxSimpleGuiControl		&setConfig(ofxSimpleGuiConfig *config);
 	
 protected:

@@ -49,6 +49,7 @@
 #include "ofxSimpleGuiMovieSlider.h"
 #endif
 #include "ofxSimpleGuiSliderString.h"
+#include "ofxSimpleGuiSliderContent.h"
 #include "ofxSimpleGuiToggle.h"
 #include "ofxSimpleGuiTitle.h"
 //#include "ofxSimpleGuiOption.h"
