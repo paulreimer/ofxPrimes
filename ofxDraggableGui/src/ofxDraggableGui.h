@@ -11,18 +11,10 @@ public:
 	virtual void onDragOver(int x, int y, int button);
 
 	void draw();
+	void activate(bool isActivated = true);
 
-	float angle;
-	void rotateRad(float angle);
+	bool bDraggable;
 
-	//bool hitTest(int tx, int ty); // handles translation and rotation
-	bool translateEvents, rotateEvents;
-	
-	ofMouseEventArgs generateMouseEventArgs(float x, float y, int button);
 protected:
-	void relocateMouseEvent(ofMouseEventArgs &e);
-
-	void translateMouse	(int& mx, int& my);
-	void rotateMouse	(int& mx, int& my);
 	int saveX, saveY;
 };
