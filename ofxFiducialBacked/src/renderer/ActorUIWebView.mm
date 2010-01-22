@@ -1,3 +1,5 @@
+#ifdef TARGET_OF_IPHONE
+
 #import "ActorUIWebView.h"
 #import "iPhoneGlobals.h"
 
@@ -60,7 +62,9 @@ public:
 		UIWebViewWrapper = [[WebViewController alloc] initWithNibName:@"WebView" bundle:[NSBundle mainBundle]];
 		[UIWebViewWrapper retain];
 		[iPhoneGlobals.window addSubview:UIWebViewWrapper.webView];
-		//		[iPhoneGlobals.window sendSubviewToBack:view];		
+		[iPhoneGlobals.window bringSubviewToFront:UIWebViewWrapper.webView];
+		UIWebViewWrapper.webView.clearsContextBeforeDrawing = NO;
+		UIWebViewWrapper.webView.opaque = NO;
 	}
 	~ActorUIWebView()
 	{
@@ -70,8 +74,8 @@ public:
 	}	
 	WebViewController* UIWebViewWrapper;
 };
-//static vector<ActorUIWebView> webViews;
-static ActorUIWebView webView;
+static vector<ActorUIWebView> webViews;
+//static ActorUIWebView webView;
 
 //--------------------------------------------------------------
 // C++ interface
@@ -81,25 +85,25 @@ namespace ofxFiducialBacked {
 		namespace iPhone {
 			namespace render {
 				void browser(ofRectangle frame, ofPoint origin, double angle, char* newUrl)
-				{
-/*					
+				{					
 					static int slot;
-					if (slot>=webViews.size())
-						if (webViews.size()<MAX_UIWEBVIEW_BROWSERS)
-							webViews.resize(webViews.size()+1);
+					int browsersAvail = webViews.size();
+					if (slot > browsersAvail-1)
+						if (browsersAvail<MAX_UIWEBVIEW_BROWSERS)
+							webViews.resize(browsersAvail+1);
 						else
 							slot = 0;
 					
 					WebViewController* viewWrapper = webViews[slot].UIWebViewWrapper;
-*/					
+/*					
 					static bool bSetup;
 					if (!bSetup)
 					{
-						webView.setup();
+						webViews[slot].setup();
 						bSetup = true;
 					}
-					WebViewController* viewWrapper = webView.UIWebViewWrapper;
-
+//					WebViewController* viewWrapper = webView.UIWebViewWrapper;
+*/
 					CGRect drawFrame = CGRectMake(frame.x, frame.y, frame.width, frame.height);
 					[viewWrapper.webView setFrame:drawFrame];
 
@@ -112,10 +116,13 @@ namespace ofxFiducialBacked {
 										 encoding:[NSString defaultCStringEncoding]];
 						[viewWrapper setUrl:url];
 					}
-
-//					slot++;
+					
+					[viewWrapper.webView setNeedsDisplay];
+					slot++;
 				}
 			}
 		}
 	}
 }
+
+#endif

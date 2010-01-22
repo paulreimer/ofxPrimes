@@ -20,13 +20,13 @@ void ofxiPhoneVideoCapture::setup()
 	stream = [[VideoStream alloc] initWithCapture:this];
 	[stream retain];
 	
-	[iPhoneGlobals.window addSubview:stream.previewView];
-	[iPhoneGlobals.window sendSubviewToBack:stream.previewView];
+//	[iPhoneGlobals.window addSubview:stream.previewView];
+//	[iPhoneGlobals.window sendSubviewToBack:stream.previewView];
 	
-	//	previewView.clearsContextBeforeDrawing = YES;
-	//	previewView.opaque = YES;
+//	previewView.clearsContextBeforeDrawing = YES;
+//	previewView.opaque = YES;
 	
-	iPhoneGlobals.glView.opaque = NO;
+//	iPhoneGlobals.glView.opaque = NO;
 }
 
 void ofxiPhoneVideoCapture::capture()
@@ -37,13 +37,7 @@ void ofxiPhoneVideoCapture::capture()
 
 void ofxiPhoneVideoCapture::destroy()
 {
-	if (bThreaded)
-	{
-		[stream.frameTimer invalidate];
-		[stream.frameTimer release];
-		
-		[stream.previewView removeFromSuperview];
-	}
-		
+//	stream.capture = NULL;
+	[stream stop];
 	[stream release];
 }

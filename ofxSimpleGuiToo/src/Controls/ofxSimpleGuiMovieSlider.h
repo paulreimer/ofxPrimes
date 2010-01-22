@@ -42,7 +42,7 @@ public:
 		cue2Btn  = new ofxSimpleGuiButton("Cue 2", cue_2);
 		resetBtn = new ofxSimpleGuiButton("Reset", resetCue);
 
-		pauseBtn->setToggleMode(true);
+		pauseBtn->setMomentary(false);
 		resetCue = false;
 		cue_1 = false;
 		cue_2 = false;

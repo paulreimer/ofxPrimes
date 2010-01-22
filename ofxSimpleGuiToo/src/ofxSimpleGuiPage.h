@@ -44,6 +44,8 @@ public:
 	ofxSimpleGuiPage(string name = "GUI");
 	~ofxSimpleGuiPage();
 
+	void					toggleDraw();
+	void					setDraw(bool bDraw=true);
 	void					draw(float x=0, float y=0, bool alignRight=false);
 
 	void					loadFromXML(ofxXmlSettings &XML);
@@ -77,4 +79,5 @@ protected:
 	vector <ofxSimpleGuiControl*>	controls;
 	float getNextY(float y);
 
+	bool bWrapControls;
 };

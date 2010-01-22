@@ -20,6 +20,9 @@ public:
 	}
 
 	void setup() {
+		if (content == NULL)
+			return;
+
 		fixheight = fixwidth * content->getHeight()/content->getWidth();
 		setSize(fixwidth, fixheight + config->sliderTextHeight);
 	}

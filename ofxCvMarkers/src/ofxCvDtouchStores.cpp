@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ofxCvDtouchStores.h"
 /*
  FixedStore::FixedStore() {

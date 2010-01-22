@@ -2,10 +2,10 @@
 
 #include "config.h"
 
-#include "gui/ofxFiducialBackedGui.h"
-#include "gui/ofxFiducialBackedGuiGraph.h"
+#include "gui/Page.h"
+#include "gui/GuiGraph.h"
 
-#include "physics/ofxFiducialBackedPhysics.h"
-#include "physics/ofxFiducialBackedPhysicsRoutines.h"
+#include "physics/PhysicsEngine.h"
+#include "physics/PhysicsRoutines.h"
 
-#include "renderer/ofxFiducialBackedRenderer.h"
+#include "renderer/Renderer.h"

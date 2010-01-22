@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef TARGET_OF_IPHONE
+
 #include "renderer_types.h"
 #include "ofxMSAInteractiveObject.h"
 
@@ -12,3 +14,5 @@ namespace ofxFiducialBacked {
 		}
 	}
 }
+
+#endif

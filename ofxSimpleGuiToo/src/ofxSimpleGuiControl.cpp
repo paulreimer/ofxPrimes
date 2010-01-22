@@ -36,8 +36,6 @@
 
 #include "ofxSimpleGuiControl.h"
 
-#define NULL_FIDUCIAL_ID -1
-
 ofxSimpleGuiControl::ofxSimpleGuiControl(string name) {
 	controlType = "";
 	this->config = &defaultSimpleGuiConfig;
@@ -49,8 +47,9 @@ ofxSimpleGuiControl::ofxSimpleGuiControl(string name) {
 	newColumn = false;
 	setKeyboardShortcut(0);
 
+//	args.control = this;
+	args = this;
 	units = "";
-	fiducialId = NULL_FIDUCIAL_ID;
 
 	setup();
 	
@@ -133,11 +132,5 @@ ofxSimpleGuiControl &ofxSimpleGuiControl::setKeyboardShortcut(char c) {
 ofxSimpleGuiControl &ofxSimpleGuiControl::setUnits(string units) {	
 	this->units = units;
 	
-	return *this;
-}
-
-ofxSimpleGuiControl &ofxSimpleGuiControl::setFiducialId(int fiducialId) {	
-	this->fiducialId = fiducialId;
-
 	return *this;
 }

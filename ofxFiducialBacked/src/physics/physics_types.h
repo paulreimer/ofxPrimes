@@ -5,16 +5,15 @@
 #include <queue>
 
 // forward decl.
-class ofxFiducialPhysicsRoutines;
+namespace ofxFiducialBacked {
+	namespace physics {
+		class Routines;
+	}
+}
 
 namespace ofxFiducialBacked {
 	namespace types {			
 		namespace physics {
-			//typedef int fiducialIndex;
-			//typedef ofxFiducial* fiducialIndex;
-
-			//typedef list<ofxFiducial>			fiducials_t;
-			//typedef fiducials_t::iterator		fiducial_iter;
 
 #ifdef NOTIFY_FIDUCIAL_STATUS
 			typedef map<int, int>				fiducial_states_t;
@@ -44,15 +43,24 @@ namespace ofxFiducialBacked {
 			};
 
 			typedef queue<ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs>
-					(ofxFiducialPhysicsRoutines::*routine)(ofxFiducial* fiducial);
+					(ofxFiducialBacked::physics::Routines::*routine)(ofxFiducial* fiducial);
 
-			typedef map<int, routine>			routines_map_t;
-			typedef routines_map_t::iterator	routines_map_iter;
+			typedef map<int, routine>			functions_map_t;
+			typedef functions_map_t::iterator	functions_map_iter;
 
 			typedef map<int, vector<ofPoint> >	shapes_map_t;
 			typedef shapes_map_t::iterator		shapes_map_iter;
-
 #endif
+
+			class fiducial_pair_by_id {
+			public:
+				const int id;
+				fiducial_pair_by_id(const int _id) : id(_id) {}
+				bool operator()(ofxFiducial& fiducial) {
+					return (fiducial.getId()==id);
+				}
+			};
+			
 		}
 	}
 }

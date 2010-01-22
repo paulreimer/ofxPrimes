@@ -39,6 +39,17 @@
 #include "ofxMSAInteractiveObject.h"
 #include "ofxSimpleGuiConfig.h"
 #include "ofxXmlSettings.h"
+class ofxSimpleGuiControl;
+typedef ofxSimpleGuiControl* controlEvtArgs;
+/*
+struct controlEvtArgs {
+	ofxSimpleGuiControl* control;
+	
+	controlEvtArgs(ofxSimpleGuiControl* _control = NULL) {
+		control = _control;
+	}
+};
+*/
 
 class ofxSimpleGuiControl : public ofxMSAInteractiveObject {
 public:
@@ -51,7 +62,6 @@ public:
 	bool		focused;
 	bool		newColumn;
 	char		keyboardShortcut;
-	int			fiducialId;
 
 	ofxSimpleGuiControl(string name);
 	virtual ofxSimpleGuiControl& setName(string newName);
@@ -64,7 +74,6 @@ public:
 	virtual ofxSimpleGuiControl& setEmptyColor();
 	virtual ofxSimpleGuiControl& setKeyboardShortcut(char c);
 	virtual ofxSimpleGuiControl& setUnits(string units);
-	virtual ofxSimpleGuiControl& setFiducialId(int id);
 	
 	virtual void loadFromXML(ofxXmlSettings &XML) {}
 	virtual void saveToXML(ofxXmlSettings &XML) {}
@@ -79,6 +88,9 @@ public:
 	virtual void onKeyLeft() {}
 	virtual void onKeyRight() {}
 	virtual void onKeyEnter() {}
+	
+	controlEvtArgs args;
+	ofEvent<controlEvtArgs> valueChangedEvt;
 
 protected:
 	ofxSimpleGuiConfig	*config;

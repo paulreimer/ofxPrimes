@@ -41,5 +41,6 @@
 
 - (id)initWithCapture:(ofxiPhoneVideoCapture*)_capture;
 - (void)frame;
+- (void)stop;
 
 @end

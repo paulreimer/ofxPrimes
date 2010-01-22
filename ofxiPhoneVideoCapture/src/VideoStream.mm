@@ -47,6 +47,11 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 	
 	[previewView retain];
 	[cameraController retain];
+
+	[iPhoneGlobals.window addSubview:previewView];
+	[iPhoneGlobals.window sendSubviewToBack:previewView];
+	
+	iPhoneGlobals.glView.opaque = NO;
 	
 	[cameraController performSelector:@selector(startPreview)];
 
@@ -161,7 +166,7 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 	}
 
 	// TODO: Why is this inverted? offset error?
-	capture->input.setFromPixels(pixels, width, height, imageType);
+	capture->input.setFromPixels(pixels, width, height, imageType, false);
 
 #ifdef FRAMEBUFFER_HACKS
 	memset(pixels, 0xff, width*height*4/2);
@@ -177,6 +182,19 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 	capture->update();
 }	
 
+- (void)stop
+{
+	if (capture->bThreaded)
+	{
+		[frameTimer invalidate];
+		[frameTimer release];
+		
+		[previewView removeFromSuperview];
+	}
+	
+	[cameraController stopPreview];
+}
+
 - (void)dealloc
 {
 	[previewView release];
@@ -188,5 +206,4 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 
     [super dealloc];
 }
-
 @end

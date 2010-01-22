@@ -19,12 +19,14 @@ public:
 							 map<int, string> strs,
 							 map<int, ofBaseDraws*> contents,
 							 int min=0, int max=0)
-	: ofxSimpleGuiSliderString(name, value, strs, min, max? max : MAX(strs.size()-1,0))
+	: ofxSimpleGuiSliderString(name, value, strs, min, max? max : MAX(MAX(strs.size(),contents.size())-1,0))
 	{
-
 		controlType = "SliderContent";
 
 		this->contents = contents;
+		this->content = NULL;
+		
+		updateContent();
 	}
 	
 	void setup()
@@ -41,8 +43,8 @@ public:
 		pct		 = ofMap((*value), min, max, 0.0, sliderwidth);
 		barwidth = pct;
 	}
-	
-	void update()
+
+	void updateContent()
 	{
 		map<int, string>::iterator chk_str = strs.find(*value);
 		map<int, ofBaseDraws*>::iterator chk_content = contents.find(*value);
@@ -68,44 +70,47 @@ public:
 		}
 	}
 	
+	
+	virtual void onPress(int x, int y, int button) {
+		updateSlider();
+		updateContent();
+	}
+	
+	virtual void onDragOver(int x, int y, int button) {
+		updateSlider();
+		updateContent();
+	}
+	
+	virtual void onDragOutside(int x, int y, int button) {
+		updateSlider();
+		updateContent();
+	}
+	
 	//--------------------------------------------------------------------- draw
 	void draw(float x, float y)
 	{
-	    if(content->getWidth() == 0 && content->getHeight() ==0) return;
-		
-		float textOffset; 
-		if (!bValueRightAlign)
-			textOffset = config->fontOffset.x;
-		else
-			textOffset = width - config->font.stringWidth(name) - config->fontOffset.x;
-		
-		setPos(x, y);
-		setup();
-		
-		glPushMatrix();
-		glTranslatef(x, y, 0);
-		ofEnableAlphaBlending();
-		ofFill();
-		//		glColor4f(0, 0, 0, 0.8f);
-		//		ofRect(0, 0, width, fixheight);
-		
-		ofSetColor(0xffffff);
-		content->draw(0, 0, width, fixheight);
-		
-		ofFill();
-		setTextBGColor();
-		ofRect(0, fixheight, width, config->sliderTextHeight);
-		
-		setTextColor();
-		
-		config->font.drawString(name, textOffset, fixheight + config->fontOffset.y);
-		ofDisableAlphaBlending();
-		glPopMatrix();
+	    if(content != NULL
+		   && (content->getWidth() != 0 || content->getHeight() !=0))
+		{
+			setPos(x, y);
+			setup(); // refresh heights/widths
+			
+			glPushMatrix();
+			glTranslatef(x, y, 0);
+//			ofEnableAlphaBlending();
+			ofFill();
+			//		glColor4f(0, 0, 0, 0.8f);
+			//		ofRect(0, 0, width, fixheight);
+			
+			ofSetColor(0xffffff);
+			content->draw(0, 0, width, fixheight);
 
-		x += fixwidth;
-		y += fixheight + config->sliderTextHeight + config->padding.y;
+			glPopMatrix();
+
+			y += fixheight;
+		}
 
 		ofxSimpleGuiSliderString::draw(x, y);
 	}
-		
+
 };

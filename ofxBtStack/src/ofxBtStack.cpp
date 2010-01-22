@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ofxBtStack.h"
 /*
  #include <unistd.h>

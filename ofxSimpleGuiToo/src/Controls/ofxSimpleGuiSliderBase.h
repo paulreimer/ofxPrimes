@@ -8,14 +8,16 @@ template <typename Type> class ofxSimpleGuiSliderBase : public ofxSimpleGuiContr
 public:
 
 	Type		*value;
+
 	Type		min, max;
 
 	float		barwidth;
 	float		pct;
 
 	float		lerpSpeed;
-	Type		targetValue;
 	Type		oldValue;
+	
+	bool		bLerpValue;
 	
 	bool		bValueRightAlign;
 
@@ -28,8 +30,8 @@ public:
 		this->max	= max;
 
 		lerpSpeed	= 1.0f - smoothing * 0.99;		// so smoothing :1 still results in some motion!
-		targetValue	= value;
-		oldValue	= targetValue;
+		bLerpValue	= (smoothing!=0);
+		oldValue	= value;
 		controlType = "SliderBase";
 		
 		bValueRightAlign = true;
@@ -62,7 +64,17 @@ public:
 
 
 	void set(Type f) {
-		(*value) = f;
+		if (oldValue != f)
+		{
+			oldValue = (*value) = f;
+			
+			if(!bLerpValue)				// if value has changed programmatically by something else
+				oldValue = (*value) = f;// save the value in target and oldvalue
+			else
+				oldValue = (*value) = (*value) + (Type)((f - *value) * lerpSpeed);
+
+			ofNotifyEvent(valueChangedEvt, args);
+		}
 	}
 
 	void add() {
@@ -73,8 +85,7 @@ public:
 		if(temp >= max)			temp = max;
 		else if(temp <= min)	temp = min;
 
-		targetValue = (Type)temp;
-		oldValue = *value;		// save oldValue (so the draw doesn't update target but uses it)
+		set(temp);
 	}
 
 	void sub() {
@@ -85,8 +96,7 @@ public:
 		if(temp >= max)			temp = max;
 		else if(temp <= min)	temp = min;
 
-		targetValue = (Type)temp;
-		oldValue = *value;		// save oldValue (so the draw doesn't update target but uses it)
+		set(temp);
 	}
 
 
@@ -104,30 +114,29 @@ public:
 			if(temp >= max)			temp = max;
 			else if(temp <= min)	temp = min;
 
-			targetValue = (Type)temp;
-			oldValue = *value;		// save oldValue (so the draw doesn't update target but uses it)
+			set(temp);
 		}
 	}
 
-	void onPress(int x, int y, int button) {
+	virtual void onPress(int x, int y, int button) {
 		updateSlider();
 	}
 
-	void onDragOver(int x, int y, int button) {
+	virtual void onDragOver(int x, int y, int button) {
 		updateSlider();
 	}
 
-	void onDragOutside(int x, int y, int button) {
+	virtual void onDragOutside(int x, int y, int button) {
 		updateSlider();
 	}
 
 
 
-	void onKeyRight() {
+	virtual void onKeyRight() {
 		add();
 	}
 
-	void onKeyLeft() {
+	virtual void onKeyLeft() {
 		sub();
 	}
 
@@ -141,20 +150,12 @@ public:
 		}
 
 		enabled = false;
-
 	}
 
 	//--------------------------------------------------------------------- draw
 	void draw(float x, float y) {
 
 		enabled = true;
-
-		if(oldValue != *value) {					// if value has changed programmatically by something else
-			oldValue = targetValue = *value;			// save the value in target and oldvalue
-		} else {									// otherwise lerp
-			*value += (Type)((targetValue - *value) * lerpSpeed);
-			oldValue = *value;							// and save oldvalue
-		}
 
 		//update postion of gui object
 		setPos(x, y);

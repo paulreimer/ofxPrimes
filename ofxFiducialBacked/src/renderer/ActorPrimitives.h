@@ -7,6 +7,8 @@ namespace ofxFiducialBacked {
 	namespace renderer {
 		namespace primitives {			
 			namespace render {
+				void setup();
+
 				void arrow	(ofxFiducialBacked::types::actors::lineSegment segment,
 							 ofxFiducialBacked::types::actors::arrow_type_t arrowtype=ofxFiducialBacked::types::actors::ARROW_TYPE_BOTH);
 				void line	(ofxFiducialBacked::types::actors::lineSegment segment);

@@ -1,0 +1,53 @@
+import "google/protobuf/descriptor.proto";
+
+package ofxProtobufBacked.protobuf;
+
+message Gui {
+    required string name = 1;
+    required string key = 2;
+    optional int32 link_id = 3;
+    message Control {
+        enum WidgetType {
+            BUTTON = 0;
+            TOGGLE = 1;
+            SLIDER = 2;
+            SLIDER_2D = 3;
+            SLIDER_MAP_STRING = 4;
+            SLIDER_MAP_CONTENT = 5;
+            KNOB = 6;
+            CONTENT = 7;
+            BROWSER = 8;
+        }
+        required string name = 1;
+        optional string key = 2;
+        required google.protobuf.FieldDescriptorProto.Type value_type = 3;
+        optional WidgetType widget = 4;
+        optional bool enabled = 5;
+        optional double min = 6;
+        optional double max = 7;
+        extensions 16 to 32;
+    }
+
+    repeated Control controls = 4;
+}
+
+message GuiTree {
+	optional GuiTree parent = 1;
+	repeated GuiTree children = 2;
+}
+
+message GuiGraph {
+    message Node {
+        required int32 id = 1;
+        optional string label = 2;
+    }
+
+    message Edge {
+        optional int32 id = 1;
+        required int32 to = 2;
+        required int32 from = 3;
+    }
+
+    repeated Node nodes = 1;
+    repeated Edge edges = 2;
+}

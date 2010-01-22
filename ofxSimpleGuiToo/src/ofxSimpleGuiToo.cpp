@@ -278,6 +278,13 @@ void ofxSimpleGuiToo::setPage(string name) {
 	}
 }
 
+int	ofxSimpleGuiToo::getCurrentPageIndex() {
+	return currentPage;
+}
+
+ofxSimpleGuiPage &ofxSimpleGuiToo::getCurrentPage() {
+	return *pages[currentPage];
+}
 
 ofxSimpleGuiPage &ofxSimpleGuiToo::page(int i) {
 	return *pages.at(i);
@@ -298,7 +305,6 @@ ofxSimpleGuiPage &ofxSimpleGuiToo::addPage(string name) {
 	ofxSimpleGuiPage *newPage = new ofxSimpleGuiPage(ofToString(pages.size(), 0) + ": " + name);
 	pages.push_back(newPage);
 	if(name == "") newPage->setName(ofToString(pages.size()-1, 0) + ": Settings");
-	static bool b;
 //	if(pages.size() > 1) headerPage->addTitle(newPage->name);		// if this isn't the first page, add to header
 	if(pages.size() > 1) newPage->addButton(newPage->name, changePage);		// if this isn't the first page, add to header
 	setPage(pages.size() - 1);

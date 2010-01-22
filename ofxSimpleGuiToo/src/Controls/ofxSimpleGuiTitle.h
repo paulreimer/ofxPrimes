@@ -9,6 +9,7 @@ class ofxSimpleGuiTitle : public ofxSimpleGuiControl {
 public:
 	
 	bool*			value;
+	bool			oldValue;
 	
 	bool			beToggle;
 	bool			beenPressed;
@@ -51,13 +52,18 @@ public:
 	}
 	void set(bool b) {
 		if(!value) return;
-		(*value) = b;
+
+		if (oldValue != b)
+		{		
+			oldValue = (*value) = b;
+			ofNotifyEvent(valueChangedEvt, args);
+		}
 	}
 	void toggle() {
 		if(!value) return;
-		(*value) = !(*value); 
+		set(!(*value));
 	}
-	
+
 	void setToggleMode(bool b) {
 		if(!value) return;
 		beToggle = b;
@@ -66,13 +72,16 @@ public:
 	void onPress(int x, int y, int button) {
 		if(!value) return;
 		beenPressed = true;	
-		if(beToggle) (*value) = !(*value); 
-		else (*value) = true;
+		if(beToggle)
+			set(!(*value));
+		else
+			set(true);
 	}
 	
 	void onRelease(int x, int y, int button) {
 		if(!value) return;
-		if(!beToggle) (*value) = false;
+		if(!beToggle)
+			set(false);
 	}
 	
 	void draw(float x, float y) {

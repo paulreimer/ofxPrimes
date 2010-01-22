@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ofxDraggableGui.h"
 #include "ofxPoint2f.h"	
 

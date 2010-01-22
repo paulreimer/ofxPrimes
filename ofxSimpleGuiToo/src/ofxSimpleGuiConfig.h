@@ -89,14 +89,19 @@ public:
 
 		textColor			= 0xAAAAAA;
 		textOverColor		= 0xFFFFFF;
-		textBGColor			= 0x303030;
-		textBGOverColor		= 0x707070;
-
+		textBGColor			= 0x242323;
+		textBGOverColor		= 0x4c4c4a;
+/*
 		fullColor			= 0x37a9a9;
 		fullOverColor		= 0x64b4b4;
 		fullActiveColor		= 0xb41818;
 		emptyColor			= 0xDCDCDC;
-
+*/
+		fullColor			= 0xbf8a1b;
+		fullOverColor		= 0xe5b627;
+		fullActiveColor		= 0x996412;
+		emptyColor			= 0x4c4c4a;
+		
 		borderColor			= 0xCCCCCC;
 		
 		fontSize			= 11;

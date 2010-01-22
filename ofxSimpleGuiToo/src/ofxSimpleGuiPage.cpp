@@ -40,7 +40,8 @@ ofxSimpleGuiPage::ofxSimpleGuiPage(string name) : ofxSimpleGuiControl(name) {
 	disableAllEvents();
 	width = 0;
 	height = 0;
-	ofAddListener(ofEvents.update, (ofxMSAInteractiveObject*) this, &ofxMSAInteractiveObject::_update);
+	
+	bWrapControls = true;
 }
 
 ofxSimpleGuiPage::~ofxSimpleGuiPage() {
@@ -67,8 +68,34 @@ float ofxSimpleGuiPage::getNextY(float y) {
 	return (iy) * config->gridSize.y;
 }
 
+void ofxSimpleGuiPage::toggleDraw()
+{
+	setDraw(!enabled);
+}
 
-void ofxSimpleGuiPage::draw(float x, float y, bool alignRight) {
+void ofxSimpleGuiPage::setDraw(bool bDraw)
+{
+	enabled = bDraw;
+	if (bDraw)
+		for (int i=0; i<controls.size(); i++)
+		{
+			controls[i]->enabled = true;
+			controls[i]->enableMouseEvents();
+		}
+	else
+		for (int i=0; i<controls.size(); i++)
+		{
+			controls[i]->enabled = false;
+			controls[i]->disableMouseEvents();
+
+		}
+}
+
+
+void ofxSimpleGuiPage::draw(float x, float y, bool alignRight)
+{
+	if (!enabled)
+		return;
 
 	if(alignRight) x = ofGetWidth() - x -  config->gridSize.x;
 		
@@ -105,7 +132,8 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight) {
 		posY = getNextY(posY + control.height + config->padding.y);
 
 		float addHeight = posY + control.height;
-		if(addHeight > height
+		if(bWrapControls
+		   && addHeight > height
 		   || y + addHeight > ofGetHeight()) {
 			if(alignRight) posX -= config->gridSize.x;
 			else posX += config->gridSize.x;
@@ -129,7 +157,7 @@ ofxSimpleGuiControl &ofxSimpleGuiPage::addControl(ofxSimpleGuiControl& control) 
 		width = MAX(width,control.width);
 		height += getNextY(control.height);
 	}
-	
+
 	controls.push_back(&control);
 	return control;
 }

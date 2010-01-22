@@ -75,6 +75,9 @@ public:
 	void					prevPage();
 	void					setPage(int i);				// 1 based index of page
 	void					setPage(string name);
+
+	int						getCurrentPageIndex();
+	ofxSimpleGuiPage		&getCurrentPage();
 	
 	void					nextPageWithBlank();		// cycles through pages, and closes after last page
 	

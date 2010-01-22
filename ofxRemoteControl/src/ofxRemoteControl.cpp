@@ -1,5 +1,3 @@
-#pragma once
-
 #include "ofxRemoteControl.h"
 #include "ofxTuioCursor.h"
 

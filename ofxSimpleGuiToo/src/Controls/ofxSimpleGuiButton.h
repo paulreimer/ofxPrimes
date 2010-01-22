@@ -8,21 +8,20 @@ class ofxSimpleGuiButton : public ofxSimpleGuiControl {
 	
 public:
 	
-	bool*			value;
+	bool*	value;
+	bool	oldValue;
 	
-	bool			beToggle;
-	bool			beenPressed;
+	bool	momentary;
 	
 	//---------------------------------------------------------------------
 	ofxSimpleGuiButton(string name, bool &value) : ofxSimpleGuiControl(name) {
-		beToggle	= false;
-		beenPressed = false;
+		setMomentary(true);
 		this->value	= &value;
 		controlType = "Button";
 		setup();
 	}
 	
-	void setup() {
+	virtual void setup() {
 		setSize(config->gridSize.x - config->padding.x, config->buttonHeight);
 	}
 	
@@ -38,34 +37,41 @@ public:
 		XML.popTag();
 	}
 
-	void keyPressed( int key ) {
-		if(key==keyboardShortcut) toggle();
-	}
-	
-	
+	ofxSimpleGuiButton& setMomentary(bool m) {
+		momentary = m;
+		return *this;
+	}	
 	
 	bool getValue() {
 		return (*value);
 	}
 	void set(bool b) {
-		(*value) = b;
+		if (oldValue != b)
+		{		
+			oldValue = (*value) = b;
+			ofNotifyEvent(valueChangedEvt, args);
+		}
 	}
 	void toggle() {
-		(*value) = !(*value); 
-	}
-	
-	void setToggleMode(bool b) {
-		beToggle = b;
+		oldValue = (*value) = !(*value);
+		ofNotifyEvent(valueChangedEvt, args);
 	}
 	
 	void onPress(int x, int y, int button) {
-		beenPressed = true;	
-		if(beToggle) (*value) = !(*value); 
-		else (*value) = true;
+		if(momentary) set(true);
+		else toggle();
 	}
-
+	
 	void onRelease(int x, int y, int button) {
-		if(!beToggle) (*value) = false;
+		if(momentary) set(false);
+	}	
+	
+	void keyPressed( int key ) {
+		if(key==keyboardShortcut) onPress(0, 0, 0);
+	}
+	
+	void keyReleased( int key ) {
+		if(key==keyboardShortcut) onRelease(0, 0, 0);
 	}
 	
 	void draw(float x, float y) {
@@ -77,17 +83,35 @@ public:
 		ofEnableAlphaBlending();
 		ofFill();
 		setTextBGColor();
+		setFullColor(*value);
 		ofRect(0, 0, width, height);
 		
 		// if a toggle
-		if((*value) && beToggle) {
+		if((*value) && !momentary) {
 			setTextColor();
-			//ofLine(0, 0, box.width, box.height);
-			//ofLine(box.width, 0, 0, box.height);
+			if (1)
+			{
+				float s=height/2;
+
+				float r = s*(2.0/3.0);
+				float o = sqrtf(r*r/2);
+
+				setFullColor();
+				ofCircle(s, s, r);
+
+				setTextColor();
+				ofLine(s-o, s-o, s+o, s+o);
+				ofLine(s-o, s+o, s+o, s-o);
+			}
 		}
-		
+		setTextBGColor();
+		ofRect(height, 0, width - height, height);
+
+		ofFill();
+
 		setTextColor();
-		config->font.drawString(name, config->fontOffset.x, config->fontOffset.y);
+//		config->font.drawString(name, config->fontOffset.x, config->fontOffset.y);
+		config->font.drawString(name, height+4, config->fontOffset.y+6);
 
 		ofDisableAlphaBlending();
 		
