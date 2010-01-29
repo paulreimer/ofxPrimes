@@ -33,6 +33,7 @@
  *
  * ***********************************************************************/ 
 
+#include "ofConstants.h"
 
 #include "ofxSimpleGuiPage.h"
 #include "ofxSimpleGuiConfig.h"

@@ -3,42 +3,17 @@
 #include "ofxSimpleGuiControl.h"
 
 
-//------------------------------------------------------------------------------ button
-class ofxSimpleGuiFPSCounter : public ofxSimpleGuiControl {
+//------------------------------------------------------------------------------ fps counter
+class ofxSimpleGuiFPSCounter : public ofxSimpleGuiControl
+{
 	
 public:
+	ofxSimpleGuiFPSCounter();
 	
-	//---------------------------------------------------------------------
-	ofxSimpleGuiFPSCounter() : ofxSimpleGuiControl("FPS Counter") {
-		controlType = "FPSCounter";
-		setup();
-	}
-	
-	void setup() {
-		setSize(config->gridSize.x - config->padding.x, config->titleHeight);
-	}
-	
-	void loadFromXML(ofxXmlSettings &XML) {
-	}
-	
-	void saveToXML(ofxXmlSettings &XML) {
-	}
-	
-	
-	void draw(float x, float y) {
-		setPos(x, y);
-		
-		glPushMatrix();
-		glTranslatef(x, y, 0);
-		
-		ofFill();
-		setTextBGColor(false);
-		ofRect(0, 0, width, height);
+	void setup();
 
-		setTextColor(false);
-		config->font.drawString("FPS: " + ofToString(ofGetFrameRate()), config->fontOffset.x, config->fontOffset.y);
-
-		glPopMatrix();
-	}
+	void loadFromXML(ofxXmlSettings &XML) {};
+	void saveToXML(ofxXmlSettings &XML) {};
 	
+	void drawWidget(float x, float y);
 };

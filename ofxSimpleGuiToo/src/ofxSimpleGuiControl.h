@@ -39,6 +39,7 @@
 #include "ofxMSAInteractiveObject.h"
 #include "ofxSimpleGuiConfig.h"
 #include "ofxXmlSettings.h"
+
 class ofxSimpleGuiControl;
 typedef ofxSimpleGuiControl* controlEvtArgs;
 /*
@@ -80,8 +81,14 @@ public:
 
 	virtual void setup() {}
 
-	virtual void draw(float x, float y) {}
-	virtual void draw() { draw(x, y); }
+	void initChrome();
+	virtual void resetChrome();
+
+	void draw(float x, float y);
+	void draw();
+	
+	virtual void drawWidget(float x, float y) {}
+	virtual void drawWidget() { drawWidget(x, y); }
 
 	virtual void onKeyUp() {}
 	virtual void onKeyDown() {}
@@ -94,5 +101,24 @@ public:
 
 protected:
 	ofxSimpleGuiConfig	*config;
-};
 
+	enum ChromeTypes
+	{
+		BORDER_LEFT,
+		BORDER_RIGHT,
+		BORDER_TOP,
+		BORDER_BOTTOM,
+		FILL_MIDDLE,
+		CAPTION_BORDER_LEFT,
+		CAPTION_BORDER_RIGHT,
+		CAPTION_BORDER_TOP,
+		CAPTION_BORDER_BOTTOM,
+		CAPTION_FILL_MIDDLE,
+	};
+
+	inline virtual map<int,ofImage>& chrome()
+	{ return _chrome; }
+	
+private:
+	static map<int,ofImage> _chrome;
+};

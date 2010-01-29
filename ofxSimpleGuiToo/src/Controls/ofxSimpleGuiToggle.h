@@ -1,28 +1,18 @@
 #pragma once
 
-#include "ofxSimpleGuiControl.h"
-
+#include "ofxSimpleGuiButton.h"
 
 //------------------------------------------------------------------------------ toggle
-class ofxSimpleGuiToggle : public ofxSimpleGuiButton {
+class ofxSimpleGuiToggle : public ofxSimpleGuiButton
+{
 	
 public:
 	bool	*value;
 	bool	oldValue;
 	
-	//---------------------------------------------------------------------
-	ofxSimpleGuiToggle(string name, bool &value) : ofxSimpleGuiButton(name, value) {
-		this->value	= &value;
-		setMomentary(false);
-		controlType = "Toggle";
-		setup();
-	}	
-	
-	virtual void setup() {
-		setSize(config->gridSize.x - config->padding.x, config->toggleHeight);
-	}
+	ofxSimpleGuiToggle(string name, bool &value);	
 
-	void onKeyEnter() {
-		toggle();
-	}
+	virtual void setup();
+
+	void onKeyEnter();
 };

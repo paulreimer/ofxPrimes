@@ -111,32 +111,28 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight)
 			continue;
 
 		if(control.newColumn) {
-			if(alignRight) posX -= config->gridSize.x;
-			else posX += config->gridSize.x;
+			if(alignRight) posX -= (config->gridSize.x + config->margin.x);
+			else posX += (config->gridSize.x + config->margin.x);
 			posY = 0;
 		}
-		
+
 		float controlX = posX + x;
 		float controlY = posY + y;
 		
 		control.draw(controlX, controlY);
-		ofNoFill();
-		ofSetColor(config->borderColor);
-
-		ofEnableSmoothing();
-		//		glLineWidth(0.1);
-		ofRect(controlX, controlY, control.width, control.height);
-//		glLineWidth(1.0);
-		ofDisableSmoothing();
 		
-		posY = getNextY(posY + control.height + config->padding.y);
+		if (control.controlType=="Content" || control.controlType=="SliderContent")
+			posY = getNextY(posY + control.height + config->margin.y + 2*config->padding.y + config->sliderTextHeight);
+		else
+			posY = getNextY(posY + control.height + config->margin.y + 2*config->padding.y);
 
 		float addHeight = posY + control.height;
 		if(bWrapControls
 		   && addHeight > height
-		   || y + addHeight > ofGetHeight()) {
-			if(alignRight) posX -= config->gridSize.x;
-			else posX += config->gridSize.x;
+		   || y + addHeight > ofGetHeight())
+		{
+			if(alignRight) posX -= (config->gridSize.x + config->margin.x);
+			else posX += (config->gridSize.x + config->margin.x);
 			posY = 0;
 		}
 		
@@ -155,7 +151,7 @@ ofxSimpleGuiControl &ofxSimpleGuiPage::addControl(ofxSimpleGuiControl& control) 
 		width += MAX(config->gridSize.x,control.width);
 	} else {
 		width = MAX(width,control.width);
-		height += getNextY(control.height);
+		height += getNextY(control.height + 2*config->padding.y);
 	}
 
 	controls.push_back(&control);
@@ -167,7 +163,7 @@ ofxSimpleGuiButton &ofxSimpleGuiPage::addButton(string name, bool &value) {
 }
 
 ofxSimpleGuiContent &ofxSimpleGuiPage::addContent(string name, ofBaseDraws &content, float fixwidth) {
-	if(fixwidth == -1) fixwidth = config->gridSize.x - config->padding.x;
+	if(fixwidth == -1) fixwidth = config->gridSize.x - config->margin.x;
 	return (ofxSimpleGuiContent &)addControl(* new ofxSimpleGuiContent(name, content, fixwidth));
 }
 

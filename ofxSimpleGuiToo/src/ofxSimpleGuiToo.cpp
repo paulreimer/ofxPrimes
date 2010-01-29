@@ -235,10 +235,10 @@ void ofxSimpleGuiToo::draw() {
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	headerPage->draw(config->offset.x, config->offset.y, alignRight);		// this is the header
-	ofSetColor(config->borderColor);
+	ofSetColor(0xCCCCCC);
 	if(alignRight) ofLine(ofGetWidth() - headerPage->width, headerPage->height, headerPage->width, headerPage->height);
 	else ofLine(0, headerPage->height, headerPage->width, headerPage->height);
-	pages[currentPage]->draw(config->offset.x, headerPage->height + config->offset.y, alignRight);
+	pages[currentPage]->draw(config->offset.x, headerPage->height + config->offset.y + config->margin.y, alignRight);
 }
 
 

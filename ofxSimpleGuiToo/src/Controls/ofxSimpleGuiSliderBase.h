@@ -39,7 +39,7 @@ public:
 	}
 
 	void setup() {
-		setSize(config->gridSize.x - config->padding.x, config->sliderHeight + config->sliderTextHeight);
+		setSize(config->gridSize.x - config->margin.x, config->sliderHeight + config->sliderTextHeight);
 		pct		 = ofMap((*value), min, max, 0.0, width);
 		barwidth = pct;
 	}
@@ -153,7 +153,7 @@ public:
 	}
 
 	//--------------------------------------------------------------------- draw
-	void draw(float x, float y) {
+	void drawWidget(float x, float y) {
 
 		enabled = true;
 
@@ -177,9 +177,6 @@ public:
 
 		setFullColor();
 		ofRect(0, 0, barwidth, config->sliderHeight);
-
-		setTextBGColor();
-		ofRect(0, config->sliderHeight, width, config->sliderTextHeight);
 
 		setTextColor();
 		drawSliderText();

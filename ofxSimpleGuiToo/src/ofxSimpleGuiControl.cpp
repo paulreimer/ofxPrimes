@@ -36,6 +36,8 @@
 
 #include "ofxSimpleGuiControl.h"
 
+map<int,ofImage> ofxSimpleGuiControl::_chrome;
+
 ofxSimpleGuiControl::ofxSimpleGuiControl(string name) {
 	controlType = "";
 	this->config = &defaultSimpleGuiConfig;
@@ -52,6 +54,7 @@ ofxSimpleGuiControl::ofxSimpleGuiControl(string name) {
 	units = "";
 
 	setup();
+	initChrome();
 	
 	disableAllEvents();		// just for safety to make sure nothing is registered twice
 //	enableAppEvents();
@@ -133,4 +136,80 @@ ofxSimpleGuiControl &ofxSimpleGuiControl::setUnits(string units) {
 	this->units = units;
 	
 	return *this;
+}
+
+void ofxSimpleGuiControl::initChrome()
+{
+	if (chrome().empty())
+		resetChrome();
+}
+
+void ofxSimpleGuiControl::resetChrome()
+{
+//		chrome()[BORDER_LEFT]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-border-left.png");
+//		chrome()[BORDER_RIGHT]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-border-right.png");
+	chrome()[BORDER_TOP]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-border-top.png");
+	chrome()[BORDER_BOTTOM]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-border-bottom.png");
+	chrome()[FILL_MIDDLE]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-fill-middle.png");
+	
+	ofTexture& tex = chrome()[FILL_MIDDLE].getTextureReference();
+	tex.bind();
+	glTexParameterf(tex.texData.textureTarget, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	tex.unbind();
+}
+
+void ofxSimpleGuiControl::draw() { draw(x, y); }
+void ofxSimpleGuiControl::draw(float x, float y)
+{
+	double o;
+	ofPoint padding = config->padding;
+
+	map<int,ofImage>::iterator im_it;
+
+	ofEnableAlphaBlending();
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+
+	im_it = chrome().find(FILL_MIDDLE);
+	if (im_it != chrome().end())
+	{
+		ofImage& im = im_it->second;
+		im.draw(x - padding.x, y - padding.y, width + 2*padding.x, height + 2*padding.y);
+	}	
+	
+	im_it = chrome().find(BORDER_LEFT);
+	if (im_it != chrome().end())
+	{
+		ofImage& im = im_it->second;
+		o = im.width * height/im.height;
+		im.draw(x - o - padding.x, y - padding.y, o, y + height + 2*padding.y);
+	}
+
+	im_it = chrome().find(BORDER_RIGHT);
+	if (im_it != chrome().end())
+	{
+		ofImage& im = im_it->second;
+		o = im.width * height/im.height;
+		im.draw(x + width + padding.x, y - padding.y, o, y + height + 2*padding.y);
+	}
+
+	im_it = chrome().find(BORDER_TOP);
+	if (im_it != chrome().end())
+	{
+		ofImage& im = im_it->second;
+		o = im.height * width/im.width;
+		im.draw(x - padding.x, y - o - padding.y, width + 2*padding.x, o);
+	}
+	
+	im_it = chrome().find(BORDER_BOTTOM);
+	if (im_it != chrome().end())
+	{
+		ofImage& im = im_it->second;
+		o = im.height * width/im.width;
+		im.draw(x - padding.x, y + height + padding.y, width + 2*padding.x, o);
+	}
+	
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	ofDisableAlphaBlending();
+
+	drawWidget(x, y);
 }

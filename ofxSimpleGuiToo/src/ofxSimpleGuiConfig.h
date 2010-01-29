@@ -50,6 +50,7 @@ public:
 	float	slider2DTextHeight;
 	float	titleHeight;
 
+	ofPoint margin;
 	ofPoint padding;
 	ofPoint offset;
 	ofPoint	slider2DSize;
@@ -70,61 +71,11 @@ public:
 	int fontSize;
 	ofPoint fontOffset;
 
-	ofxSimpleGuiConfig() {
+	string chromeDir;
 
-		sliderHeight		= 12;
-		sliderTextHeight	= 18;
-		titleHeight			= sliderHeight + sliderTextHeight;
-		toggleHeight		= titleHeight;
-		buttonHeight		= titleHeight;
-		slider2DTextHeight	= titleHeight * 1.5;
+	ofxSimpleGuiConfig();
 
-
-		padding.set			(titleHeight/2, titleHeight/2);
-		offset.set			(titleHeight/2, titleHeight/2);
-		slider2DSize.set	(titleHeight * 4, titleHeight * 4);
-
-		gridSize.x			= titleHeight * 8 + padding.x;
-		gridSize.y			= toggleHeight + padding.y;
-
-		textColor			= 0xAAAAAA;
-		textOverColor		= 0xFFFFFF;
-		textBGColor			= 0x242323;
-		textBGOverColor		= 0x4c4c4a;
-/*
-		fullColor			= 0x37a9a9;
-		fullOverColor		= 0x64b4b4;
-		fullActiveColor		= 0xb41818;
-		emptyColor			= 0xDCDCDC;
-*/
-		fullColor			= 0xbf8a1b;
-		fullOverColor		= 0xe5b627;
-		fullActiveColor		= 0x996412;
-		emptyColor			= 0x4c4c4a;
-		
-		borderColor			= 0xCCCCCC;
-		
-		fontSize			= 11;
-		fontName			= "frabk.ttf";
-		fontOffset.set		(0, fontSize);
-	}
-	
-	void setup() {
-		titleHeight			= sliderHeight + sliderTextHeight;
-		toggleHeight		= titleHeight;
-		buttonHeight		= titleHeight;
-		slider2DTextHeight	= titleHeight * 1.5;
-		
-		
-		padding.set			(titleHeight/2, titleHeight/2);
-		offset.set			(titleHeight/2, titleHeight/2);
-		slider2DSize.set	(titleHeight * 4, titleHeight * 4);
-		
-		gridSize.x			= titleHeight * 8 + padding.x;
-		gridSize.y			= toggleHeight + padding.y;
-	
-		font.loadFont(fontName, fontSize);
-	}
+	void setup(bool bReloadFonts = true);
 };
 
 

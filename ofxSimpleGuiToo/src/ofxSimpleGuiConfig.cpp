@@ -36,4 +36,57 @@
 
 #include "ofxSimpleGuiConfig.h"
 
+//---------------------------------------------------------------------
+ofxSimpleGuiConfig::ofxSimpleGuiConfig()
+{
+	sliderHeight		= 12;
+	sliderTextHeight	= 18;
+	
+	//		textColor			= 0xAAAAAA;
+	textColor			= 0x777777;
+	textOverColor		= 0x222222;
+	textBGColor			= 0x242323;
+	textBGOverColor		= 0x4c4c4a;
+	/*
+	 fullColor			= 0x37a9a9;
+	 fullOverColor		= 0x64b4b4;
+	 fullActiveColor		= 0xb41818;
+	 emptyColor			= 0xDCDCDC;
+	 */
+	fullColor			= 0xa5413e;
+	fullOverColor		= 0xe5b627;
+	fullActiveColor		= 0x996412;
+	emptyColor			= 0xf2f0f2;
+	
+	//		borderColor			= 0xCCCCCC;
+	
+	fontSize			= 11;
+	fontName			= "Helvetica.ttf";
+	fontOffset.set		(0, fontSize);
+	
+	chromeDir			= "chrome/";
+	setup(false);
+}
+
+//---------------------------------------------------------------------
+void
+ofxSimpleGuiConfig::setup(bool bReloadFonts)
+{
+	titleHeight			= sliderHeight + sliderTextHeight;
+	toggleHeight		= titleHeight;
+	buttonHeight		= titleHeight;
+	slider2DTextHeight	= titleHeight * 1.5;
+
+	margin.set			(titleHeight/2, titleHeight/1.5);
+	padding.set			(12, 0);
+	offset.set			(titleHeight, titleHeight);
+	slider2DSize.set	(titleHeight * 4, titleHeight * 4);
+	
+	gridSize.x			= titleHeight * 8 + margin.x + 2*padding.y;
+	gridSize.y			= toggleHeight + 2*margin.y;
+	
+	if (bReloadFonts)
+		font.loadFont(fontName, fontSize);
+}
+
 ofxSimpleGuiConfig defaultSimpleGuiConfig;
