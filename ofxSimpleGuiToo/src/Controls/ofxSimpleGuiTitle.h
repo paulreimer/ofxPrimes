@@ -4,8 +4,8 @@
 
 
 //------------------------------------------------------------------------------ button
-class ofxSimpleGuiTitle : public ofxSimpleGuiControl {
-	
+class ofxSimpleGuiTitle : public ofxSimpleGuiControl
+{
 public:
 	
 	bool*			value;
@@ -14,7 +14,7 @@ public:
 	bool			beToggle;
 	bool			beenPressed;
 	
-	ofxSimpleGuiTitle(string name, bool *value=NULL);
+	ofxSimpleGuiTitle(string name, bool &value);
 
 	void setup();
 
@@ -31,4 +31,10 @@ public:
 	void onRelease(int x, int y, int button);	
 
 	void drawWidget(float x, float y);
+
+	inline virtual map<int,ofImage>& chrome();	
+	void resetChrome();
+
+private:
+	static map<int,ofImage> _chrome;
 };

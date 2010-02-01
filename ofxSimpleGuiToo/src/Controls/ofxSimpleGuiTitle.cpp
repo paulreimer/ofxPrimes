@@ -1,17 +1,19 @@
 #include "ofxSimpleGuiTitle.h"
 
+map<int,ofImage> ofxSimpleGuiTitle::_chrome;
+
 //---------------------------------------------------------------------
-ofxSimpleGuiTitle::ofxSimpleGuiTitle(string name, bool *value)
+ofxSimpleGuiTitle::ofxSimpleGuiTitle(string name, bool &value)
 : ofxSimpleGuiControl(name)
 {
 	beToggle	= false;
 	beenPressed = false;
 	
-	this->value	= value;
+	this->value	= &value;
 	
 	value		= NULL;
 	controlType = "Title";
-	newColumn	= false;
+	newColumn	= true;
 	setup();
 }
 
@@ -19,7 +21,8 @@ ofxSimpleGuiTitle::ofxSimpleGuiTitle(string name, bool *value)
 void
 ofxSimpleGuiTitle::setup()
 {
-	setSize(config->gridSize.x - config->margin.x, config->titleHeight);
+	setSize(config->font.stringWidth(name) + 2*config->fontOffset.x,
+			config->font.stringHeight(name) + 2*config->fontOffset.y);
 }
 
 //---------------------------------------------------------------------
@@ -126,3 +129,16 @@ ofxSimpleGuiTitle::drawWidget(float x, float y)
 	
 	glPopMatrix();
 }
+
+
+//---------------------------------------------------------------------
+inline map<int,ofImage>&
+ofxSimpleGuiTitle::chrome()
+{
+	return _chrome;
+}
+
+//---------------------------------------------------------------------
+void
+ofxSimpleGuiTitle::resetChrome()
+{}

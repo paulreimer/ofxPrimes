@@ -99,8 +99,8 @@ public:
 	controlEvtArgs args;
 	ofEvent<controlEvtArgs> valueChangedEvt;
 
-protected:
 	ofxSimpleGuiConfig	*config;
+protected:
 
 	enum ChromeTypes
 	{

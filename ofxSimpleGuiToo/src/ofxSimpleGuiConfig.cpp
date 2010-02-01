@@ -42,29 +42,33 @@ ofxSimpleGuiConfig::ofxSimpleGuiConfig()
 	sliderHeight		= 12;
 	sliderTextHeight	= 18;
 	
-	//		textColor			= 0xAAAAAA;
-	textColor			= 0x777777;
-	textOverColor		= 0x222222;
+	textColor			= 0x303030;
+	textOverColor		= 0x4b7a2f;
 	textBGColor			= 0x242323;
 	textBGOverColor		= 0x4c4c4a;
-	/*
-	 fullColor			= 0x37a9a9;
-	 fullOverColor		= 0x64b4b4;
-	 fullActiveColor		= 0xb41818;
-	 emptyColor			= 0xDCDCDC;
-	 */
+/*
+	fullColor			= 0x37a9a9;
+	fullOverColor		= 0x64b4b4;
+	fullActiveColor		= 0xb41818;
+	emptyColor			= 0xDCDCDC;
+
 	fullColor			= 0xa5413e;
 	fullOverColor		= 0xe5b627;
 	fullActiveColor		= 0x996412;
 	emptyColor			= 0xf2f0f2;
-	
-	//		borderColor			= 0xCCCCCC;
+*/	
+	fullColor			= 0x303030;
+	fullOverColor		= 0x303030;
+	fullActiveColor		= 0xc7611e;
+	emptyColor			= 0x6eab24;
+
+//	borderColor			= 0xCCCCCC;
 	
 	fontSize			= 11;
 	fontName			= "Helvetica.ttf";
-	fontOffset.set		(0, fontSize);
 	
 	chromeDir			= "chrome/";
+
 	setup(false);
 }
 
@@ -87,6 +91,8 @@ ofxSimpleGuiConfig::setup(bool bReloadFonts)
 	
 	if (bReloadFonts)
 		font.loadFont(fontName, fontSize);
+
+	fontOffset.set		(0, fontSize);
 }
 
 ofxSimpleGuiConfig defaultSimpleGuiConfig;

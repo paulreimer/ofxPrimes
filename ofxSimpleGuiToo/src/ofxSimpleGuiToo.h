@@ -47,50 +47,46 @@ class ofxSimpleGuiToo {
 
 	
 public:
-	int							guiFocus;
-	ofxSimpleGuiConfig			*config;	
+	int	guiFocus;
+	ofxSimpleGuiConfig *config;	
 	
 	ofxSimpleGuiToo();
-	void					setup();
-	
-	
-	void					loadFromXML(string file = OFX_SIMPLEGUITOO_XML_NAME);
-	void					saveToXML(string file = OFX_SIMPLEGUITOO_XML_NAME);	
-	void					setAutoSave(bool b);
+	void	setup();
 
-	void					setVerbose(bool v);
-	void					setAlignRight(bool b);
-	
-//	int		getValueI(string nameID);
-//	float	getValueF(string nameID);
-//	bool	getValueB(string nameID);
-	
-	void					drawFocus(float x, float y);
-	void					setDraw(bool b);
-	void					toggleDraw();
-	void					draw();
-	bool					isOn();
-	
-	void					nextPage();
-	void					prevPage();
-	void					setPage(int i);				// 1 based index of page
-	void					setPage(string name);
+	void	loadFromXML(string file = OFX_SIMPLEGUITOO_XML_NAME);
+	void	saveToXML(string file = OFX_SIMPLEGUITOO_XML_NAME);	
+	void	setAutoSave(bool b);
 
-	int						getCurrentPageIndex();
-	ofxSimpleGuiPage		&getCurrentPage();
+	void	setVerbose(bool v);
+	void	setAlignRight(bool b);
 	
-	void					nextPageWithBlank();		// cycles through pages, and closes after last page
+	void	drawFocus(float x, float y);
+	void	setDraw(bool b);
+	void	toggleDraw();
+	void	draw();
+	bool	isOn();
 	
-	ofxSimpleGuiPage		&page(int i);				// 1 based index of page
-	ofxSimpleGuiPage		&page(string name);
+	void	nextPage();
+	void	prevPage();
+	void	setPage(int i);	// 1 based index of page
+	void	setPage(string name);
+
+	void	nextPageWithBlank(); // cycles through pages, and closes after last page
+
+	int		getCurrentPageIndex();
+
+	ofxSimpleGuiPage			&getCurrentPage();
 	
-	ofxSimpleGuiPage		&addPage(string name = "");
-	ofxSimpleGuiControl		&addControl(ofxSimpleGuiControl& control);
-	ofxSimpleGuiContent		&addContent(string name, ofBaseDraws &content, float fixwidth = -1);
-	ofxSimpleGuiButton		&addButton(string name, bool &value);
-	ofxSimpleGuiFPSCounter	&addFPSCounter();
+	ofxSimpleGuiPage			&page(int i); // 1 based index of page
+	ofxSimpleGuiPage			&page(string name);
+
+	ofxSimpleGuiPage			&addPage(string name = "");
+	ofxSimpleGuiControl			&addControl(ofxSimpleGuiControl& control);
+	ofxSimpleGuiContent			&addContent(string name, ofBaseDraws &content, float fixwidth = -1);
+	ofxSimpleGuiButton			&addButton(string name, bool &value);
+	ofxSimpleGuiFPSCounter		&addFPSCounter();
 #ifndef TARGET_OF_IPHONE
-	ofxSimpleGuiMovieSlider	&addMovieSlider(string name, ofVideoPlayer* input);
+	ofxSimpleGuiMovieSlider		&addMovieSlider(string name, ofVideoPlayer* input);
 #endif
 	//	ofxSimpleGuiQuadWarp	&addQuadWarper(string name, float x, float y, float sw, float sh, ofPoint &&pts);
 	ofxSimpleGuiSliderInt		&addSlider(string name, int &value, int min, int max);
@@ -107,22 +103,22 @@ public:
 										   int min=0, int max=0);	
 	
 protected:
-	bool							doAutoSave;
-	bool							alignRight;
-	bool							doSave, doSaveBackup;
-	bool							changePage;
-	int								currentPage;			// 1 based index of page (0 is for global controls)
+	bool				doAutoSave;
+	bool				alignRight;
+	bool				doSave, doSaveBackup;
+	bool				changePage;
+	int					currentPage; // 1 based index of page (0 is for global controls)
 	
-	ofxXmlSettings					XML;
-	string							xmlFile;
+	ofxXmlSettings		XML;
+	string				xmlFile;
 	
-	bool							verbose;
-	bool							doDraw;
-	float							border;
+	bool				verbose;
+	bool				doDraw;
+	float				border;
 
-	ofxSimpleGuiPage				*headerPage;
-	vector <ofxSimpleGuiPage*>		pages;				// 0 is for headerPage
-	
+	ofxSimpleGuiPage	*headerPage;
+	ofxSimpleGuiPage	*footerPage;
+
 	void addListeners();
 	void removeListeners();
 	
@@ -138,6 +134,12 @@ protected:
 	
 	void keyPressed(ofKeyEventArgs &e);
 	void keyReleased(ofKeyEventArgs &e);
+
+protected:	
+	ofImage	headerBg;
+	ofImage	footerBg;	
+
+	vector <ofxSimpleGuiPage*> pages; // 0 is for headerPage
 };
 
 #endif

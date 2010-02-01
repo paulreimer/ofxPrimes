@@ -63,7 +63,7 @@ public:
 	ofxSimpleGuiSliderInt	&addSlider(string name, int &value, int min, int max);
 	ofxSimpleGuiSliderFloat	&addSlider(string name, float &value, float min, float max, float smoothing = 0);
 	ofxSimpleGuiSlider2d	&addSlider2d(string name, ofPoint& value, float xmin, float xmax, float ymin, float ymax);
-	ofxSimpleGuiTitle		&addTitle(string name, bool* value=NULL);
+	ofxSimpleGuiTitle		&addTitle(string name, bool &value);
 	ofxSimpleGuiToggle		&addToggle(string name, bool &value);
 	ofxSimpleGuiSliderByte		&addSlider(string name, byte &value, byte min=0, byte max=255);
 	ofxSimpleGuiSliderDouble	&addSlider(string name, double &value, double min, double max, double smoothing);
@@ -80,4 +80,7 @@ protected:
 	float getNextY(float y);
 
 	bool bWrapControls;
+	
+	ofImage	verticalSeparator;
+	ofImage	horizontalSeparator;
 };

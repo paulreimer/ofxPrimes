@@ -1,10 +1,13 @@
 #include "ofxSimpleGuiFPSCounter.h"
 
+map<int,ofImage> ofxSimpleGuiFPSCounter::_chrome;
+
 //---------------------------------------------------------------------
 ofxSimpleGuiFPSCounter::ofxSimpleGuiFPSCounter()
 : ofxSimpleGuiControl("FPS Counter")
 {
 	controlType = "FPSCounter";
+	newColumn = true;
 	setup();
 }
 
@@ -29,3 +32,15 @@ ofxSimpleGuiFPSCounter::drawWidget(float x, float y)
 	
 	glPopMatrix();
 }
+
+//---------------------------------------------------------------------
+inline map<int,ofImage>&
+ofxSimpleGuiFPSCounter::chrome()
+{
+	return _chrome;
+}
+
+//---------------------------------------------------------------------
+void
+ofxSimpleGuiFPSCounter::resetChrome()
+{}
