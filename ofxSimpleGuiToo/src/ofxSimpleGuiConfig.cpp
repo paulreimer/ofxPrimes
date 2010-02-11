@@ -42,7 +42,7 @@ ofxSimpleGuiConfig::ofxSimpleGuiConfig()
 	sliderHeight		= 12;
 	sliderTextHeight	= 18;
 	
-	textColor			= 0x303030;
+	textColor			= 0xdadada;
 	textOverColor		= 0x4b7a2f;
 	textBGColor			= 0x242323;
 	textBGOverColor		= 0x4c4c4a;

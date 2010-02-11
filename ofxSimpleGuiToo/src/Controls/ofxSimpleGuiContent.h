@@ -9,15 +9,6 @@ public:
 	float			fixwidth;
 	float			fixheight;
 	ofBaseDraws		*content;
-	
-	short			textAlignment;
-	enum			textAlignments
-	{
-		ALIGN_LEFT,
-		ALIGN_RIGHT,
-		ALIGN_CENTER,
-		ALIGN_JUSTIFIED,
-	};
 
 	ofxSimpleGuiContent(string name, ofBaseDraws& content, float fixwidth=200.0);
 

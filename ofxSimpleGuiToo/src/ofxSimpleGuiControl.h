@@ -101,7 +101,16 @@ public:
 
 	ofxSimpleGuiConfig	*config;
 protected:
-
+	
+	short			textAlignment;
+	enum			textAlignments
+	{
+		ALIGN_LEFT,
+		ALIGN_RIGHT,
+		ALIGN_CENTER,
+		ALIGN_JUSTIFIED,
+	};
+	
 	enum ChromeTypes
 	{
 		BORDER_LEFT,

@@ -67,7 +67,8 @@ ofxSimpleGuiContent::drawWidget(float x, float y)
 	map<int,ofImage>::iterator im_it;
 	
 	int textHeight = config->font.stringHeight(name);
-	
+
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
 	/*
 	 im_it = chrome().find(CAPTION_BORDER_LEFT);
 	 if (im_it != chrome().end())
@@ -138,7 +139,7 @@ ofxSimpleGuiContent::resetChrome()
 //		chrome()[BORDER_RIGHT]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-border-right.png");
 	chrome()[BORDER_TOP]	.loadImage(config->chromeDir + "ofxSimpleGuiContent-border-top.png");
 //		chrome()[BORDER_BOTTOM]	.loadImage(config->chromeDir + "chrome/ofxSimpleGuiControl-border-bottom.png");
-	chrome()[FILL_MIDDLE]	.loadImage(config->chromeDir + "ofxSimpleGuiControl-fill-middle.png");
+	chrome()[FILL_MIDDLE]	.loadImage(config->chromeDir + "ofxSimpleGuiContent-fill-middle.png");
 	chrome()[CAPTION_BORDER_TOP]	.loadImage(config->chromeDir + "ofxSimpleGuiContent-caption-border-top.png");
 	chrome()[CAPTION_FILL_MIDDLE]	.loadImage(config->chromeDir + "ofxSimpleGuiContent-caption-fill-middle.png");
 	chrome()[CAPTION_BORDER_BOTTOM]	.loadImage(config->chromeDir + "ofxSimpleGuiContent-caption-border-bottom.png");

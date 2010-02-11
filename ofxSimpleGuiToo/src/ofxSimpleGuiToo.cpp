@@ -250,7 +250,7 @@ void ofxSimpleGuiToo::draw()
 {
 	if(!doDraw)
 		return;
-
+/*
 	glDisableClientState(GL_COLOR_ARRAY);
 
 	float footerOffset = ofGetHeight() - footerPage->height;
@@ -265,9 +265,12 @@ void ofxSimpleGuiToo::draw()
 	headerPage->draw(0, 0, false);
 	footerPage->draw(0, footerOffset, false);
 	ofSetColor(0xCCCCCC);
+
 //	if(alignRight) ofLine(ofGetWidth() - headerPage->width, headerPage->height, headerPage->width, headerPage->height);
 //	else ofLine(0, headerPage->height, headerPage->width, headerPage->height);
 	pages[currentPage]->draw(config->offset.x, headerPage->height + config->offset.y + config->margin.y, alignRight);
+*/
+	pages[currentPage]->draw(config->offset.x, config->offset.y, alignRight);
 }
 
 
