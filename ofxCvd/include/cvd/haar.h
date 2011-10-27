@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_HAAR_H
@@ -94,7 +94,7 @@ inline void inv_haar1D(It from, int size){
     inv_haar1D(from, from + size);
 }
 
-/// computes the 2D Haar transform of a signal in place. Works only with 
+/// computes the 2D Haar transform of a signal in place. Works only with
 /// data with power of two dimensions, 2^N x 2^ M.
 /// @param from iterator pointing to the beginning of the data
 /// @param width columns of data, should be 2^N
@@ -129,7 +129,7 @@ inline void haar2D(It from, const int width, const int height, int stride = -1){
     }
 }
 
-/// computes the 2D Haar transform of an image in place. Works only with 
+/// computes the 2D Haar transform of an image in place. Works only with
 /// images with power of two dimensions, 2^N x 2^ M.
 /// @param I image to be transformed
 /// @ingroup gVision

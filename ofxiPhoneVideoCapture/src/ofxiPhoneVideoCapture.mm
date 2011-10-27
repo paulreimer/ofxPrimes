@@ -19,13 +19,13 @@ void ofxiPhoneVideoCapture::setup()
 {
 	stream = [[VideoStream alloc] initWithCapture:this];
 	[stream retain];
-	
+
 //	[iPhoneGlobals.window addSubview:stream.previewView];
 //	[iPhoneGlobals.window sendSubviewToBack:stream.previewView];
-	
+
 //	previewView.clearsContextBeforeDrawing = YES;
 //	previewView.opaque = YES;
-	
+
 //	iPhoneGlobals.glView.opaque = NO;
 }
 

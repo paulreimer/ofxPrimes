@@ -41,7 +41,7 @@ public:
 	//constructor & destructor
 	ofxFiducialTracker();
 	~ofxFiducialTracker();
-	
+
 	bool 	detectFinger;
 	float 	fingerSensitivity;
 	float 	minFingerSize;
@@ -85,7 +85,7 @@ private:
 	RegionX regions[ MAX_FIDUCIAL_COUNT*2 ];
 	//to keep track of fiducials
 	int fidCount;
-	
+
 	//check if finger is valid
 	int check_finger(RegionX *finger, const unsigned char* img);
 	//find fingers

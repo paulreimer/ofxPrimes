@@ -40,9 +40,9 @@ namespace TooN
 /// Perform Gauss-Jordan reduction on m
 ///
 /// If m is of the form \f$[A | I ]\f$, then after reduction, m
-/// will be \f$[ I | A^{-1}]\f$. There is no restriction on the input, 
+/// will be \f$[ I | A^{-1}]\f$. There is no restriction on the input,
 /// in that the matrix augmenting A does not need to be I, or square.
-/// The reduction is performed using elementary row operations and 
+/// The reduction is performed using elementary row operations and
 /// partial pivoting.
 ///
 /// @param m The matrix to be reduced.
@@ -60,7 +60,7 @@ template<int R, int C, class Precision, class Base> void gauss_jordan(Matrix<R, 
 		//Search down the current column in the lower triangle for the largest
 		//absolute element (pivot).  Then swap the pivot row, so that the pivot
 		//element is on the diagonal. The benchmarks show that it is actually
-		//faster to swap whole rows than it is to access the rows via indirection 
+		//faster to swap whole rows than it is to access the rows via indirection
 		//and swap the indirection element. This holds for both pointer indirection
 		//and using a permutation vector over rows.
 		{
@@ -73,7 +73,7 @@ template<int R, int C, class Precision, class Base> void gauss_jordan(Matrix<R, 
 					pivotpos = p;
 					pivotval = abs(m[pivotpos][col]);
 				}
-			
+
 			if(col != pivotpos)
 				for(int c=0; c < m.num_cols(); c++)
 					swap(m[col][c], m[pivotpos][c]);
@@ -86,12 +86,12 @@ template<int R, int C, class Precision, class Base> void gauss_jordan(Matrix<R, 
 			if(row != col)
 			{
 				double multiple = m[row][col] / m[col][col];
-		
+
 				//We could eliminate some of the computations in the augmented
 				//matrix, if the augmented half is the identity. In general, it
-				//is not. 
+				//is not.
 
-				//Subtract the pivot row from all other rows, to make 
+				//Subtract the pivot row from all other rows, to make
 				//column col zero.
 				m[row][col] = 0;
 				for(int c=col+1; c < m.num_cols(); c++)
@@ -99,7 +99,7 @@ template<int R, int C, class Precision, class Base> void gauss_jordan(Matrix<R, 
 			}
 		}
 	}
-	
+
 	//Final pass to make diagonal elements one. Performing this in a final
 	//pass allows us to avoid any significant computations on the left-hand
 	//square matrix, since it is diagonal, and ends up as the identity.

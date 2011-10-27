@@ -58,7 +58,7 @@ GuiManager::get(ofxOscMessage& m)
 	string path;
 
 	path = m.getAddress();
-	
+
 	switch (m.getArgType(0))
 	{
 		case OFXOSC_TYPE_BLOB:
@@ -90,7 +90,7 @@ GuiManager::controlValueChanged(controlEvtArgs& args)
 
 	if (oscExporters.empty())
 		return;
-	
+
 	// TODO: this sucks
 //	if (args->key[0] != '/')
 //		return;
@@ -183,7 +183,7 @@ GuiManager::get(string key)
 	memc.get(key, buffer);
 	if (buffer.size() > 0)
 	{
-		Gui* gui_pb = new Gui();	
+		Gui* gui_pb = new Gui();
 		gui_pb->ParseFromArray(&buffer[0], buffer.size());
 		return gui_pb;
 	}
@@ -191,23 +191,23 @@ GuiManager::get(string key)
 }
 #endif
 
-	
+
 //--------------------------------------------------------------
 GuiPage*
 GuiManager::recv(Gui& gui_pb)
 {
 	if (!gui_pb.IsInitialized())
 		return NULL;
-	
+
 	using google::protobuf::FieldDescriptorProto;
-	
+
 	GuiPage* new_gui = new GuiPage(gui_pb.name());
 	new_gui->addTitle(gui_pb.name());
-	
+
 	ofxSimpleGuiControl* new_control;
 	for (int i=0; i<gui_pb.controls_size(); i++) {
 		const Gui::Control& control = gui_pb.controls(i);
-		
+
 		switch (control.value_type())
 		{
 			case FieldDescriptorProto::TYPE_BOOL:
@@ -216,7 +216,7 @@ GuiManager::recv(Gui& gui_pb)
 			case FieldDescriptorProto::TYPE_STRING:
 				new_control = &new_gui->addTitle(control.name());
 				break;
-				
+
 			case FieldDescriptorProto::TYPE_DOUBLE:
 				//new_control = new_gui->addSlider(control.name(), *(new double), control.min(), control.max());
 				//break;
@@ -257,15 +257,15 @@ GuiManager::recv(Gui& gui_pb)
 	}
 	return new_gui;
 }
-	
+
 #ifdef NOTIFY_FIDUCIAL_STATUS
 //--------------------------------------------------------------
 void
-GuiManager::fiducialFound(fiducialEvtArgs &args) 
+GuiManager::fiducialFound(fiducialEvtArgs &args)
 {
 	ofxFiducial		&fiducial	= *args.fiducial;
 	int				fiducialId	= fiducial.getId();
-	
+
 	if (graph.find(fiducialId) == graph.end())
 	{
 		Gui* gui_pb = get(baseName + "/fiducials/" + ofToString(fiducialId));

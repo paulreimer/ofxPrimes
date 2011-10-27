@@ -102,8 +102,8 @@ public:
 	void _exit(ofEventArgs &e);
 
 	virtual void _mouseMoved(ofMouseEventArgs &e);
-	virtual void _mousePressed(ofMouseEventArgs &e);	
-	virtual void _mouseDragged(ofMouseEventArgs &e);	
+	virtual void _mousePressed(ofMouseEventArgs &e);
+	virtual void _mouseDragged(ofMouseEventArgs &e);
 	virtual void _mouseReleased(ofMouseEventArgs &e);
 
 	virtual void _keyPressed(ofKeyEventArgs &e);

@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_VIDEOBUFFER_LOCAL_H
@@ -27,12 +27,12 @@
 
 namespace CVD {
 
-/// Base class for a VideoBuffer which manages its own memory for each VideoFrame that 
-/// it provides. (In contrast to most buffers, where the memory is managed 
+/// Base class for a VideoBuffer which manages its own memory for each VideoFrame that
+/// it provides. (In contrast to most buffers, where the memory is managed
 /// by the video hardware.)
 /// @param T The pixel type of the video frames
 /// @ingroup gVideoBuffer
-template <class T> 
+template <class T>
 class LocalVideoBuffer: public  CVD::VideoBuffer<T>
 {
 	public:

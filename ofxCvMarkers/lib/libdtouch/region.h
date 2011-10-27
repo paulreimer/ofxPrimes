@@ -43,15 +43,15 @@ class dtouch_Region : private ListPool<DTPoint>
 {
 public:
 	bool _white;
-	
+
 	bool _potentialRoot;
 	bool _branch;
-	
+
 	bool _onBorder;
 
 	int _noLeaves;
 	int _noBranches;
-	
+
 protected:
 	DTPoint _min;
 	DTPoint _max;
@@ -69,12 +69,12 @@ public:
 	}
 
 protected:
-	dtouch_Region( Pool<DTPoint> *in_pointPool ) : 
+	dtouch_Region( Pool<DTPoint> *in_pointPool ) :
 		ListPool<DTPoint>(in_pointPool),
 		_white(false),
 		_potentialRoot(false),
 		_branch(false),
-		_onBorder(false), 
+		_onBorder(false),
 		_noLeaves(0),
 		_noBranches(0),
 		_min(-1,-1),
@@ -84,12 +84,12 @@ protected:
 	{ }
 
 	// this is the one used from the RegionAdjacencyGraph
-	dtouch_Region( Pool<DTPoint> *in_pointPool, Pool<int *> *in_labelPtrPool) : 
+	dtouch_Region( Pool<DTPoint> *in_pointPool, Pool<int *> *in_labelPtrPool) :
 		ListPool<DTPoint>(in_pointPool),
 		_white(false),
 		_potentialRoot(false),
 		_branch(false),
-		_onBorder(false), 
+		_onBorder(false),
 		_noLeaves(0),
 		_noBranches(0),
 		_min(-1,-1),
@@ -99,13 +99,13 @@ protected:
 		_labelPtrListAllocated(true)
 	{ }
 
-	dtouch_Region( Pool<DTPoint> *in_pointPool, DynamicPool<int *> *in_labelPtrPool, 
-		ListPool<int *> *in_labelPtrList) : 
+	dtouch_Region( Pool<DTPoint> *in_pointPool, DynamicPool<int *> *in_labelPtrPool,
+		ListPool<int *> *in_labelPtrList) :
 		ListPool<DTPoint>(in_pointPool),
 		_white(false),
 		_potentialRoot(false),
 		_branch(false),
-		_onBorder(false), 
+		_onBorder(false),
 		_noLeaves(0),
 		_noBranches(0),
 		_min(-1,-1),
@@ -116,12 +116,12 @@ protected:
 		_labelPtrList(in_labelPtrList)
 	{ }
 
-	dtouch_Region( Pool<DTPoint> *in_pointPool, ListPool<int *> *in_labelPtrList) : 
+	dtouch_Region( Pool<DTPoint> *in_pointPool, ListPool<int *> *in_labelPtrList) :
 		ListPool<DTPoint>(in_pointPool),
 		_white(false),
 		_potentialRoot(false),
 		_branch(false),
-		_onBorder(false), 
+		_onBorder(false),
 		_noLeaves(0),
 		_noBranches(0),
 		_min(-1,-1),
@@ -145,10 +145,10 @@ protected:
 			_labelPtrList = new ListPool<int *>( _labelPtrPool );
 		}
 	}
-	
+
 
 public:
-	
+
 	static dtouch_Region * newL( Pool<DTPoint> *in_pointPool ){
 		#ifndef __SYMBIAN32__
 		dtouch_Region * self = new dtouch_Region(in_pointPool);
@@ -161,7 +161,7 @@ public:
 		#endif
 		return self;
 	}
-	
+
 	static dtouch_Region * newL( Pool<DTPoint> *in_pointPool, ListPool<int *> *in_labelPtrList){
 		#ifndef __SYMBIAN32__
 		dtouch_Region * self = new dtouch_Region(in_pointPool,in_labelPtrList);
@@ -174,8 +174,8 @@ public:
 		#endif
 		return self;
 	}
-	
-	static dtouch_Region * newL( Pool<DTPoint> *in_pointPool, DynamicPool<int *> *in_labelPtrPool, 
+
+	static dtouch_Region * newL( Pool<DTPoint> *in_pointPool, DynamicPool<int *> *in_labelPtrPool,
 			ListPool<int *> *in_labelPtrList){
 		#ifndef __SYMBIAN32__
 		dtouch_Region * self = new dtouch_Region(in_pointPool, in_labelPtrPool, in_labelPtrList);
@@ -188,7 +188,7 @@ public:
 		#endif
 		return self;
 	}
-	
+
 	static dtouch_Region * newL( Pool<DTPoint> *in_pointPool, Pool<int *> *in_labelPtrPool ){
 		#ifndef __SYMBIAN32__
 		dtouch_Region * self = new dtouch_Region(in_pointPool,in_labelPtrPool);
@@ -242,7 +242,7 @@ public:
 			_last = _last->getNext();
 			_last->Data().x = x;
 			_last->Data().y = y;
-			
+
 			// not too sure about the following
 			//current = last;
 		}
@@ -275,7 +275,7 @@ public:
 		src->_last = NULL;
 		return;
 	}
-	
+
 	//int getSize(){ return _size; }
 	using ListPool<DTPoint>::getFirstData;
 	using ListPool<DTPoint>::getSize;
@@ -284,7 +284,7 @@ public:
 	using ListPool<DTPoint>::reset;
 	using ListPool<DTPoint>::nullTest;
 	using ListPool<DTPoint>::fwd;
-	
+
 	bool isLabelPtrListNull( ){ return _labelPtrList->isNull(); }
 	void emptyLabelPtrList( ){ _labelPtrList->empty(); }
 	void appendToLabelPtrListL( int *data ){ _labelPtrList->appendL(data); }
@@ -294,14 +294,14 @@ public:
 	ListPool<int *> *getLabelPtrList( ){ return _labelPtrList; }
 
 	int * getLabelPtrListData( ){ return _labelPtrList->getData(); }
-	
+
 
 	void box( DTPoint &min, DTPoint &max, int width, int height);
 	//List<DTPoint> *getFirstComponent();
 	//DTPoint *getCorners();
 	DTPoint getCentre();
 	DTPoint getCentreRound();
-	
+
 	const bool &getWhite() const { return _white; }
 
 	#ifndef __SYMBIAN32__
@@ -317,12 +317,12 @@ bool operator==(const dtouch_Region& a, const dtouch_Region& b){
 */
 
 #ifndef __SYMBIAN32__
-PointList * intersect(dtouch_Region * a, dtouch_Region * b, 
-					  int ** labelsMapA, int ** labelsMapB, 
+PointList * intersect(dtouch_Region * a, dtouch_Region * b,
+					  int ** labelsMapA, int ** labelsMapB,
 					  int width, int height);
 
-PointList * exclude(dtouch_Region * a, dtouch_Region * b, 
-					int ** labelsMapA, int ** labelsMapB, 
+PointList * exclude(dtouch_Region * a, dtouch_Region * b,
+					int ** labelsMapA, int ** labelsMapB,
 					int width, int height);
 #endif
 

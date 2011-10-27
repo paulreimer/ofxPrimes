@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_VIDEOBUFFER_H
@@ -33,10 +33,10 @@ struct VideoBufferType
 	enum Type
 	{
 		///The buffer does not have live semantics: frames
-		///are not throttled by something external. 
-		///VideoBuffer::frame_pending() is true until the last frame has 
+		///are not throttled by something external.
+		///VideoBuffer::frame_pending() is true until the last frame has
 		///been retrieved, after which is is set to false.
-		NotLive, 
+		NotLive,
 		///The buffer has live semantics: frames are throttled by
 		///something externa, but VideoBuffer::frame_pending() always returns true.
 		Live,
@@ -46,12 +46,12 @@ struct VideoBufferType
 	};
 };
 
-/// Base class for objects which provide a video stream. A video 
+/// Base class for objects which provide a video stream. A video
 /// stream is a sequence of video frames (derived from VideoFrame).
 /// @param T The pixel type of the video frames
 /// @ingroup gVideoBuffer
-template <class T> 
-class VideoBuffer 
+template <class T>
+class VideoBuffer
 {
 	public:
 		///Construct the buffer with the known semantics
@@ -65,19 +65,19 @@ class VideoBuffer
 		/// The size of the VideoFrames returned by this buffer
 		virtual ImageRef size()=0;
 		/// Returns the next frame from the buffer. This function blocks until a frame is ready.
-		virtual VideoFrame<T>* get_frame()=0;        	
+		virtual VideoFrame<T>* get_frame()=0;
 		/// Tell the buffer that you are finished with this frame. Typically the VideoBuffer then destroys the frame.
 		/// \param f The frame that you are finished with.
 		virtual void put_frame(VideoFrame<T>* f)=0;
-		/// Is there a frame waiting in the buffer? This function does not block. 
+		/// Is there a frame waiting in the buffer? This function does not block.
 		/// See is_live and is_flushable.
 		virtual bool frame_pending()=0;
 
 		/// Returns the type of the video stream
 		///
 		/// A video with live semantics has frames fed at
-		/// some externally controlled rate, such as from a 
-		/// video camera. 
+		/// some externally controlled rate, such as from a
+		/// video camera.
 		///
 		/// A stream with live semantics also may be flushable, in
 		/// that all current frames can be removed from the stream
@@ -85,7 +85,7 @@ class VideoBuffer
 		/// will sleep until a frame arrives. This ensures that the latency
 		/// is low by discarding any old frames. Buffers flushable in this
 		/// manner have a type of VideoBuffer::Type::Flushable.
-		/// 
+		///
 		/// Some live streams are not flushable because it is not possible
 		/// to determine the state of frame_pending(). These have the type
 		/// VideoBuffer::Type::Live, and frame_pending() is always 1.
@@ -96,7 +96,7 @@ class VideoBuffer
 		{
 			return m_type;
 		}
-		
+
 		/// Flush all old frames out of the video buffer,
 		/// on a flushable buffer, causing the next get_frame()
 		/// to sleep until a frame arrives. On a non-flushable
@@ -108,13 +108,13 @@ class VideoBuffer
 					put_frame(get_frame());
 		}
 
-		/// What is the (expected) frame rate of this video buffer, in frames per second?		
+		/// What is the (expected) frame rate of this video buffer, in frames per second?
 		virtual double frame_rate()=0;
 		/// Go to a particular point in the video buffer (only implemented in buffers of recorded video)
 		/// \param t The frame time in seconds
 		virtual void seek_to(double)
 		{}
-		
+
 
 	private:
 		VideoBufferType::Type m_type;
@@ -139,15 +139,15 @@ namespace Exceptions
 		{
 			BadPutFrame();
 		};
-		
-		/// The videobuffer was unable to successfully initialize grabbing in the 
+
+		/// The videobuffer was unable to successfully initialize grabbing in the
 		/// specified colourspace.
 		/// @ingroup gException
 		struct BadColourSpace: public All
 		{
 			/// @param colourspace Specify the failed colourspace.
 			/// @param b Specify the failed buffer.
-			BadColourSpace(const std::string& colourspace, const std::string& b); 
+			BadColourSpace(const std::string& colourspace, const std::string& b);
 		};
 	}
 }

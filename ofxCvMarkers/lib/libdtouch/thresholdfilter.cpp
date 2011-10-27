@@ -44,7 +44,7 @@ long lsqrt(long y)
 	long    testy;
 	int     nbits;
 	int     i;
-	
+
 	if (y <= 0) {
 		if (y != 0) {
 			//fprintf(stderr, "Domain error in lsqrt().\n");
@@ -83,12 +83,12 @@ unsigned int thresholdOstu( unsigned char * img, unsigned int limit ){
 	// calculate image histogram
 	unsigned int histogram[256] = {0};
 	int s[256];
-	
+
 	unsigned char *ip = img;
 	for(unsigned int i=0;i<limit;i++){
 		(*(histogram + *ip++))++;
 	}
-	
+
 	unsigned int t=0;
 	int histogramArea=0;
 	unsigned int * histPointer = histogram;
@@ -99,7 +99,7 @@ unsigned int thresholdOstu( unsigned char * img, unsigned int limit ){
 	if (histogramArea)
 		t/=histogramArea;
 	else t=0;
-	
+
 	if( t<1 ) t++;
 	if( t>254 ) t--;
 	s[t] = sigma(histogram, t);
@@ -141,7 +141,7 @@ int sigma( unsigned int * histo, unsigned int t )
 		xAvg += i * *histPointer;
 		w += *histPointer++;
 	}
-	
+
 	// TODO: change the following to int?
 	double x1d = x1Avg;
 	double xd = xAvg;
@@ -236,27 +236,27 @@ SauvolaThresholdFilter::~SauvolaThresholdFilter(){
 void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 	unsigned int m;
 	unsigned int n;
-	
+
 	unsigned int accBufferOffset = 0;
-	
+
 	unsigned int x0;
 	unsigned int y0;
-	
+
 	//unsigned int nXs;
 	//unsigned int mXs;
-	
+
 	//unsigned int yXwidth;
-	
+
 	unsigned char *ip = img;
-	
+
 	unsigned int * accBufferPtr = NULL;
-	
+
 	unsigned int * meanBufferPtr = NULL;
 	unsigned int * accBufferPtr00 = NULL;
 	unsigned int * accBufferPtr10 = NULL;
 	unsigned int * accBufferPtr01 = NULL;
 	unsigned int * accBufferPtr11 = NULL;
-	
+
 	unsigned int * meanBufferPtr00 = NULL;
 	unsigned int * meanBufferPtr01 = NULL;
 	unsigned int * meanBufferPtr10 = NULL;
@@ -266,7 +266,7 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 	unsigned int * varBufferPtr01 = NULL;
 	unsigned int * varBufferPtr10 = NULL;
 	unsigned int * varBufferPtr11 = NULL;
-	
+
 	// reset to zero accumulator, mean and variance
 	//memset(_accBuffer,0,_totalNoSubBlocks*sizeof(unsigned int));
 	//memset(_meanBuffer,0,_totalNoSubBlocks*sizeof(unsigned int));
@@ -276,17 +276,17 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 		_meanBuffer[i] = 0;
 		_varBuffer[i] = 0;
 	}
-	
+
 	accBufferPtr = _accBuffer;
 	int yOffset=0;
 	// for each row of subBlocks
 	for(n=0; n<_noVertSubBlocks;n++, accBufferOffset+=_noHorizSubBlocks){
-		
+
 		// it should be possible to replace this multiplication
 		// with an accumulation in the for loop
 		// i.e. for(n=0; n<_noVertSubBlocks;n++, accBufferOffset+=_noHorizSubBlocks)
 		//unsigned int accBufferOffset = n * _noHorizSubBlocks;
-		
+
 		int xOffset = 0;
 		// for each column of subBlocks
 		for(m=0; m<_noHorizSubBlocks;m++){
@@ -301,7 +301,7 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 			for(y0=0;y0<_subBlockSize;y0++){
 				// accumulate the pixel value
 				// x0 is the ascissa relative to the origin of the subBlock
-				for(x0=0;x0<_subBlockSize;x0++){ 
+				for(x0=0;x0<_subBlockSize;x0++){
 					// acc[m,n] += img[x,y];
 					// advance the image pointer
 					*accBufferPtr+= *ip++;
@@ -312,10 +312,10 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 			xOffset += _subBlockSize;
 			accBufferPtr++;
 		}// end for(m
-		yOffset += _subBlockSize * _width; 
+		yOffset += _subBlockSize * _width;
 	}// end for(n
-	
-	// now _accBuffer contains the accumulation 
+
+	// now _accBuffer contains the accumulation
 	/*
 	{
 		unsigned int * tmpPtr = _accBuffer;
@@ -332,41 +332,41 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 		cout << endl;
 	}
 	//*/
-	
+
 	// calculate the mean of each block
 	meanBufferPtr = _meanBuffer;//+_noHorizSubBlocks+1;
 	accBufferPtr00 = _accBuffer;
 	accBufferPtr10 = _accBuffer+1;
 	accBufferPtr01 = _accBuffer+_noHorizSubBlocks;
 	accBufferPtr11 = _accBuffer+_noHorizSubBlocks+1;
-	// note that n and m are never read, so their use is just to 
+	// note that n and m are never read, so their use is just to
 	// keep track of the amount of pixels
-	// and it would be the same to have them run 
-	// from 0 to _noVertSubBlocks-1 or _noHorizSubBlocks-1  
-	
+	// and it would be the same to have them run
+	// from 0 to _noVertSubBlocks-1 or _noHorizSubBlocks-1
+
 	unsigned int blockAreaDIV2 = _blockArea >> 1;
-	
+
 	// TODO: could probably skip a few calculations here, as
 	// the blocks on the border of the image are not usable
 	for(n=1; n<_noVertSubBlocks;n++){
 		for(m=1; m<_noHorizSubBlocks;m++){
 			//mean[m,n] = accBuffer[m,n] + accBuffer[m-1,n] + accBuffer[m,n-1] + accBuffer[m-1,n-1];
-			*meanBufferPtr = *accBufferPtr00++ + *accBufferPtr01++ + 
+			*meanBufferPtr = *accBufferPtr00++ + *accBufferPtr01++ +
 								*accBufferPtr10++ + *accBufferPtr11++;
 			//mean[m,n]/=_blockArea;
 			//*meanBufferPtr/=_blockArea;
 			*meanBufferPtr = *meanBufferPtr/_blockArea + ((*meanBufferPtr%_blockArea>blockAreaDIV2)?(1):(0));
 			meanBufferPtr++;
 		}
-		// here we need to skip one column 
+		// here we need to skip one column
 		accBufferPtr00++;
 		accBufferPtr10++;
 		accBufferPtr01++;
 		accBufferPtr11++;
 		meanBufferPtr++;
 	}
-	
-	// now _meanBuffer contains the mean 
+
+	// now _meanBuffer contains the mean
 	/*
 	{
 		unsigned int * tmpPtr = _meanBuffer;
@@ -384,7 +384,7 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 	//*/
 
 	ip = img;
-	
+
 	meanBufferPtr00 = _meanBuffer;
 	meanBufferPtr01 = _meanBuffer+1;
 	meanBufferPtr10 = _meanBuffer+_noHorizSubBlocks;
@@ -394,7 +394,7 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 	varBufferPtr01 = _varBuffer+1;
 	varBufferPtr10 = _varBuffer+_noHorizSubBlocks;
 	varBufferPtr11 = _varBuffer+_noHorizSubBlocks+1;
-	
+
 	accBufferOffset = 0;
 	yOffset = 0;
 	ip = img;
@@ -404,18 +404,18 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 	for(n=1; n<_noVertSubBlocks;n++, accBufferOffset+=_noHorizSubBlocks){
 		// x0 and y0 are the coordinates withing the block
 		// (going from 0 to _subBlockSize)
-		
+
 		int xOffset = 0;
 		// for each column of subBlocks
 		for(m=1; m<_noHorizSubBlocks;m++){
-			
+
 			ip = img + xOffset + yOffset;
-			
+
 			// for each line inside the subBlock
 			for(unsigned int y0=0;y0<_subBlockSize;y0++){
-				for(unsigned int x0=0;x0<_subBlockSize;x0++){ 
+				for(unsigned int x0=0;x0<_subBlockSize;x0++){
 					// advance the image pointer
-					// this could maybe approximated with the 
+					// this could maybe approximated with the
 					// absolute value?
 					*varBufferPtr00+= (*ip - *meanBufferPtr00) * (*ip - *meanBufferPtr00);
 					*varBufferPtr01+= (*ip - *meanBufferPtr01) * (*ip - *meanBufferPtr01);
@@ -430,12 +430,12 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 			varBufferPtr01++;
 			varBufferPtr10++;
 			varBufferPtr11++;
-			
+
 			meanBufferPtr00++;
 			meanBufferPtr01++;
 			meanBufferPtr10++;
 			meanBufferPtr11++;
-			
+
 			xOffset += _subBlockSize;
 		}// end for(m
 		// skip the last column
@@ -443,16 +443,16 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 		varBufferPtr01++;
 		varBufferPtr10++;
 		varBufferPtr11++;
-		
+
 		meanBufferPtr00++;
 		meanBufferPtr01++;
 		meanBufferPtr10++;
 		meanBufferPtr11++;
-		
-		yOffset += _subBlockSize * _width; 
-		
+
+		yOffset += _subBlockSize * _width;
+
 	}// end for(n
-	
+
 	/*
 	varBufferPtr00 = _varBuffer;
 	for(n=0; n<_noVertSubBlocks;n++){
@@ -467,11 +467,11 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 		cout << endl;
 	}
 	cout << setw(0);
-	
+
 	cout << "end of stddev table" << endl;
 	//*/
-	
-	// pseudocode from wikipedia 
+
+	// pseudocode from wikipedia
 	// for calculating the variance
 	/*
 	n = 0
@@ -481,7 +481,7 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 		sum1 = sum1 + x
 	end for
 	mean = sum1/n
-	
+
 	sum2 = 0
 	foreach x in data:
 		sum2 = sum2 + (x - mean)^2
@@ -493,28 +493,28 @@ void SauvolaThresholdFilter::setMeanVarBuffersForThreshold(unsigned char *img){
 void SauvolaThresholdFilter::setThreshold( unsigned char *img, unsigned char * thresholdBuffer )
 {
 	setMeanVarBuffersForThreshold( img );
-	
+
 	unsigned int m;
 	unsigned int n;
-	
+
 	//unsigned int mXn;
 	unsigned int mXs;
 	unsigned int nXs;
-	
-	// calculate the threshold value for each block 
+
+	// calculate the threshold value for each block
 	// and apply it
 	unsigned int * varBufferPtr;// = _varBuffer = NULL;
 	unsigned int * meanBufferPtr;// = _meanBuffer = NULL;
-	
+
 	unsigned char thresholdHere;
-	
+
 	unsigned int y;
 	unsigned int yXwidth;
-	
+
 	unsigned char *tp;
-	
+
 	unsigned char sDIV2 = _subBlockSize >> 1;
-	
+
 	nXs = 0;
 	unsigned int bufferOffset = 0;
 	for(n = 1; n < _noVertSubBlocks; n++ ){
@@ -570,8 +570,8 @@ void SauvolaThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 		}
 		nXs += _subBlockSize;
 		bufferOffset += _noHorizSubBlocks;
-	}	
-	
+	}
+
 	return;
 }
 
@@ -595,7 +595,7 @@ void BernsenThresholdFilter::setMinMaxBuffersForThreshold(unsigned char * img){
 	unsigned int yXwidth;
 
 	unsigned char *ip;
-	
+
 	y=0;
 	nXs = 0;
 	unsigned int yOffset = 0;
@@ -626,7 +626,7 @@ void BernsenThresholdFilter::setMinMaxBuffersForThreshold(unsigned char * img){
 				}
 				yXwidth += _width;
 			}
-		
+
 			*minBufferPtr++ = min;
 			*maxBufferPtr++ = max;
 			mXs += _subBlockSize;
@@ -640,33 +640,33 @@ void BernsenThresholdFilter::setMinMaxBuffersForThreshold(unsigned char * img){
 void BernsenThresholdFilter::setSubClustersMinMax( const unsigned int &uOstuThreshold, unsigned char * thresholdBuffer ){
 	unsigned int m;
 	unsigned int n;
-	
+
 	//unsigned int mXn;
 	unsigned int mXs;
 	unsigned int nXs;
-	
+
 	unsigned int *minBufferCurrent;
 	unsigned int *minBufferRight;
 	unsigned int *minBufferBelow;
 	unsigned int *minBufferBelowRight;
-	
+
 	unsigned int *maxBufferCurrent;
 	unsigned int *maxBufferRight;
 	unsigned int *maxBufferBelow;
 	unsigned int *maxBufferBelowRight;
-	
+
 	unsigned int min;
 	unsigned int max;
-	
+
 	unsigned char thresholdHere;
-	
+
 	unsigned int y;
 	unsigned int yXwidth;
-	
+
 	unsigned char *tp;
-	
+
 	unsigned int sDIV2 = _subBlockSize >> 1;
-	
+
 	nXs = 0;
 	unsigned int bufferOffset = 0;
 	for(n = 1; n < _noVertSubBlocks; n++ ){
@@ -674,12 +674,12 @@ void BernsenThresholdFilter::setSubClustersMinMax( const unsigned int &uOstuThre
 		minBufferRight      = _minBuffer + bufferOffset + 1;
 		minBufferBelow      = _minBuffer + bufferOffset + _noHorizSubBlocks;
 		minBufferBelowRight = _minBuffer + bufferOffset + _noHorizSubBlocks + 1;
-		
+
 		maxBufferCurrent    = _maxBuffer + bufferOffset;
 		maxBufferRight      = _maxBuffer + bufferOffset + 1;
 		maxBufferBelow      = _maxBuffer + bufferOffset + _noHorizSubBlocks;
 		maxBufferBelowRight = _maxBuffer + bufferOffset + _noHorizSubBlocks + 1;
-		
+
 		//mXn = 0;
 		mXs = 0;
 		for(m = 1; m < _noHorizSubBlocks; m++){
@@ -693,7 +693,7 @@ void BernsenThresholdFilter::setSubClustersMinMax( const unsigned int &uOstuThre
 			( min > *minBufferBelow ) ? ( min = *minBufferBelow++ ) : ( *minBufferBelow++ );
 			( min > *minBufferBelowRight ) ? ( min = *minBufferBelowRight++ ) : ( *minBufferBelowRight++ );
 			//cluster min ready
-			
+
 			//calculate cluster max
 			max = *maxBufferCurrent++;
 			( max < *maxBufferRight ) ? ( max = *maxBufferRight++ ) : ( *maxBufferRight++ );
@@ -712,7 +712,7 @@ void BernsenThresholdFilter::setSubClustersMinMax( const unsigned int &uOstuThre
 				//thresholdHere = (min + max) / 2;
 				thresholdHere = (min + max) >> 1;
 			}
-			
+
 			//apply threshold to 1/4 of the pixel in this cluster (central ones)
 			//for(y = m*_subBlockSize+_subBlockSize/2; y<(m+1)*_subBlockSize+_subBlockSize/2; y++ )
 			yXwidth = (nXs + sDIV2) * _width;
@@ -724,7 +724,7 @@ void BernsenThresholdFilter::setSubClustersMinMax( const unsigned int &uOstuThre
 			//end of cluster
 			//cout << setw(4) << (unsigned int) thresholdHere;
 			//cout << setw(4) << (unsigned int) min;
-			
+
 			//mXn += _noVertSubBlocks;
 			mXs += _subBlockSize;
 		}
@@ -732,13 +732,13 @@ void BernsenThresholdFilter::setSubClustersMinMax( const unsigned int &uOstuThre
 		nXs += _subBlockSize;
 		bufferOffset += _noHorizSubBlocks;
 	}
-	
+
 }
 
 void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * thresholdBuffer )
 {
 	unsigned int limit = _width*_height;
-	
+
 	//calculate a global threshold, to be used when the std deviation is below a certain threshold
 	//int ostuT = thresholdOstu();
 	unsigned int uOstuT = thresholdOstu(img,_width*_height);
@@ -765,7 +765,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 
 	//*
 	// top left corner
-	// from (0,0) to ( _subBlockSize/2, _subBlockSize/2 ) 
+	// from (0,0) to ( _subBlockSize/2, _subBlockSize/2 )
 	min = _minBuffer[0];
 	max = _maxBuffer[0];
 
@@ -793,7 +793,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 
 	//*
 	// top row
-	// from ( _subBlockSize/2, 0 ) to ( _width - _subBlockSize/2, _subBlockSize/2 ) 
+	// from ( _subBlockSize/2, 0 ) to ( _width - _subBlockSize/2, _subBlockSize/2 )
 	int mXs = 0;
 	for(m=1;m<_noHorizSubBlocks-1;m++){
 		//calculate cluster min
@@ -823,7 +823,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 		}
 
 		//thresholdHere = uOstuT;
-		
+
 		//apply threshold to the pixels in this cluster
 		//for(y = 0, yXwidth = 0; y < _subBlockSize/2; ++y, yXwidth += _width)
 		x = mXs + sDIV2;
@@ -832,7 +832,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 			memset(thresholdBuffer + x + yXwidth, thresholdHere, _subBlockSize*sizeof(unsigned char));
 			yXwidth += _width;
 		}
-		
+
 		mXs += _subBlockSize;
 		//end of cluster
 	}// end of top row
@@ -840,7 +840,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 
 	//*
 	// top right corner
-	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 ) 
+	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 )
 	min = _minBuffer[_noVertSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 	max = _maxBuffer[_noVertSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 
@@ -909,7 +909,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 	//*
 	// bottom row
 	// from ( _subBlockSize/2,_height - _subBlockSize/2) to ( _width - _subBlockSize/2, _height )
-	//offset = _width * (_height - _subBlockSize/2); 
+	//offset = _width * (_height - _subBlockSize/2);
 	mXs = 0;
 	for(m=1+_noHorizSubBlocks*(_noVertSubBlocks-1);m<_totalNoSubBlocks-1;m++){
 		//calculate cluster min
@@ -947,7 +947,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 			memset(thresholdBuffer + x + yXwidth, thresholdHere, _subBlockSize*sizeof(unsigned char));
 			yXwidth += _width;
 		}
-		
+
 		mXs += _subBlockSize;
 		//end of cluster
 	} //end of bottom row
@@ -955,7 +955,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 
 	//*
 	// bottom right corner
-	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 ) 
+	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 )
 	min = _minBuffer[_totalNoSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 	max = _maxBuffer[_totalNoSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 
@@ -999,7 +999,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 	for(n=0;n<_noVertSubBlocks-1;n++){
 		min = _minBuffer[_noHorizSubBlocks*n];
 		max = _maxBuffer[_noHorizSubBlocks*n];
-	
+
 		if( (max - min) < _contrThres ){
 			//thresholdHere = uOstuT;
 			if( ((min + max) >> 1) > uOstuT ){
@@ -1011,14 +1011,14 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 			//thresholdHere = (min + max) / 2;
 			thresholdHere = (min + max) >> 1;
 		}
-	
+
 		//thresholdHere = uOstuT;
 		//yXwidth = offset;
 		for(y=0;y<_subBlockSize;y++){
 			//memset(threshold + yXwidth, thresholdHere, sDIV2);
 			memset(thresholdBuffer + x + yXwidth, thresholdHere,  sDIV2*sizeof(unsigned char));
 			yXwidth += _width;
-		}		
+		}
 	}
 	//end of left column
 	//*/
@@ -1033,7 +1033,7 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 	for(n=0;n<_noVertSubBlocks-1;n++){
 		min = _minBuffer[_noHorizSubBlocks*n];
 		max = _maxBuffer[_noHorizSubBlocks*n];
-	
+
 		if( (max - min) < _contrThres ){
 			//thresholdHere = uOstuT;
 			if( ((min + max) >> 1) > uOstuT ){
@@ -1045,23 +1045,23 @@ void BernsenThresholdFilter::setThreshold( unsigned char *img, unsigned char * t
 			//thresholdHere = (min + max) / 2;
 			thresholdHere = (min + max) >> 1;
 		}
-	
+
 		//thresholdHere = uOstuT;
 		//yXwidth = offset;
 		for(y=0;y<_subBlockSize;y++){
 			//memset(threshold + yXwidth, thresholdHere, sDIV2);
 			memset(thresholdBuffer + x + yXwidth, thresholdHere,  (_width - x)*sizeof(unsigned char));
 			yXwidth += _width;
-		}		
+		}
 	}
 	//end of right column
-	//*/ 
+	//*/
 }
 
 void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned char * thresholdBuffer )
 {
 	unsigned int limit = _width*_height;
-	
+
 	//calculate a global threshold, to be used when the std deviation is below a certain threshold
 	//int ostuT = thresholdOstu();
 	unsigned int fixedT = 127;
@@ -1083,13 +1083,13 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 	unsigned int x=0, y=0, m=0, n=0;//, nXs, nXn, mXn;
 	unsigned int min=0, max=0, yXwidth=0, offset=0;
 	unsigned int yStart=0;
-	
+
 	unsigned int * minBufPtr = NULL;
 	unsigned int * maxBufPtr = NULL;
 
 	//*
 	// top left corner
-	// from (0,0) to ( _subBlockSize/2, _subBlockSize/2 ) 
+	// from (0,0) to ( _subBlockSize/2, _subBlockSize/2 )
 	min = _minBuffer[0];
 	max = _maxBuffer[0];
 
@@ -1116,13 +1116,13 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 
 	//*
 	// top row
-	// from ( _subBlockSize/2, 0 ) to ( _width - _subBlockSize/2, _subBlockSize/2 ) 
+	// from ( _subBlockSize/2, 0 ) to ( _width - _subBlockSize/2, _subBlockSize/2 )
 	int mXs = 0;
 	minBufPtr = _minBuffer + 1;
 	maxBufPtr = _maxBuffer + 1;
 	for(m=1;m<_noHorizSubBlocks;m++){
 		//calculate cluster min
-		min = *minBufPtr; 
+		min = *minBufPtr;
 		if( min > *(minBufPtr+1) ){
 			min = *(minBufPtr+1);
 		}
@@ -1134,7 +1134,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 			max = *(maxBufPtr+1);
 		}
 		//cluster max ready
-		
+
 		minBufPtr++;
 		maxBufPtr++;
 
@@ -1158,7 +1158,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 			memset(thresholdBuffer + x + yXwidth, thresholdHere, _subBlockSize*sizeof(unsigned char));
 			yXwidth += _width;
 		}
-		
+
 		mXs += _subBlockSize;
 		//end of cluster
 	}// end of top row
@@ -1166,7 +1166,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 
 	//*
 	// top right corner
-	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 ) 
+	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 )
 	min = _minBuffer[_noVertSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 	max = _maxBuffer[_noVertSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 
@@ -1213,7 +1213,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 	}
 
 	x = 0;
-	// TODO: check the following! 
+	// TODO: check the following!
 	//if( _height % _subBlockSize > sDIV2 ){
 	//	yStart = sDIV2 + (_noVertSubBlocks-1)*_subBlockSize;
 	//}else{
@@ -1234,7 +1234,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 	//*
 	// bottom row
 	// from ( _subBlockSize/2,_height - _subBlockSize/2) to ( _width - _subBlockSize/2, _height )
-	//offset = _width * (_height - _subBlockSize/2); 
+	//offset = _width * (_height - _subBlockSize/2);
 	mXs = 0;
 	minBufPtr = _minBuffer+1;
 	maxBufPtr = _maxBuffer+1;
@@ -1275,7 +1275,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 			memset(thresholdBuffer + x + yXwidth, thresholdHere, _subBlockSize*sizeof(unsigned char));
 			yXwidth += _width;
 		}
-		
+
 		mXs += _subBlockSize;
 		//end of cluster
 	} //end of bottom row
@@ -1283,7 +1283,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 
 	//*
 	// bottom right corner
-	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 ) 
+	// from ( _width - _subBlockSize/2, 0 ) to ( _width, _subBlockSize/2 )
 	min = _minBuffer[_totalNoSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 	max = _maxBuffer[_totalNoSubBlocks-1]; //_noVertSubBlocks-1+0*_noVertSubBlocks
 
@@ -1300,7 +1300,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 	}
 
 	//apply threshold to the pixels in this block
-	// TODO: check the following! 
+	// TODO: check the following!
 	//if( _height % _subBlockSize > sDIV2 ){
 	//	yStart = sDIV2 + (_noVertSubBlocks-1)*_subBlockSize;
 	//}else{
@@ -1340,7 +1340,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 		//cluster max ready
 		minBufPtr+=_noHorizSubBlocks;
 		maxBufPtr+=_noHorizSubBlocks;
-	
+
 		if( (max - min) < _contrThres ){
 			//thresholdHere = fixedT;
 			if( ((min + max) >> 1) > fixedT ){
@@ -1352,13 +1352,13 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 			//thresholdHere = (min + max) / 2;
 			thresholdHere = (min + max) >> 1;
 		}
-	
+
 		//yXwidth = offset;
 		for(y=0;y<_subBlockSize;y++){
 			//memset(threshold + yXwidth, thresholdHere, sDIV2);
 			memset(thresholdBuffer + x + yXwidth, thresholdHere,  sDIV2*sizeof(unsigned char));
 			yXwidth += _width;
-		}		
+		}
 	}
 	//end of left column
 	//*/
@@ -1388,7 +1388,7 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 		//cluster max ready
 		minBufPtr+=_noHorizSubBlocks;
 		maxBufPtr+=_noHorizSubBlocks;
-	
+
 		if( (max - min) < _contrThres ){
 			//thresholdHere = fixedT;
 			if( ((min + max) >> 1) > fixedT ){
@@ -1400,16 +1400,16 @@ void BernsenFixedThresholdFilter::setThreshold( unsigned char *img, unsigned cha
 			//thresholdHere = (min + max) / 2;
 			thresholdHere = (min + max) >> 1;
 		}
-	
+
 		//yXwidth = offset;
 		for(y=0;y<_subBlockSize;y++){
 			//memset(threshold + yXwidth, thresholdHere, sDIV2);
 			memset(thresholdBuffer + x + yXwidth, thresholdHere,  (_width - x)*sizeof(unsigned char));
 			yXwidth += _width;
-		}		
+		}
 	}
 	//end of right column
-	//*/ 
+	//*/
 }
 
 

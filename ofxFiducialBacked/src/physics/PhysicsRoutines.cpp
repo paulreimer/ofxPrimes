@@ -16,7 +16,7 @@ Routines::Routines(fiducials_t& _fiducialsList)
 	functions_map[FIDUCIAL_PHYSICS_TRI]			= &Routines::findIntersectionsTri;
 	functions_map[FIDUCIAL_PHYSICS_QUAD]		= &Routines::findIntersectionsQuad;
 	functions_map[FIDUCIAL_PHYSICS_PRISM]		= &Routines::findIntersectionsPrism;
-	functions_map[FIDUCIAL_PHYSICS_DEFAULT]		= functions_map[FIDUCIAL_PHYSICS_RAY];	
+	functions_map[FIDUCIAL_PHYSICS_DEFAULT]		= functions_map[FIDUCIAL_PHYSICS_RAY];
 }
 
 //--------------------------------------------------------------
@@ -25,11 +25,11 @@ Routines::findMinIntersectionRay(ofxFiducial* fiducial, ofPoint _origin, double 
 {
 	fiducial_iter	chk_fiducial_it;
 	ofxFiducial		*chk_fiducial, *hit_fiducial;
-	
+
 	ofxPoint2f		first_hit_point, edge_hit_point, hit_point;
 	ofxPoint2f		origin(_origin), endpoint;
 
-	float dist, min_dist;	
+	float dist, min_dist;
 
 	endpoint.set(origin.x + MAX_INTERSECTION_DIST, origin.y);
 	endpoint.rotateRad(angle, origin);
@@ -47,14 +47,14 @@ Routines::findMinIntersectionRay(ofxFiducial* fiducial, ofPoint _origin, double 
 		 chk_fiducial_it++)
 	{
 		chk_fiducial = &(*chk_fiducial_it);
-		
+
 		if (chk_fiducial == fiducial)
 			continue;
-		
+
 		vector<ofPoint> chk_shape = getShape(chk_fiducial);
-		
+
 		hit_point = lineSegmentTest(origin, first_hit_point, chk_shape);
-		
+
 		if (hit_point.x >= 0 && hit_point.y >= 0)
 		{
 			dist = origin.distance(hit_point);
@@ -62,12 +62,12 @@ Routines::findMinIntersectionRay(ofxFiducial* fiducial, ofPoint _origin, double 
 			{
 				min_dist = dist;
 				first_hit_point = hit_point;
-				
+
 				hit_fiducial = chk_fiducial;
 			}
 		}
 	}
-	
+
 	fiducialRayIntersectionEvtArgs args;
 	// Generate intersection event
 	args.to		= hit_fiducial;
@@ -87,7 +87,7 @@ Routines::findIntersectionsRay(ofxFiducial* fiducial)
 	float		angle	= fiducial->getAngle()+FIDUCIAL_ANGLE_CORRECTION_RADIANS;
 
 	args = findMinIntersectionRay(fiducial, origin, angle);
-	
+
 	args.from	= fiducial;
 	args.from_pt= ofxPoint2f(fiducial->cornerPoints[0])
 					.getMiddle(ofxPoint2f(fiducial->cornerPoints[3]));
@@ -147,7 +147,7 @@ Routines::getOutputRays(ofxFiducial* fiducial)
 	vector<pair<ofPoint,double> > single_output_port;
 	ofPoint output_point = ofxPoint2f(fiducial->cornerPoints[0]).getMiddle(ofxPoint2f(fiducial->cornerPoints[3]));
 	single_output_port.push_back(make_pair(output_point, fiducial->getAngle()+FIDUCIAL_ANGLE_CORRECTION_RADIANS));
-	
+
 	return single_output_port;
 }
 
@@ -182,7 +182,7 @@ Routines::lineSegmentTest(const ofxPoint2f& origin, const ofxPoint2f& endpoint,
 {
 	ofxPoint2f hit_point(endpoint);
 	ofxPoint2f first_hit_point(FIDUCIAL_INVALID_COORDS,FIDUCIAL_INVALID_COORDS);
-	
+
 	double min_dist = origin.distance(endpoint);
 	double d, la, lb, dist;
 	int num_corners = corners.size();
@@ -190,21 +190,21 @@ Routines::lineSegmentTest(const ofxPoint2f& origin, const ofxPoint2f& endpoint,
 	{
 		if (next_c==num_corners)
 			next_c=0;
-		
+
 		ofxPoint2f dp(corners[c].x - origin.x, corners[c].y - origin.y);
 		ofxPoint2f qa(endpoint.x - origin.x, endpoint.y - origin.y);
 		ofxPoint2f qb(corners[next_c].x - corners[c].x, corners[next_c].y - corners[c].y);
-		
+
 		d  = qa.y * qb.x - qb.y * qa.x;
 		la = (qb.x * dp.y - qb.y * dp.x)/d;
 		lb = (qa.x * dp.y - qa.y * dp.x)/d;
-		
+
 		if (0 <= la && la <= 1 && 0 <= lb && lb <= 1)
 		{
 			hit_point.set(origin.x + la * qa.x,
 						  origin.y + la * qa.y);
 			dist = origin.distance(hit_point);
-			
+
 			if (dist < min_dist)
 			{
 				min_dist = dist;

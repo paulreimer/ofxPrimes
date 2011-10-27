@@ -245,7 +245,7 @@ public:
 	int getBackgroundNode(){ return _background; }
 
 	int ** getLabelsMap( ){ return _labelsMap; }
-	
+
 };
 
 

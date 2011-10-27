@@ -20,7 +20,7 @@ class WebSocketHandler
 public:
 	WebSocketHandler(StreamSocket& socket, SocketReactor& reactor);
 	~WebSocketHandler();
-	
+
 	int sendBytes(const char* buffer, int bufferSize);
 	int send(std::string& data);
 
@@ -32,7 +32,7 @@ public:
 
 protected:
 	bool bUseSizePreamble;
-	
+
 	virtual void ready()		{};
 	virtual void idle()			{};
 	virtual void onmessage(const std::string& frame)	{};
@@ -44,14 +44,14 @@ protected:
 	std::string	host;
 	std::string	resource;
 	unsigned short port;
-	
+
 private:
 	void onReadable	(const AutoPtr<ReadableNotification>&	pNf);
 	void onWritable	(const AutoPtr<WritableNotification>&	pNf);
 	void onShutdown	(const AutoPtr<ShutdownNotification>&	pNf);
 	void onError	(const AutoPtr<ErrorNotification>&		pNf);
 	void onIdle		(const AutoPtr<IdleNotification>&		pNf);
-	
+
 	const char* handshake(const char* buffer, int n);
 
 	enum
@@ -65,7 +65,7 @@ private:
 	StreamSocket	_socket;
 	SocketReactor&	_reactor;
 
-	char*		buffer;	
+	char*		buffer;
 	bool		sentHandshake, gotHandshake;
 	bool		bReplicateHeaders;
 };

@@ -17,4 +17,3 @@ v1.0
 	- saved in xml using 'keys', so you can add/remove/rename/reorder controls and still load values correctly
 	- option to backup save
 	- all controls inherit from ofxMSAInteractiveObject (for simpler event management)
-	

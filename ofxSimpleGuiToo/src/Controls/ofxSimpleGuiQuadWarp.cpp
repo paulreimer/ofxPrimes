@@ -10,11 +10,11 @@ ofxSimpleGuiQuadWarp::ofxSimpleGuiQuadWarp(string name, float x, float y, float 
 	mouseOn		= false;
 	this->sw	= sw;
 	this->sh	= sh;
-	
-	
+
+
 	pts = new ofPoint[4];
 	pts_int = new ofPoint[4];
-	
+
 	for(int i=0; i<4; i++) {
 		float x = cvpts[i].x;
 		float y = cvpts[i].y;
@@ -29,7 +29,7 @@ ofxSimpleGuiQuadWarp::ofxSimpleGuiQuadWarp(string name, float x, float y, float 
 bool
 ofxSimpleGuiQuadWarp::checkDistanceToPoint()
 {
-	for(int i=0; i<4; i++) {	
+	for(int i=0; i<4; i++) {
 		ofPoint pt = pts[i] + ofPoint(x, y);
 		//			float dis	  = pt.distance(mouse);		  // MEMO
 		float dis = 0;
@@ -46,7 +46,7 @@ ofxSimpleGuiQuadWarp::mousePressed(int x, int y, int button)
 {
 	mouse.set(x, y);
 	if(checkDistanceToPoint()) {
-		
+
 	}
 }
 
@@ -77,27 +77,27 @@ ofxSimpleGuiQuadWarp::drawWidget(float x, float y)
 	glTranslatef(x, y, 0);
 	ofEnableAlphaBlending();
 	ofFill();
-	
+
 	for(int i=0; i<4; i++) {
-		
+
 		if(i == onPnt) ofSetColor(255, 0, 0);
 		else		   ofSetColor(255, 255, 0);
 		ofRect(pts[i].x, pts[i].y, 4, 4);
 	}
-	
-	
+
+
 	ofBeginShape();
 	ofNoFill();
 	ofSetColor(255, 255, 255);
 	for(int i=0; i<4; i++) {
 		ofVertex(pts[i].x, pts[i].y);
-		
+
 		cvpts[i].x = pts[i].x*2.3;
 		cvpts[i].y = pts[i].y*2.3;
-		
+
 	}
 	ofEndShape(TRUE);
 	ofDisableAlphaBlending();
-	
+
 	glPopMatrix();
 }

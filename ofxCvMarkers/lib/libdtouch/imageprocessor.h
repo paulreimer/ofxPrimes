@@ -35,7 +35,7 @@
 
 #ifndef EC_IMAGEPROCESSOR
 #define EC_IMAGEPROCESSOR
- 
+
 class ImageProcessor{
 public:
   virtual void process( unsigned char *img, unsigned int w, unsigned int h) { ; }

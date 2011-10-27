@@ -8,7 +8,7 @@
 #define FINGER_LOST 0
 #define FINGER_FOUND 1
 
-//this is for storing x, y and angle 
+//this is for storing x, y and angle
 //and to figure out speed and acceleration of position, rotation and angle
 struct finger_frame {
 	float xpos,ypos;
@@ -18,7 +18,7 @@ struct finger_frame {
 };
 
 class ofxFinger {
-	
+
 public:
 	//public variables
 	//****//--------------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ public:
 	int area;
 	short width, height;
 	finger_frame	current, last; //current and last fid info
-	
+
 	//Constructor
 	//****//--------------------------------------------------------------------------------------
 	ofxFinger() {
@@ -41,7 +41,7 @@ public:
 		current.time	= 0;
 		saveLastFrame();
 	}
-	
+
 	//getter functions
 	//****//--------------------------------------------------------------------------------------
 	int	  getId()		{ return fingerID; }
@@ -54,35 +54,35 @@ public:
 	short getWidth()	{ return width; }
 	short getHeight()	{ return height; }
 	int	  getArea()		{ return area; }
-	
+
 	//Update Finger
 	//****//--------------------------------------------------------------------------------------
 	void update(float _x, float _y, short _width, short _height, int _area) {
-		
+
 		//this is to try and filter out some of the jitter
 		//------------------------------------------------
 		float jitterThreshold	= 1.0;
-		
-		//if new posit - current posit is less than threshold dont update it must be jitter 
+
+		//if new posit - current posit is less than threshold dont update it must be jitter
 		if ( fabs(_x - current.xpos) > jitterThreshold ) current.xpos = _x;
 		else current.xpos = last.xpos;
 		if ( fabs(_y - current.ypos) > jitterThreshold ) current.ypos = _y;
 		else current.ypos = last.ypos;
 
 		//------------------------------------------------
-		
+
 		width			= _width;
 		height			= _height;
 		area			= _area;
 		current.time	= ofGetElapsedTimeMillis(); //get current time
 		state			= FINGER_FOUND; //finger found
 		updated			= true; //got updated
-		
+
 		computeSpeedAccel(); //compute speed & acceleration
 
 		saveLastFrame(); //last frame equal to this frame
 	}
-	
+
 	//Check for Removal
 	//this is done to make sure is survives for 2 frames if found missing
 	//****//--------------------------------------------------------------------------------------
@@ -96,23 +96,23 @@ public:
 			computeSpeedAccel();
 			--life;					//if not updated subtract life
 		}
-		
+
 		if (!life) alive = false;	//if life is gone alive is false ae. it is dead
 		updated = false;			//reset updated message
 		return alive;				//return life state
 	}
-	
-	
+
+
 	// returns the distance to this fiducials current position
 	//****//--------------------------------------------------------------------------------------
 	float getDistance(float _x, float _y) {
-		
+
 		float dx = _x - current.xpos;
 		float dy = _y - current.ypos;
 		return sqrt(dx*dx+dy*dy);
-	}	
-	
-	
+	}
+
+
 	//Operator overloading for FiducialX & ofxFiducial
 	//****//--------------------------------------------------------------------------------------
 	void operator=( const RegionX& region) {
@@ -123,7 +123,7 @@ public:
 		area			= region.area;
 		current.time	= ofGetElapsedTimeMillis();
 	}
-	
+
 	void operator=( const ofxFinger& finger) {
 		fingerID		= finger.fingerID;
 		current.xpos	= finger.current.xpos;
@@ -133,7 +133,7 @@ public:
 		area			= finger.area;
 		current.time	= finger.current.time;
 	}
-	
+
 	//draw fiducial
 	//****//--------------------------------------------------------------------------------------
 	void draw( float _x, float _y ) {
@@ -148,8 +148,8 @@ public:
 		ofSetRectMode(OF_RECTMODE_CORNER);
 		ofSetColor(255,255,255);
 	}
-	
-	
+
+
 	//private stuff
 	//****//--------------------------------------------------------------------------------------
 private:
@@ -157,24 +157,24 @@ private:
 	bool	updated;// has fid been updated
 	int		life;//fids lifespan in frames
 	int		state;//fids lost/found state
-	
-		
+
+
 	//compute speed, accel, etc...
-	void computeSpeedAccel() {		
+	void computeSpeedAccel() {
 		if (last.time==0) return;
-		
+
 		int   dt	= current.time - last.time;
 		float dx	= current.xpos - last.xpos;
 		float dy	= current.ypos - last.ypos;
 		float dist	= sqrt(dx*dx+dy*dy);
-		
+
 		current.motion_speed	= dist/dt;
 		current.motion_speed_x	= fabs(dx/dt);
 		current.motion_speed_y	= fabs(dy/dt);
-		
-		current.motion_accel	= (current.motion_speed-last.motion_speed)/dt;	
+
+		current.motion_accel	= (current.motion_speed-last.motion_speed)/dt;
 	}
-	
+
 	//make last frame = this frame
 	void saveLastFrame() {
 		last.time	= current.time;
@@ -182,7 +182,7 @@ private:
 		last.ypos	= current.ypos;
 		last.motion_speed	= current.motion_speed;
 	}
-	
+
 };
 
 

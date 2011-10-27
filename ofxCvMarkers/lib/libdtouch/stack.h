@@ -106,7 +106,7 @@ protected:
 	//PDStack() { }
 	// constuctors
 	PDStack() : Stack<T>() { }
-	
+
 	void constructL(const int &in_poolSize){
 		_pool = DynamicPool<T>::newL(in_poolSize);
 	}
@@ -137,7 +137,7 @@ public:
 		_size=0;
 		delete _pool;
 	}
-	
+
 	void reset(){
 		if( _first==NULL ){return;}
 		ListItem<T> * current = _first;

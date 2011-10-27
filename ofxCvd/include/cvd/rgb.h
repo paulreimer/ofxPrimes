@@ -1,4 +1,4 @@
-/*                       
+/*
 			 This file is part of the CVD Library.
 
 			 Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 			 You should have received a copy of the GNU Lesser General Public
 			 License along with this library; if not, write to the Free Software
-			 Foundation, Inc., 
+			 Foundation, Inc.,
 			 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //////////////////////////////////////////////////////////////////////////
@@ -54,34 +54,34 @@ public:
   /// @param b The blue component
   inline Rgb(T r, T g, T b) : red(r),green(g),blue(b) {}
     template <class S> inline explicit Rgb(const Rgb<S>& rgb) : red(static_cast<T>(rgb.red)), green(static_cast<T>(rgb.green)), blue(static_cast<T>(rgb.blue)) {}
-      
+
   T red;   ///< The red component
   T green; ///< The green component
   T blue;  ///< The blue component
-   
+
   /// Assignment operator
   /// @param c The colour to copy from
     inline Rgb<T>& operator=(const Rgb<T>& c)
     {red = c.red; green = c.green; blue = c.blue; return *this;}
-	    
+
   /// Logical equals operator. Returns true if each component is the same.
   /// @param c Rgb to compare with
   inline bool operator==(const Rgb<T>& c) const
   {return red == c.red && green == c.green && blue == c.blue;}
-	      
+
   /// Logical not-equals operator. Returns true unless each component is the same.
   /// @param c Rgb to compare with
   inline bool operator!=(const Rgb<T>& c) const
   {return red != c.red || green != c.green || blue != c.blue;}
-		
+
   /// Assignment operator between two different storage types, using the standard casts as necessary
   /// @param c The colour to copy from
     template <class T2>
       inline Rgb<T>& operator=(const Rgb<T2>& c){ red = c.red; green=c.green;  blue=c.blue; return *this;}
-		  
+
   //   T to_grey() {return 0.3*red + 0.6*green + 0.1*blue;}
 };
-  
+
   /// Write the colour to a stream in the format "(red,green,blue)"
 /// @param os The stream
 /// @param x The colour object

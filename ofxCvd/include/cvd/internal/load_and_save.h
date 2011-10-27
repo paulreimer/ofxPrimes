@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_LOAD_AND_SAVE_H
@@ -102,7 +102,7 @@ namespace CVD {
 			{
 				WriteTypeMismatch(const std::string& available, const std::string& requested);
 			};
-			
+
 			/// An error occurred in one of the helper libraries
 			/// @ingroup gException
 			struct InternalLibraryError: public All
@@ -135,19 +135,19 @@ namespace CVD {
 		{
 			static const bool use_16bit=1;
 		};
-		  
+
 		template<class C> struct save_default_<C,1>
 		{
 			static const bool use_16bit=(CVD::Pixel::traits<typename CVD::Pixel::Component<C>::type>::bits_used) > 8;
 		};
-		  
+
 		template<class C> struct save_default
 		{
 			static const bool use_16bit = save_default_<C, CVD::Pixel::traits<typename CVD::Pixel::Component<C>::type>::integral>::use_16bit;
 		};
 
 
-		////////////////////////////////////////////////////////////////////////////////	
+		////////////////////////////////////////////////////////////////////////////////
 		//Mechanisms for generic image loading
 		//
 		// Image readers are duck-types and must provide the following:
@@ -158,7 +158,7 @@ namespace CVD {
 		// void get_raw_pixel_line(T) Where T is available for everything in Types
 		// Constructor accepting istream;
 
-		
+
 		//Basic typelist.
 		struct Head{};
 		template<class A, class B> struct TypeList
@@ -167,12 +167,12 @@ namespace CVD {
 			typedef B Next;
 		};
 
-		
+
 
 		////////////////////////////////////////////////////////////////////////////////
 		//
-		// Read data and process if necessary. 
-		// In the case where the in-memory and on-disk datatypes match, no processing 
+		// Read data and process if necessary.
+		// In the case where the in-memory and on-disk datatypes match, no processing
 		// is performed.
 		template<class PixelType, class DiskPixelType, class ImageLoader> struct read_and_maybe_process
 		{
@@ -198,12 +198,12 @@ namespace CVD {
 		};
 
 
-		////////////////////////////////////////////////////////////////////////////////	
+		////////////////////////////////////////////////////////////////////////////////
 		//
-		// Iterate over the typelist, and decide which type to load. 
+		// Iterate over the typelist, and decide which type to load.
 		//
 		template<class PixelType, class ImageLoader, class List > struct Reader
-		{	
+		{
 			static void read(SubImage<PixelType>& im, ImageLoader& r)
 			{
 				if(r.datatype() == PNM::type_name<typename List::Type>::name())
@@ -218,13 +218,13 @@ namespace CVD {
 		template<class PixelType, class ImageLoader> struct Reader<PixelType, ImageLoader, Head>
 		{
 			static void read(SubImage<PixelType>&, ImageLoader& r)
-			{	
+			{
 				throw Exceptions::Image_IO::UnsupportedImageSubType(r.name(), r.datatype() + " not yet supported");
 			}
 		};
 
-		
-		////////////////////////////////////////////////////////////////////////////////	
+
+		////////////////////////////////////////////////////////////////////////////////
 		//
 		// Driver functions for loading images.
 		//
@@ -251,7 +251,7 @@ namespace CVD {
 		  readImage(im, loader);
 		}
 
-		////////////////////////////////////////////////////////////////////////////////	
+		////////////////////////////////////////////////////////////////////////////////
 		//
 		// Functions for attempting to choose an image type based on the datatype.
 		// The template code provides information detailing the ideal image type.
@@ -267,13 +267,13 @@ namespace CVD {
 		// constructor(ostream&, ImageRef, string type)  Construct an image writer for a given type
 		// void write_raw_pixel_line(T*)                 Write pixels of type T.
 
-	
+
 		////////////////////////////////////////////////////////////////////////////////
 		//
 		// Select an outgoing type, convert if necessary and then save.
 		//
 		template<class Pixel, class ImageWriter, class OutgoingPixel> struct maybe_process_and_write
-		{	
+		{
 			static void write(std::ostream& os, const SubImage<Pixel>& im)
 			{
 				ImageWriter w(os, im.size(), CVD::PNM::type_name<OutgoingPixel>::name());
@@ -288,7 +288,7 @@ namespace CVD {
 		};
 
 		template<class Pixel, class ImageWriter> struct maybe_process_and_write<Pixel, ImageWriter, Pixel>
-		{	
+		{
 			static void write(std::ostream& os, const SubImage<Pixel>& im)
 			{
 				ImageWriter w(os, im.size(), CVD::PNM::type_name<Pixel>::name());
@@ -302,7 +302,7 @@ namespace CVD {
 			maybe_process_and_write<Pixel, Writer, typename Writer::template Outgoing<Pixel>::type>::write(o, im);
 		}
 
-	
+
 	}
 
 

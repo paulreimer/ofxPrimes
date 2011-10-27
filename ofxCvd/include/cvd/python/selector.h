@@ -1,4 +1,4 @@
-#define SELECTOR_START(name) template<class List> struct name##_selector_struct { 
+#define SELECTOR_START(name) template<class List> struct name##_selector_struct {
 
 
 

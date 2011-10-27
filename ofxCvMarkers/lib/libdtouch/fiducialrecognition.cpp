@@ -423,12 +423,12 @@ FiducialDataList * FiducialRecognition::process(
 		//tmp->getCurrent()->Data().setType(fidSeqIndex);
 		}
 		fiducialData->append( ret );
-		
+
 		fidSeqIndex++;
 		delete ret;
 		delete tmp;
 		tmp = NULL;
-		
+
 	}
 
 	return fiducialData;

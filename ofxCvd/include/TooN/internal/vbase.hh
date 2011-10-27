@@ -45,7 +45,7 @@ struct SliceVBase {
 	template<int Size, typename Precision>
 	struct VLayout
 		: public GenericVBase<Size, Precision, Stride, VectorSlice<Size, Precision> > {
-	
+
 		VLayout(Precision* d, int length, int stride)
 			:GenericVBase<Size, Precision, Stride, VectorSlice<Size, Precision> >(d, length, stride){
 		}
@@ -66,9 +66,9 @@ struct VBase {
 
 	// this class is really just a typedef
 	template<int Size, class Precision>
-	struct VLayout 
+	struct VLayout
 		: public GenericVBase<Size, Precision, 1, VectorAlloc<Size, Precision> > {
-	
+
 		VLayout(){}
 
 		VLayout(int s)
@@ -87,7 +87,7 @@ struct VBase {
 //
 
 template<int Size, typename Precision, int Stride, typename Mem> struct GenericVBase: public Mem, public StrideHolder<Stride>
-{	
+{
 	int stride() const{
 		return StrideHolder<Stride>::stride();
 	}
@@ -102,7 +102,7 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 	GenericVBase(Precision* d, int length, int stride)
 	:Mem(d, length),StrideHolder<Stride>(stride){
 	}
-	
+
 	template<class Op>
 	GenericVBase(const Operator<Op> & op) : Mem(op), StrideHolder<Stride>(op) {}
 
@@ -120,19 +120,19 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 	}
 
 	//Completely generic Vector slice operations below:
-	template<int Start, int Length> 
+	template<int Start, int Length>
 	Vector<Length, Precision, SliceVBase<Stride> > slice(int start, int length){
-		Internal::CheckSlice<Size, Start, Length>::check(size(), start, length);	
+		Internal::CheckSlice<Size, Start, Length>::check(size(), start, length);
 		return Vector<Length, Precision, SliceVBase<Stride> >(data() + stride() * (Start==Dynamic?start:Start), Length==Dynamic?length:Length, stride(), Slicing());
 	}
 
-	template<int Start, int Length> 
+	template<int Start, int Length>
 	const Vector<Length, Precision, SliceVBase<Stride> > slice(int start, int length) const{
-		Internal::CheckSlice<Size, Start, Length>::check(size(), start, length);	
+		Internal::CheckSlice<Size, Start, Length>::check(size(), start, length);
 		return Vector<Length, Precision, SliceVBase<Stride> >(const_cast<Precision*>(data()) + stride() * (Start==Dynamic?start:Start), Length==Dynamic?length:Length, stride(), Slicing());
 	}
 
-	
+
 
 	//Special case slice operations
 	template<int Start, int Length> Vector<Length, Precision, SliceVBase<Stride> > slice(){
@@ -152,7 +152,7 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 	const Vector<Dynamic, Precision, SliceVBase<Stride> > slice(int start, int length) const{
 		return slice<Dynamic, Dynamic>(start, length);
 	}
-		
+
 	//Static slicing with End
 	#define TOON_INTERNAL_MAKE_END(X)\
 	template<int Start, StaticEndMarker<(X)>(*End)()> \
@@ -165,7 +165,7 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 		static const int Len = (Size==Dynamic?Dynamic:Size-Start+(X));\
 		return slice<Start, Len>(Start, size() - Start + (X));\
 	}
-	
+
 	#define TOON_INTERNAL_MAKE_END_99(D0)\
 	TOON_INTERNAL_MAKE_END(D0##0);\
 	TOON_INTERNAL_MAKE_END(D0##1);\
@@ -176,9 +176,9 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 	TOON_INTERNAL_MAKE_END(D0##6);\
 	TOON_INTERNAL_MAKE_END(D0##7);\
 	TOON_INTERNAL_MAKE_END(D0##8);\
-	TOON_INTERNAL_MAKE_END(D0##9); 
+	TOON_INTERNAL_MAKE_END(D0##9);
 
-#ifndef WIN32 
+#ifndef WIN32
 	TOON_INTERNAL_MAKE_END(-0);\
 	TOON_INTERNAL_MAKE_END(-1);\
 	TOON_INTERNAL_MAKE_END(-2);\
@@ -188,7 +188,7 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 	TOON_INTERNAL_MAKE_END(-6);\
 	TOON_INTERNAL_MAKE_END(-7);\
 	TOON_INTERNAL_MAKE_END(-8);\
-	TOON_INTERNAL_MAKE_END(-9); 
+	TOON_INTERNAL_MAKE_END(-9);
 //	TOON_INTERNAL_MAKE_END_99(-);
 	TOON_INTERNAL_MAKE_END_99(-1);
 	TOON_INTERNAL_MAKE_END_99(-2);
@@ -205,25 +205,25 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 
 	//Dynamic slicing with End
 	Vector<Dynamic, Precision, SliceVBase<Stride> > slice(int i, Internal::DynamicEndMarker e)
-	{		
+	{
 		return slice(i, size()-i+e.e);
-	}		
+	}
 
 	const Vector<Dynamic, Precision, SliceVBase<Stride> > slice(int i, Internal::DynamicEndMarker e) const
-	{		
+	{
 		return slice(i, size()-i+e.e);
-	}		
+	}
 
 	//Alternate form of dynamic slicing with End:
 	Vector<Dynamic, Precision, SliceVBase<Stride> > slice(int i, Internal::DynamicEndMarker(*)())
-	{		
+	{
 		return slice(i, size()-i);
-	}		
+	}
 
 	const Vector<Dynamic, Precision, SliceVBase<Stride> > slice(int i, Internal::DynamicEndMarker(*)()) const
-	{		
+	{
 		return slice(i, size()-i);
-	}		
+	}
 
 	//Other slices below
 	const Matrix<1, Size, Precision, Slice<1,Stride> > as_row() const{
@@ -243,13 +243,13 @@ template<int Size, typename Precision, int Stride, typename Mem> struct GenericV
 	}
 
 	typedef Vector<Size, Precision, SliceVBase<Stride> > as_slice_type;
-	
-	Vector<Size, Precision, SliceVBase<Stride> > as_slice(){                 
-		return Vector<Size, Precision, SliceVBase<Stride> >(data(), size(), stride(), Slicing());         
+
+	Vector<Size, Precision, SliceVBase<Stride> > as_slice(){
+		return Vector<Size, Precision, SliceVBase<Stride> >(data(), size(), stride(), Slicing());
 	}
 
-	const Vector<Size, Precision, SliceVBase<Stride> > as_slice() const {                 
-		return Vector<Size, Precision, SliceVBase<Stride> >(const_cast<Precision*>(data()), size(), stride(), Slicing());         
+	const Vector<Size, Precision, SliceVBase<Stride> > as_slice() const {
+		return Vector<Size, Precision, SliceVBase<Stride> >(const_cast<Precision*>(data()), size(), stride(), Slicing());
 	}
 
 	DiagonalMatrix<Size,Precision, SliceVBase<Stride> > as_diagonal() {

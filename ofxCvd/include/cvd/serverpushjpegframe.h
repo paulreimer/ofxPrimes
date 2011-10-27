@@ -11,7 +11,7 @@ template<class T> class ServerPushJpegFrame: public LocalVideoFrame<T>
 {
 	friend class CVD::ServerPushJpegBuffer<T>;
 
-	public:		
+	public:
 
 		/// The underlying JPEG data.
 		const std::string& jpeg() {return image_data;};
@@ -24,8 +24,8 @@ template<class T> class ServerPushJpegFrame: public LocalVideoFrame<T>
 		ServerPushJpegFrame(double time, CVD::Image<T>& im, const std::string& data)
 		:LocalVideoFrame<T>(time, im),image_data(data)
 		{
-		}	
-		
+		}
+
 	private:
 		std::string image_data;
 };

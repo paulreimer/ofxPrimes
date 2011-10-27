@@ -56,7 +56,7 @@ public:
 	GraphicImage( int in_width, int in_height );
 	virtual ~GraphicImage();
 
-  
+
 // image buffer
 protected:
 	unsigned char *_displayBuffer;
@@ -69,11 +69,11 @@ public:
 	int getHeight() { return _height; }
 	virtual int getDept() = 0;
 
-	unsigned char * getImageBuffer() { return _displayBuffer; } 
+	unsigned char * getImageBuffer() { return _displayBuffer; }
 
 	void setImageBuffer( unsigned char **inBuffer ) { _displayBuffer = *inBuffer; }
 
-/*	
+/*
 protected:
 	void box(dtouch_Region *reg, DTPoint &min, DTPoint &max);
 	void boxPlus( dtouch_Region *reg, DTPoint &min, DTPoint &max,
@@ -87,7 +87,7 @@ public:
 
 	virtual void markThreshold( unsigned char * proc, unsigned char * thresh ) = 0;
 	virtual void fillRect( int x, int y, int w, int h ) = 0;
-	
+
 	virtual void mark( const int& x, const int& y ) = 0;
 	virtual void mark( const DTPoint& p) = 0;
 	virtual void markCross( const DTPoint& p);
@@ -98,10 +98,10 @@ public:
                 unsigned char r, unsigned char g, unsigned char b );
 	void mark(PointList *reg, unsigned char r, unsigned char g, unsigned char b );
 	void fill(dtouch_Region *reg, int ** labelsMap, unsigned char r, unsigned char g, unsigned char b );
-	
-	
+
+
 	void mark(int x, int y, unsigned char r, unsigned char g, unsigned char b );
-	
+
 
 	void plotSegment( DTPoint p1, DTPoint p2,
                   unsigned char r, unsigned char g, unsigned char b );
@@ -113,7 +113,7 @@ public:
 	// it is just an alias for plotSegment
 	void plotLine( DTPoint p1, DTPoint p2,
                   unsigned char r, unsigned char g, unsigned char b ){
-		plotSegment( p1, p2, r, g, b );                  
+		plotSegment( p1, p2, r, g, b );
 	}
 
 	void plotDigit(DTPoint p, int digit, unsigned char r, unsigned char g, unsigned char b );
@@ -125,7 +125,7 @@ public:
 		*ptr++ = 0;
 		*ptr++ = 0;
 	}
-	  
+
 	void mapTextureToQuadrilateral( unsigned char *texture, int textureWidth,
                                   int textureHeight, unsigned char *img,
                                   DTPoint p1, DTPoint p2, DTPoint p3, DTPoint p4 );

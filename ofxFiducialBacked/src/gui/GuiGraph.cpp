@@ -46,7 +46,7 @@ GuiGraph::draw()
 #endif
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	
+
 	//	glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
 	glEnable(GL_LINE_SMOOTH);
 
@@ -54,7 +54,7 @@ GuiGraph::draw()
 	if (!segments.empty())
 		for (ray_it = segments.begin(); ray_it != segments.end(); ray_it++)
 			render::arrow(ray_it->second.first, ray_it->second.second, types::actors::ACTOR_TYPE_RGB);
-	
+
 #ifndef TARGET_OPENGLES
 	glPopAttrib();
 #endif
@@ -69,7 +69,7 @@ GuiGraph::add(int fiducialId)
 	{
 		this->insert(make_pair(fiducialId, new GuiPage(string("Fiducial "+fiducialId))));
 	}
-	
+
 	return (*this)[fiducialId];
 }
 
@@ -81,7 +81,7 @@ GuiGraph::add(int fiducialId, GuiPage* newPage)
 
 	return (*this)[fiducialId];
 }
-	
+
 //--------------------------------------------------------------
 void
 GuiGraph::remove(int fiducialId)
@@ -94,12 +94,12 @@ GuiGraph::remove(int fiducialId)
 #ifdef NOTIFY_FIDUCIAL_STATUS
 //--------------------------------------------------------------
 void
-GuiGraph::fiducialFound(fiducialEvtArgs &args) 
+GuiGraph::fiducialFound(fiducialEvtArgs &args)
 {
 	ofxFiducial		&fiducial	= *args.fiducial;
 	fiducialIndex	fiducialId	= fiducial.getId();
-//	cout << "(GuiGraph)Fiducial " << fiducialId << " found\t\t+(" << fiducial.life << ")" << endl;	
-	
+//	cout << "(GuiGraph)Fiducial " << fiducialId << " found\t\t+(" << fiducial.life << ")" << endl;
+
 	fiducial_graph_t::iterator chk_gui;
 
 	chk_gui = find(fiducial.getId());
@@ -112,15 +112,15 @@ GuiGraph::fiducialFound(fiducialEvtArgs &args)
 
 //--------------------------------------------------------------
 void
-GuiGraph::fiducialLost(fiducialEvtArgs &args) 
+GuiGraph::fiducialLost(fiducialEvtArgs &args)
 {
 	ofxFiducial&	fiducial	= *args.fiducial;
 	fiducialIndex	fiducialId	= fiducial.getId();
-	
+
 	fiducial_graph_t::iterator chk_gui;
-	
+
 //	cout << "Fiducial " << fiducialId << " lost\t\t-(" << fiducial.life << ")" << endl;
-	
+
 	chk_gui = find(fiducial.getId());
 	if (chk_gui != end())
 		chk_gui->second->activate(false);
@@ -146,7 +146,7 @@ GuiGraph::fiducialUpdated(fiducialEvtArgs &args)
 	{
 		chk_gui->second->setPos(fiducial.getX() * args.to_window.x,
 								fiducial.getY() * args.to_window.y);
-		
+
 		float rootSize = (fiducial.getRootSize()/2) * args.to_window.x;
 
 		chk_gui->second->setScale(rootSize*scaleFac);

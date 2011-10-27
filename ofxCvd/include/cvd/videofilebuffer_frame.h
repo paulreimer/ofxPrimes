@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 // Paul Smith 1 March 2005
@@ -38,10 +38,10 @@ namespace CVD
 	}
 
 	/// A frame from a VideoFileBuffer.
-	/// @ingroup gVideoFrame	
-	/// @param T The pixel type of the video frames. Currently only <code>CVD::Rgb<CVD::byte> ></code> and 
+	/// @ingroup gVideoFrame
+	/// @param T The pixel type of the video frames. Currently only <code>CVD::Rgb<CVD::byte> ></code> and
 	/// <code>CVD::byte></code> are supported.
-	template<class T> 
+	template<class T>
 	class VideoFileFrame: public CVD::LocalVideoFrame<T>
 	{
 		friend class VFB::RawVideoFileBuffer;
@@ -59,7 +59,7 @@ namespace CVD
 			VideoFileFrame(double time, CVD::Image<T>& local)
 			:LocalVideoFrame<T>(time, local)
 			{
-			}	
+			}
 
 		private:
 	};

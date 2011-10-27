@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_VECTOR_IMAGE_REF_H
@@ -44,7 +44,7 @@ namespace CVD
 	{
 		return ImageRef((int)v[0], (int)v[1]);
 	}
-	
+
 	/// Convert a Vector into an image co-ordinate. Numbers are rounded
 	/// @param v The Vector to convert
 	/// @ingroup gImage

@@ -58,13 +58,13 @@ public:
 		clear();
 	}
 
-	/// Clear all the measurements and apply a constant regularisation term. 
+	/// Clear all the measurements and apply a constant regularisation term.
 	void clear(){
 		my_C_inv = Zeros;
 		my_vector = Zeros;
 	}
 
-	/// Applies a constant regularisation term. 
+	/// Applies a constant regularisation term.
 	/// Equates to a prior that says all the parameters are zero with \f$\sigma^2 = \frac{1}{\text{val}}\f$.
 	/// @param val The strength of the prior
 	void add_prior(Precision val){
@@ -72,8 +72,8 @@ public:
 			my_C_inv(i,i)+=val;
 		}
 	}
-  
-	/// Applies a regularisation term with a different strength for each parameter value. 
+
+	/// Applies a regularisation term with a different strength for each parameter value.
 	/// Equates to a prior that says all the parameters are zero with \f$\sigma_i^2 = \frac{1}{\text{v}_i}\f$.
 	/// @param v The vector of priors
 	template<class B2>
@@ -84,7 +84,7 @@ public:
 		}
 	}
 
-	/// Applies a whole-matrix regularisation term. 
+	/// Applies a whole-matrix regularisation term.
 	/// This is the same as adding the \f$m\f$ to the inverse covariance matrix.
 	/// @param m The inverse covariance matrix to add
 	template<class B2>
@@ -92,13 +92,13 @@ public:
 		my_C_inv+=m;
 	}
 
-	/// Add a single measurement 
+	/// Add a single measurement
 	/// @param m The value of the measurement
 	/// @param J The Jacobian for the measurement \f$\frac{\partial\text{m}}{\partial\text{param}_i}\f$
 	/// @param weight The inverse variance of the measurement (default = 1)
 	template<class B2>
 	inline void add_mJ(Precision m, const Vector<Size, Precision, B2>& J, Precision weight = 1) {
-		
+
 		//Upper right triangle only, for speed
 		for(int r=0; r < my_C_inv.num_rows(); r++)
 		{
@@ -126,7 +126,7 @@ public:
 	/// Process all the measurements and compute the weighted least squares set of parameter values
 	/// stores the result internally which can then be accessed by calling get_mu()
 	void compute(){
-	
+
 		//Copy the upper right triangle to the empty lower-left.
 		for(int r=1; r < my_C_inv.num_rows(); r++)
 			for(int c=0; c < r; c++)

@@ -93,8 +93,8 @@ template <class T> struct color<T,1> {
 template <class T> struct color<T,3> {
     typedef typename Pixel::Component<T>::type TComp;
     static const TComp hi;
-    inline static T make(const TComp& a, const TComp& b, const TComp& c) { 
-	T t; 
+    inline static T make(const TComp& a, const TComp& b, const TComp& c) {
+	T t;
 	Pixel::Component<T>::get(t,0)=a;
 	Pixel::Component<T>::get(t,1)=b;
 	Pixel::Component<T>::get(t,2)=c;
@@ -228,7 +228,7 @@ std::vector<ImageRef> getDisc(float radius);
 
 #if defined CVD_HAVE_TOON || defined DOXYGEN_IGNORE_INTERNAL
 /// returns coordinates for a solid ellipse origin. The result can be
-/// used with drawShape to draw it into an image. 
+/// used with drawShape to draw it into an image.
 /// @param r1 First radius
 /// @param r2 Second radius
 /// @param theta Orientation of the ellipse

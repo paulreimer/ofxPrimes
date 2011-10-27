@@ -54,18 +54,18 @@ public:
 	friend std::istream& operator>> <Precision> (std::istream& is, SO3<Precision> & rhs);
 	friend std::istream& operator>> <Precision> (std::istream& is, SE3<Precision> & rhs);
 	friend class SE3<Precision>;
-	
+
 	/// Default constructor. Initialises the matrix to the identity (no rotation)
 	SO3() : my_matrix(Identity) {}
-	
+
 	/// Construct from the axis of rotation (and angle given by the magnitude).
 	template <int S, typename P, typename A>
 	SO3(const Vector<S, P, A> & v) { *this = exp(v); }
-	
+
 	/// Construct from a rotation matrix.
 	template <int R, int C, typename P, typename A>
 	SO3(const Matrix<R,C,P,A>& rhs) { *this = rhs; }
-	
+
 	/// creates an SO3 as a rotation that takes Vector a into the direction of Vector b
 	/// with the rotation axis along a ^ b. If |a ^ b| == 0, it creates the identity rotation.
 	/// @param a source Vector
@@ -89,7 +89,7 @@ public:
 		my_matrix.T()[2] = n ^ my_matrix.T()[0];
 		my_matrix = my_matrix * R1.T();
 	}
-	
+
 	/// Assigment operator from a general matrix. This also calls coerce()
 	/// to make sure that the matrix is a valid rotation matrix.
 	template <int R, int C, typename P, typename A>
@@ -98,7 +98,7 @@ public:
 		coerce();
 		return *this;
 	}
-	
+
 	/// Modifies the matrix to make sure it is a valid rotation matrix.
 	void coerce() {
 		my_matrix[0] = unit(my_matrix[0]);
@@ -108,15 +108,15 @@ public:
 		my_matrix[2] -= my_matrix[1] * (my_matrix[1]*my_matrix[2]);
 		my_matrix[2] = unit(my_matrix[2]);
 	}
-	
+
 	/// Exponentiate a vector in the Lie algebra to generate a new SO3.
 	/// See the Detailed Description for details of this vector.
 	template<int S, typename A> inline static SO3 exp(const Vector<S,Precision,A>& vect);
-	
+
 	/// Take the logarithm of the matrix, generating the corresponding vector in the Lie Algebra.
 	/// See the Detailed Description for details of this vector.
 	inline Vector<3, Precision> ln() const;
-	
+
 	/// Returns the inverse of this matrix (=the transpose, so this is a fast operation)
 	SO3 inverse() const { return SO3(*this, Invert()); }
 
@@ -155,32 +155,32 @@ public:
   }
 
 	/// Transfer a vector in the Lie Algebra from one
-	/// co-ordinate frame to another such that for a matrix 
+	/// co-ordinate frame to another such that for a matrix
 	/// \f$ M \f$, the adjoint \f$Adj()\f$ obeys
 	/// \f$ e^{\text{Adj}(v)} = Me^{v}M^{-1} \f$
 	template <int S, typename A>
-	inline Vector<3, Precision> adjoint(const Vector<S, Precision, A>& vect) const 
-	{ 
+	inline Vector<3, Precision> adjoint(const Vector<S, Precision, A>& vect) const
+	{
 		SizeMismatch<3, S>::test(3, vect.size());
-		return *this * vect; 
+		return *this * vect;
 	}
-	
+
 private:
 	struct Invert {};
 	inline SO3(const SO3& so3, const Invert&) : my_matrix(so3.my_matrix.T()) {}
 	inline SO3(const SO3& a, const SO3& b) : my_matrix(a.my_matrix*b.my_matrix) {}
-	
+
 	Matrix<3,3, Precision> my_matrix;
 };
 
-/// Write an SO3 to a stream 
+/// Write an SO3 to a stream
 /// @relates SO3
 template <typename Precision>
 inline std::ostream& operator<< (std::ostream& os, const SO3<Precision>& rhs){
 	return os << rhs.get_matrix();
 }
 
-/// Read from SO3 to a stream 
+/// Read from SO3 to a stream
 /// @relates SO3
 template <typename Precision>
 inline std::istream& operator>>(std::istream& is, SO3<Precision>& rhs){
@@ -191,7 +191,7 @@ inline std::istream& operator>>(std::istream& is, SO3<Precision>& rhs){
 ///Compute a rotation exponential using the Rodrigues Formula.
 ///The rotation axis is given by \f$\vec{w}\f$, and the rotation angle must
 ///be computed using \f$ \theta = |\vec{w}|\f$. This is provided as a separate
-///function primarily to allow fast and rough matrix exponentials using fast 
+///function primarily to allow fast and rough matrix exponentials using fast
 ///and rough approximations to \e A and \e B.
 ///
 ///@param w Vector about which to rotate.
@@ -205,7 +205,7 @@ inline void rodrigues_so3_exp(const Vector<3,Precision, VA>& w, const Precision 
 		const Precision wx2 = w[0]*w[0];
 		const Precision wy2 = w[1]*w[1];
 		const Precision wz2 = w[2]*w[2];
-	
+
 		R[0][0] = 1.0 - B*(wy2 + wz2);
 		R[1][1] = 1.0 - B*(wx2 + wz2);
 		R[2][2] = 1.0 - B*(wx2 + wy2);
@@ -239,12 +239,12 @@ inline SO3<Precision> SO3<Precision>::exp(const Vector<S,Precision,VA>& w){
 	using std::sin;
 	using std::cos;
 	SizeMismatch<3,S>::test(3, w.size());
-	
+
 	static const Precision one_6th = 1.0/6.0;
 	static const Precision one_20th = 1.0/20.0;
-	
+
 	SO3<Precision> result;
-	
+
 	const Precision theta_sq = w*w;
 	const Precision theta = sqrt(theta_sq);
 	Precision A, B;
@@ -270,12 +270,12 @@ inline SO3<Precision> SO3<Precision>::exp(const Vector<S,Precision,VA>& w){
 template <typename Precision>
 inline Vector<3, Precision> SO3<Precision>::ln() const{
 	Vector<3, Precision> result;
-	
+
 	const Precision cos_angle = (my_matrix[0][0] + my_matrix[1][1] + my_matrix[2][2] - 1.0) * 0.5;
 	result[0] = (my_matrix[2][1]-my_matrix[1][2])/2;
 	result[1] = (my_matrix[0][2]-my_matrix[2][0])/2;
 	result[2] = (my_matrix[1][0]-my_matrix[0][1])/2;
-	
+
 	Precision sin_angle_abs = sqrt(result*result);
 	if (cos_angle > M_SQRT1_2) {            // [0 - Pi/4[ use asin
 		if(sin_angle_abs > 0){
@@ -283,7 +283,7 @@ inline Vector<3, Precision> SO3<Precision>::ln() const{
 		}
 	} else if( cos_angle > -M_SQRT1_2) {    // [Pi/4 - 3Pi/4[ use acos, but antisymmetric part
 		double angle = acos(cos_angle);
-		result *= angle / sin_angle_abs;        
+		result *= angle / sin_angle_abs;
 	} else {  // rest use symmetric part
 		// antisymmetric part vanishes, but still large rotation, need information from symmetric part
 		const Precision angle = M_PI - asin(sin_angle_abs);
@@ -309,7 +309,7 @@ inline Vector<3, Precision> SO3<Precision>::ln() const{
 			r2 *= -1;
 		r2 = unit(r2);
 		result = angle * r2;
-	} 
+	}
 	return result;
 }
 

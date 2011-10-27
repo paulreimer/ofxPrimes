@@ -20,7 +20,7 @@ ofxSimpleGuiContent::setup()
 {
 	if (content == NULL)
 		return;
-	
+
 	fixheight = fixwidth * content->getHeight()/content->getWidth();
 	setSize(fixwidth,
 			fixheight + 2*config->padding.y /*+ config->font.stringHeight(name)*/);
@@ -32,8 +32,8 @@ void
 ofxSimpleGuiContent::drawWidget(float x, float y)
 {
 	if(content->getWidth() == 0 && content->getHeight() ==0) return;
-	
-	ofPoint textOffset(0,0); 
+
+	ofPoint textOffset(0,0);
 	switch (textAlignment)
 	{
 		case ALIGN_RIGHT:
@@ -51,21 +51,21 @@ ofxSimpleGuiContent::drawWidget(float x, float y)
 
 	setPos(x, y);
 	setup();
-	
+
 	glPushMatrix();
 	glTranslatef(x, y, 0);
 	ofEnableAlphaBlending();
 	ofFill();
 	//		glColor4f(0, 0, 0, 0.8f);
 	//		ofRect(0, 0, width, fixheight);
-	
+
 	ofSetColor(0xffffff);
 	content->draw(0, 0, width, fixheight);
-	
+
 	double o=0,topCaptionBorderHeight;
-	
+
 	map<int,ofImage>::iterator im_it;
-	
+
 	int textHeight = config->font.stringHeight(name);
 
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -77,7 +77,7 @@ ofxSimpleGuiContent::drawWidget(float x, float y)
 	 o = im.width * height/im.height;
 	 im.draw(x - padding.x, y - padding.y, width + 2*padding.x, height + 2*padding.y);
 	 }
-	 
+
 	 im_it = chrome().find(CAPTION_BORDER_RIGHT);
 	 if (im_it != chrome().end())
 	 {
@@ -85,7 +85,7 @@ ofxSimpleGuiContent::drawWidget(float x, float y)
 	 o = im.width * height/im.height;
 	 im.draw(x - padding.x, y - padding.y, width + 2*padding.x, height + 2*padding.y);
 	 }
-	 */	
+	 */
 	im_it = chrome().find(CAPTION_BORDER_TOP);
 	if (im_it != chrome().end())
 	{
@@ -93,7 +93,7 @@ ofxSimpleGuiContent::drawWidget(float x, float y)
 		o = im.height * width/im.width;
 		textOffset.y = o;
 		topCaptionBorderHeight = o;
-		
+
 		im.draw(-config->padding.x, fixheight + config->padding.y, width + 2*config->padding.x, o);
 	}
 
@@ -102,19 +102,19 @@ ofxSimpleGuiContent::drawWidget(float x, float y)
 	{
 		ofImage& im = im_it->second;
 		im.draw(-config->padding.x, fixheight + topCaptionBorderHeight, width + 2*config->padding.x, textHeight + 2*config->padding.y);
-	}	
-	
+	}
+
 	im_it = chrome().find(CAPTION_BORDER_BOTTOM);
 	if (im_it != chrome().end())
 	{
 		ofImage& im = im_it->second;
 		o = im.height * width/im.width;
-		
+
 		im.draw(-config->padding.x, fixheight + textHeight + 2*config->padding.y + topCaptionBorderHeight, width + 2*config->padding.x, o);
 	}
-	
+
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	
+
 	im_it = chrome().find(CAPTION_BORDER_TOP);
 
 	setTextColor();

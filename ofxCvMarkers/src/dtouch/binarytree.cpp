@@ -1,8 +1,8 @@
 /***************************************************************************
 	binarytree.cpp
-	
+
 	A template binary tree. The template implicitely rely on the existence
-	of a function 
+	of a function
 	int cmp( const T& a, const T& b )
 	similar to strcmp.
 	The tree is based on the C code published on

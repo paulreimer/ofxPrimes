@@ -41,7 +41,7 @@ namespace CVD
 	///@return The $x$ coordinate of the extremum.
 	///@ingroup gVision
 	double interpolate_extremum(double d1, double d2, double d3)
-	{	
+	{
 		assert(d2 >= d1 && d2 > d3 || d2 > d1 && d2 >= d3);
 		assert(d2 <= d1 && d2 < d3 || d2 < d1 && d2 <= d3);
 		//Use Quadratic interpolation to find the peak, position
@@ -63,15 +63,15 @@ namespace CVD
 	/// </pre>
 	/// The centre pixel (e) must be the most extreme of all the pixels.
 	///
-	///@param I__1__1 Pixel $(-1, -1)$ relative to the centre (a) 
-	///@param I__1_0  Pixel $(-1,  0)$ relative to the centre (b) 
-	///@param I__1_1  Pixel $(-1,  1)$ relative to the centre (c) 
-	///@param I_0__1  Pixel $( 0, -1)$ relative to the centre (d) 
-	///@param I_0_0   Pixel $( 0,  0)$ relative to the centre (e) 
-	///@param I_0_1   Pixel $( 0,  1)$ relative to the centre (f) 
-	///@param I_1__1  Pixel $( 1, -1)$ relative to the centre (g) 
-	///@param I_1_0   Pixel $( 1,  0)$ relative to the centre (h) 
-	///@param I_1_1   Pixel $( 1,  1)$ relative to the centre (i) 
+	///@param I__1__1 Pixel $(-1, -1)$ relative to the centre (a)
+	///@param I__1_0  Pixel $(-1,  0)$ relative to the centre (b)
+	///@param I__1_1  Pixel $(-1,  1)$ relative to the centre (c)
+	///@param I_0__1  Pixel $( 0, -1)$ relative to the centre (d)
+	///@param I_0_0   Pixel $( 0,  0)$ relative to the centre (e)
+	///@param I_0_1   Pixel $( 0,  1)$ relative to the centre (f)
+	///@param I_1__1  Pixel $( 1, -1)$ relative to the centre (g)
+	///@param I_1_0   Pixel $( 1,  0)$ relative to the centre (h)
+	///@param I_1_1   Pixel $( 1,  1)$ relative to the centre (i)
 	///@return Location of the local extrema.
 	///@ingroup gVision
 	TooN::Vector<2> interpolate_extremum(double I__1__1,
@@ -100,10 +100,10 @@ namespace CVD
 		TooN::Vector<2> v;
 		v[0] = -Dinv * (gyy * gx - gxy * gy);
 		v[1] = -Dinv * (-gxy * gx + gxx * gy);
-		
+
 		return v;
 	}
-										 
+
 
 	///Interpolate a 2D local maximum, by fitting a quadratic.
 	///@param i Image in which to interpolate extremum
@@ -113,7 +113,7 @@ namespace CVD
 	template<class I> TooN::Vector<2> interpolate_extremum(const SubImage<I>& i, ImageRef p)
 	{
 	    CVD_IMAGE_ASSERT(p.x > 0 && p.y > 0 && p.x < i.size().x-1 && p.y < i.size().y-1, ImageError::AccessOutsideImage);
-		
+
 		//Extract and label 9 particular points
 		double I__1__1 = i[p + ImageRef(-1, -1)];
 		double I__1_0  = i[p + ImageRef(-1,  0)];
@@ -126,7 +126,7 @@ namespace CVD
 		double I_1_1   = i[p + ImageRef( 1,  1)];
 		return interpolate_extremum(I__1__1, I__1_0, I__1_1, I_0__1, I_0_0, I_0_1, I_1__1, I_1_0, I_1_1) + vec(p);
 	}
-	
+
 	#endif
 
 	///Interpolate a 2D local maximum, by fitting a quadratic. This is done by using

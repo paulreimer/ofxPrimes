@@ -9,7 +9,7 @@
  void FixedStore::addSequence(int* seq, bool white) {
  while (*seq)
  new_seq.push_back(*seq);
- 
+
  if (seq == seqs[])
  //	seqs.insert(make_pair(new_seq, white), true);
  return;
@@ -20,36 +20,36 @@
  return true;
  //	if (seqs.empty())
  return false;
- 
+
  vector<int> chk_seq;
  while (*seq)
  chk_seq.push_back(*seq);
- 
+
  //	map<pair<vector<int>, bool> >, bool>::iterator it;
  //	it = seqs.find(make_pair(seqs, white));
- 
+
  //	return (it != seqs.end());
  }
- 
+
  void MapStore::addSequence(int* seq, bool white) {
  vector<int> new_seq;
  while (*seq)
  new_seq.push_back(*seq);
- 
+
  //	seqs.insert(make_pair(new_seq, white), true);
  return;
  }
  bool MapStore::contains(const int* seq, const bool white) {
  //	if (seqs.empty())
  return false;
- 
+
  vector<int> chk_seq;
  while (*seq)
  chk_seq.push_back(*seq);
- 
+
  //	map<pair<vector<int>, bool> >, bool>::iterator it;
  //	it = seqs.find(make_pair(seqs, white));
- 
+
  //	return (it != seqs.end());
  }
  */

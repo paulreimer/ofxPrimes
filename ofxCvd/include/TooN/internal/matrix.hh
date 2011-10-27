@@ -32,7 +32,7 @@ namespace TooN {
 
 /**
 A matrix.
-Support is provided for all the usual matrix operations: 
+Support is provided for all the usual matrix operations:
 - the (a,b) notation can be used to access an element directly
 - the [] operator can be used to yield a vector from a matrix (which can be used
 as an l-value)
@@ -122,12 +122,12 @@ public:
 
 	///Construction of static matrices. Values are not initialized.
 	Matrix(){}
-	
+
 	///Construction of dynamic matrices. Values are not initialized.
 	Matrix(int rows, int cols) :
 		Layout::template MLayout<Rows,Cols,Precision>(rows, cols)
 	{}
-	
+
 	///Construction of statically sized slice matrices
 	Matrix(Precision* p) :
 		Layout::template MLayout<Rows, Cols, Precision>(p)
@@ -286,9 +286,9 @@ public:
 		      return 1;
 	    return 0;
 	}
-	
+
 	///@}
-	
+
 	/// @name Misc
 	/// @{
 
@@ -300,7 +300,7 @@ public:
 	///@}
 
 	#ifdef DOXYGEN_INCLUDE_ONLY_FOR_DOCS
-  
+
 		/**
 		Access an element from the matrix.
 		The index starts at zero, i.e. the top-left element is m(0, 0).

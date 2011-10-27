@@ -9,17 +9,17 @@ namespace CVD {
     template <class T, int N=20> struct placement_delete
     {
       enum { Size = (1<<N) };
-	
-      struct Array { 
-	T data[Size]; 
+
+      struct Array {
+	T data[Size];
       };
 
-      static inline void destruct(T* buf) 
+      static inline void destruct(T* buf)
       {
 	(*(Array*)buf).~Array();
       }
-      
-      static inline void free(T* buf, size_t M) 
+
+      static inline void free(T* buf, size_t M)
       {
 	if (M >= Size) {
 	  placement_delete<T,N>::free(buf+Size,M-Size);
@@ -38,7 +38,7 @@ namespace CVD {
     void * aligned_alloc(size_t count, size_t alignment);
     void aligned_free(void * memory);
 
-    template <class T> 
+    template <class T>
     inline T * aligned_alloc(size_t count, size_t alignment){
         void * data = aligned_alloc(sizeof(T)* count, alignment);
         return new (data) T[count];
@@ -46,7 +46,7 @@ namespace CVD {
 
     template <class T>
     inline void aligned_free(T * memory, size_t count){
-        placement_delete<T>::free(memory, count);   
+        placement_delete<T>::free(memory, count);
         aligned_free(memory);
     }
 
@@ -63,7 +63,7 @@ namespace CVD {
 	}
 	T* data() { return mem; }
 	const T* data() const { return mem; }
-    };    
+    };
 }
 
 #endif

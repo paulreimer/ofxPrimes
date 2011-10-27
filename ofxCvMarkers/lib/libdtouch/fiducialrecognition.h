@@ -117,7 +117,7 @@ public:
 	void switchThresholdMethodL();
 	void setThresholdMethodL( ThresholdFilter::ThresholdType in_type, int in_param1 = -1, int in_param2 = -1 );
 	int getNoSequences(){ return _fiducialSequence->getSize(); }
-		
+
 	dtouch_Region * getRegion( const int& region );
 };
 

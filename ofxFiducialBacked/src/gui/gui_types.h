@@ -14,13 +14,13 @@ namespace ofxFiducialBacked {
 }
 
 namespace ofxFiducialBacked {
-	namespace types {	
+	namespace types {
 		namespace gui {
 			typedef int												fiducial_key_t;
 			typedef ofxFiducialBacked::gui::GuiPage*				fiducial_value_t;
 			typedef pair<fiducial_key_t, fiducial_value_t>			fiducial_pair_t;
 
-			typedef list<fiducial_pair_t >							fiducial_set_t;			
+			typedef list<fiducial_pair_t >							fiducial_set_t;
 			typedef map<fiducial_key_t, fiducial_value_t>			fiducial_graph_t;
 			typedef map<fiducial_key_t, pair<ofPoint, ofPoint> >	fiducial_rays_t;
 

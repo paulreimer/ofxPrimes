@@ -579,7 +579,7 @@ bool FiducialAnalysis::compare( unsigned char *img, GraphicImage *display,
 		this->_cmpSceneRAG = RegionAdjacencyGraph::newL(this->_width,this->_height,2*size);
 		built = RAGBuilder::buildRAGFullBorderL( img, this->_cmpThresholdBuffer, this->_cmpSceneRAG );
 	}
-	
+
 	int noRegions = this->_cmpSceneRAG->getNoRegions();
 
 	int root, background;

@@ -28,7 +28,7 @@
 
 namespace CVD
 {
-	///Compute an integral image. In an integral image, pixel (x,y) is equal to the sum of all the pixels 
+	///Compute an integral image. In an integral image, pixel (x,y) is equal to the sum of all the pixels
 	///in the rectangle from (0,0) to (x,y) in the original image.
 	/// and reallocation is not performed if <code>b</code> is unique and of the correct size.
 	/// @param D The destination image pixel type
@@ -36,18 +36,18 @@ namespace CVD
 	/// @param in The source image.
 	/// @param out The source image.
 	/// @ingroup gVision
-		
+
 	template<class S, class D> void integral_image(const SubImage<S>& in, SubImage<D>& out)
 	{
 		if( in.size() != out.size())
 			throw Exceptions::Vision::IncompatibleImageSizes("integral_image");
 
 		Pixel::operations<D>::assign(out[0][0], in[0][0]);
-		//Do the first row. 
+		//Do the first row.
 		for(int x=1; x < in.size().x; x++)
 			out[0][x] =out[0][x-1] + in[0][x];
 
-		//Do the first column. 
+		//Do the first column.
 		for(int y=1; y < in.size().y; y++)
 			out[y][0] =out[y-1][0] + in[y][0];
 
@@ -89,7 +89,7 @@ namespace CVD
 			return Internal::ImagePromise<Internal::IntegralImage<C> >(c);
 		}
 	#else
-		///Compute an integral image. In an integral image, pixel (x,y) is equal to the sum of all the pixels 
+		///Compute an integral image. In an integral image, pixel (x,y) is equal to the sum of all the pixels
 		///in the rectangle from (0,0) to (x,y) in the original image.
 		///Type deduction is automatic, and D can not be specified. The following usage will work:
 		///

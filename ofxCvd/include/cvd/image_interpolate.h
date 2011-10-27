@@ -15,7 +15,7 @@ namespace CVD
 	namespace Interpolate
 	{
 	         /** This does not interpolate: it uses the nearest neighbour.
-		     
+
 		     The sub pixel to be accessed is \f$p = (x,y)\f$. The nearest pixel is
 		     \f$q = ( \operatorname{round}\ x, \operatorname{round}\ y)\f$
 		     The interpolated value, \f$v\f$, is \f$v = I(q)\f$
@@ -23,20 +23,20 @@ namespace CVD
 		class NearestNeighbour{};
 
 		/** This class is for bilinear interpolation.
-		    
+
 		    Define \f$p' = ( \operatorname{floor}\ x, \operatorname{floor}\ y)\f$ and
 		    \f$\delta = p - p'\f$
-		    
+
 		    4 pixels in a square with \f$p'\f$ in the top left corner are taken:
 		    \f[\begin{array}{rl}
-		    a =& I(p')\\   
-		    b =& I(p' + (1,0))\\  
-		    c =& I(p' + (0,1))\\  
+		    a =& I(p')\\
+		    b =& I(p' + (1,0))\\
+		    c =& I(p' + (0,1))\\
 		    d =& I(p' + (1,1))
 		    \end{array}
 		    \f]
-		    
-		    The interpolated value, \f$v\f$, is 
+
+		    The interpolated value, \f$v\f$, is
 		    \f[v = (1-\delta_y)((1-\delta_x)a + \delta_xb) + \delta_y((1-\delta_x)c + \delta_xd)\f]
 		*/
 		class Bilinear{};
@@ -49,9 +49,9 @@ namespace CVD
 		    \f[\begin{array}{rl}
 		    r(x) =& \frac{1}{6}\left[ p(x+2)^3 - 4p(x+1)^3 + 6p(x)^3 - 4p(x-1)^3 \right]\\
 		    p(x) =& \begin{cases}x&x>0\\0&x \le 0\end{cases}
-		    \end{array}\f]                                                             
-		
-		    This algorithm is described in http://astronomy.swin.edu.au/~pbourke/colour/bicubic/ 
+		    \end{array}\f]
+
+		    This algorithm is described in http://astronomy.swin.edu.au/~pbourke/colour/bicubic/
 		*/
 		class Bicubic{};
 	};
@@ -112,7 +112,7 @@ namespace CVD
 			}
 
 			typedef typename Pixel::traits<C>::float_type FT;
-	
+
 		public:
 			image_interpolate(const BasicImage<C>& i)
 			:im(&i)
@@ -138,7 +138,7 @@ namespace CVD
 				return vec(im->size());
 			}
 
-			
+
 	};
 
 	template<class T> class image_interpolate<Interpolate::Bilinear, T>
@@ -187,13 +187,13 @@ namespace CVD
 
 					if(x != 0)
 						b = Pixel::Component<T>::get((*im)[p + ImageRef(1,0)], i) * x * (1-y);
-					
+
 					if(y != 0)
 					c = Pixel::Component<T>::get((*im)[p + ImageRef(0,1)], i) * (1-x) * y;
 
 					if(x !=0 && y != 0)
 						d = Pixel::Component<T>::get((*im)[p + ImageRef(1,1)], i) * x * y;
-					
+
 					Pixel::Component<FT>::get(ret, i) = a + b + c + d;
 				}
 
@@ -256,7 +256,7 @@ namespace CVD
 					for(int m = -1; m < 3; m++)
 						for(int n = -1; n < 3; n++)
 							s += Pixel::Component<T>::get((*im)[y+n][x+m], i) * r(m - dx) * r(dy-n);
-						
+
 					Pixel::Component<FT>::get(ret, i)= s;
 				}
 

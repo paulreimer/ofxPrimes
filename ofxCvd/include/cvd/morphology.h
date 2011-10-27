@@ -15,7 +15,7 @@ namespace CVD
 		namespace MorphologyHelpers
 		{
 			using namespace std;
-			
+
 			//Compute pointer offsets for a bunch of ImageRef offsets.
 			template<class T> vector<ptrdiff_t> offsets(const vector<ImageRef>& v, const SubImage<T>& s)
 			{
@@ -25,7 +25,7 @@ namespace CVD
 					off.push_back(v[i].x + v[i].y * s.row_stride()-1);
 				return off;
 			}
-			
+
 			//Split a list of ImageRefs up in to rows.
 			vector<vector<ImageRef> > row_split(const vector<ImageRef>& v, int y_lo, int y_hi)
 			{
@@ -49,9 +49,9 @@ namespace CVD
 	/// @code
 	///     Image<byte> image, eroded;
 	///     vector<ImageRef> structuring_element = getDisc(10);
-	///     
+	///
 	///     ...
-	///     
+	///
 	///     morphology(image, structure_element, Erode<byte>(), eroded);
 	/// @endcode
 	///
@@ -69,7 +69,7 @@ namespace CVD
 	///     T get();               //Get the current value.
 	/// }
 	/// @endcode
-	/// 
+	///
 	/// Grayscale erode could be implemented with a multiset to store and remove pixels. Get would simply
 	/// return the first element in the multiset.
 	///
@@ -81,8 +81,8 @@ namespace CVD
 	template<class Accumulator, class T>
 	void morphology(const SubImage<T>& in, const std::vector<ImageRef>& selem, const Accumulator& a_, SubImage<T>& out)
 	{
-		using Internal::MorphologyHelpers::offsets;	
-		using Internal::MorphologyHelpers::row_split;	
+		using Internal::MorphologyHelpers::offsets;
+		using Internal::MorphologyHelpers::row_split;
 		using std::min;
 		using std::max;
 		using std::vector;
@@ -96,7 +96,7 @@ namespace CVD
 		//   Topleft corner, top row, top right corner
 		//   left edge, centre, right edge
 		//   etc
-		
+
 		////////////////////////////////////////////////////////////////
 		//Find the extents of the structuring element
 		int x_lo = selem[0].x;
@@ -112,7 +112,7 @@ namespace CVD
 			y_hi = max(y_hi, selem[i].y);
 		}
 
-		////////////////////////////////////////////////////////////////	
+		////////////////////////////////////////////////////////////////
 		//Shift the  structure element by one and find the differeneces
 		vector<ImageRef> structure_element = selem;
 		vector<ImageRef> shifted;
@@ -120,27 +120,27 @@ namespace CVD
 		sort(structure_element.begin(), structure_element.end());
 		for(unsigned int i=0; i < structure_element.size(); i++)
 			shifted.push_back(structure_element[i] + ImageRef(1, 0));
-		
+
 		vector<ImageRef> add, remove;
 		set_difference(shifted.begin(), shifted.end(), structure_element.begin(), structure_element.end(), back_inserter(add));
 		set_difference(structure_element.begin(), structure_element.end(), shifted.begin(), shifted.end(), back_inserter(remove));
 
 		/////////////////////////////////////////////////////////////////
-		//	
+		//
 		//Compute the integer offsets to pixels for speed;
 		vector<ptrdiff_t> add_off = offsets(add, in);
 		vector<ptrdiff_t> remove_off = offsets(remove, in);
-		
+
 
 		/////////////////////////////////////////////////////////////////
-		//	
+		//
 		// Split by rows, to make the top and bottom edges easier.
 		//
 		//Because of set operations, the ImageRefs are ordered within each row.
 		vector<vector<ImageRef> > split_selem = row_split(structure_element, y_lo, y_hi);
 		vector<vector<ImageRef> > split_add   = row_split(add, y_lo, y_hi);
 		vector<vector<ImageRef> > split_remove= row_split(remove, y_lo, y_hi);
-		
+
 		Accumulator acc(a_);
 		//If the image is at least as wide as the structuring element
 		if(x_hi - x_lo + 1 <= in.size().x)
@@ -149,7 +149,7 @@ namespace CVD
 				//Find the rows which overlap with the image. Only work with these rows.
 				int startrow = max(0, - y_lo - y);
 				int endrow =   split_selem.size() - max(0, y + y_hi - in.size().y+1);
-				
+
 				//Figure out the range of the "easy" bit.
 				int x_first_full = max(0, -x_lo);                               //This is the first position at which we have a full kernel in the image
 				int x_after_last_full = min(in.size().x, in.size().x - x_hi);   //This is one beyone the end of the position where the last kernel fits in the image.
@@ -161,11 +161,11 @@ namespace CVD
 				for(int i=startrow; i < endrow; i++)
 					for(int j=(int)split_selem[i].size()-1; j >=0 && split_selem[i][j].x >=0; j--)
 						acc.insert(in[y + split_selem[i][0].y][split_selem[i][j].x]);
-				
+
 				out[y][0] = acc.get();
 
 				//Shift the kernel until we get to the point where
-				//we can start shifting the kernel without testing to 
+				//we can start shifting the kernel without testing to
 				//see it fits withing the image width.
 				for(int x=1; x <= x_first_full ; x++)
 				{
@@ -200,13 +200,13 @@ namespace CVD
 				{
 					for(int i=remove_start; i < remove_end; i++)
 						acc.remove(*(in[y] + x + remove_off[i]));
-					
+
 					for(int i=add_start; i < add_end; i++)
 						acc.insert(*(in[y] + x + add_off[i]));
-					
+
 					out[y][x] = acc.get();
 				}
-				
+
 				//Now perform the right hand edge
 				for(int x=x_after_last_full; x < in.size().x ; x++)
 				{
@@ -230,7 +230,7 @@ namespace CVD
 				//Find the rows which overlap with the image. Only work with these rows.
 				int startrow = max(0, - y_lo - y);
 				int endrow =   split_selem.size() - max(0, y + y_hi - in.size().y+1);
-				
+
 				//Clear the accumulator
 				acc.clear();
 
@@ -242,7 +242,7 @@ namespace CVD
 						if(xp >= 0 && xp < in.size().x)
 							acc.insert(in[y + split_selem[i][0].y][xp]);
 					}
-				
+
 				out[y][0] = acc.get();
 
 				//Shift the kernel using the incrementals
@@ -298,9 +298,9 @@ namespace CVD
 			return Internal::ImagePromise<Internal::PerformMorphology<C, D> >(c, a, selem);
 		}
 	#else
-		
+
 		/// Perform a morphological operation on the image.
-		/// 
+		///
 		/// @param in The source image.
 		/// @param selem The structuring element. See e.g. getDisc()
 		/// @param a_ The morphological operation to perform.  See Morphology
@@ -322,7 +322,7 @@ namespace CVD
 		{
 			private:
 				std::map<T, int, Cmp<T> > pix;
-			
+
 			public:
 				void clear()
 				{
@@ -357,7 +357,7 @@ namespace CVD
 					return 0;
 				}
 		};
-		
+
 
 		///Class for performing greyscale erosion. See morphology().
 		///@ingroup gVision
@@ -390,7 +390,7 @@ namespace CVD
 			protected:
 				int histogram[256];
 				int total;
-			
+
 			public:
 				BasicGrayByte()
 				{
@@ -428,7 +428,7 @@ namespace CVD
 					for(int j=0; j < 256; j++)
 						if(histogram[j])
 							return j;
-					
+
 					assert(0);
 					return 0;
 				}
@@ -444,7 +444,7 @@ namespace CVD
 					for(int j=255; j >=0 ; j--)
 						if(histogram[j])
 							return j;
-					
+
 					assert(0);
 					return 0;
 				}
@@ -482,7 +482,7 @@ namespace CVD
 							if(sum > threshold)
 								return j;
 						}
-						
+
 						return 255;
 					}
 					else
@@ -498,7 +498,7 @@ namespace CVD
 							if(sum > threshold)
 								return j;
 						}
-						
+
 						return 0;
 					}
 				}
@@ -638,7 +638,7 @@ namespace CVD
 			{
 				median_filter_3x3(in, out);
 
-				//median_filter_3x3 does not do the edges, so do the 
+				//median_filter_3x3 does not do the edges, so do the
 				//edges with a cropped kernel.
 
 				using median::median4;

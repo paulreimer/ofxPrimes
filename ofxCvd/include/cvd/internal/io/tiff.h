@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef PNM_TIFF
@@ -71,23 +71,23 @@ namespace TIFF
 			std::string name();
 
 
-			typedef TypeList<bool, 
-					TypeList<byte, 
+			typedef TypeList<bool,
+					TypeList<byte,
 					TypeList<unsigned short,
 					TypeList<float,
 					TypeList<double,
-					TypeList<Rgb<byte>, 
-					TypeList<Rgb<unsigned short>, 
-					TypeList<Rgb<float>, 
-					TypeList<Rgb<double>, 
-					TypeList<Rgba<byte>, 
-					TypeList<Rgba<unsigned short>, 
-					TypeList<Rgba<float>, 
-					TypeList<Rgba<double>, 
+					TypeList<Rgb<byte>,
+					TypeList<Rgb<unsigned short>,
+					TypeList<Rgb<float>,
+					TypeList<Rgb<double>,
+					TypeList<Rgba<byte>,
+					TypeList<Rgba<unsigned short>,
+					TypeList<Rgba<float>,
+					TypeList<Rgba<double>,
 					                      Head> > > > > > > > > > > > > Types;
-		
+
 		private:
-			std::auto_ptr<TIFFPimpl> t; 
+			std::auto_ptr<TIFFPimpl> t;
 	};
 
 
@@ -117,12 +117,12 @@ namespace TIFF
 	//Mapping for non integral types
 	template<class ComponentIn> struct ComponentMapper_<ComponentIn, 0> { typedef double type; };
 	template<> struct ComponentMapper_<float, 0> { typedef float type; };
-	
+
 	template<class ComponentIn> struct ComponentMapper
 	{
 		typedef typename ComponentMapper_<ComponentIn, Pixel::traits<ComponentIn>::integral>::type type;
 	};
-	
+
 	//Mapping for Rgbish types
 	template<class ComponentIn> struct ComponentMapper<Rgb<ComponentIn> >
 	{
@@ -140,7 +140,7 @@ namespace TIFF
 	};
 
 
-	
+
 	class TIFFWritePimpl;
 
 	class tiff_writer
@@ -166,14 +166,14 @@ namespace TIFF
 			void write_raw_pixel_line(const Rgba<double>*);
 
 			template<class Incoming> struct Outgoing
-			{		
+			{
 				typedef typename ComponentMapper<Incoming>::type type;
-			};		
+			};
 
 		private:
-			std::auto_ptr<TIFFWritePimpl> t; 
+			std::auto_ptr<TIFFWritePimpl> t;
 	};
-	
+
 
 }
 }

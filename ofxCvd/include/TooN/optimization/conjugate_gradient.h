@@ -45,7 +45,7 @@ namespace TooN{
 	///@param initial_lambda Initial stepsize
 	///@param zeps Minimum bracket size.
 	///@return <code>m[i][0]</code> contains the values of \f$x\f$ for the bracket, in increasing order,
-	///        and <code>m[i][1]</code> contains the corresponding values of \f$f(x)\f$. If the bracket 
+	///        and <code>m[i][1]</code> contains the corresponding values of \f$f(x)\f$. If the bracket
 	///        drops below the minimum bracket size, all zeros are returned.
 	///@ingroup gOptimize
 	template<typename Precision, typename Func> Matrix<3,2,Precision> bracket_minimum_forward(Precision a_val, const Func& func, Precision initial_lambda, Precision zeps)
@@ -193,7 +193,7 @@ template<int Size, class Precision=double> struct ConjugateGradient
 	  g(size),h(size),old_g(size),old_h(size),x(start),old_x(size)
 	{
 		init(start, func(start), deriv(start));
-	}	
+	}
 
 	///Initialize the ConjugateGradient class with sensible values.
 	///@param start Starting point, \e x
@@ -204,7 +204,7 @@ template<int Size, class Precision=double> struct ConjugateGradient
 	  g(size),h(size),old_g(size),old_h(size),x(start),old_x(size)
 	{
 		init(start, func(start), deriv);
-	}	
+	}
 
 	///Initialize the ConjugateGradient class with sensible values. Used internally.
 	///@param start Starting point, \e x
@@ -260,7 +260,7 @@ template<int Size, class Precision=double> struct ConjugateGradient
 		//Always search in the conjugate direction (h)
 		//First bracket a minimum.
 		Matrix<3,2,Precision> bracket = Internal::bracket_minimum_forward(y, line, bracket_initial_lambda, bracket_epsilon);
-		
+
 		double a = bracket[0][0];
 		double b = bracket[1][0];
 		double c = bracket[2][0];
@@ -272,7 +272,7 @@ template<int Size, class Precision=double> struct ConjugateGradient
 		old_y = y;
 		old_x = x;
 		iterations++;
-		
+
 		//Local maximum achieved!
 		if(a==0 && b== 0 && c == 0)
 			return;

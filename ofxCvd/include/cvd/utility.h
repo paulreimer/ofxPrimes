@@ -27,9 +27,9 @@ in the output image
   {
     if (size.x == -1 && size.y == -1)
       size = in.size();
-    // FIXME: This should be an exception, but which one do I use? 
+    // FIXME: This should be an exception, but which one do I use?
     // I refuse to define another "ImageRefNotInImage" in this namespace.
-    if (!(in.in_image(begin) && out.in_image(dst) && in.in_image(begin+size - ImageRef(1,1)) && out.in_image(dst+size - ImageRef(1,1)))){	
+    if (!(in.in_image(begin) && out.in_image(dst) && in.in_image(begin+size - ImageRef(1,1)) && out.in_image(dst+size - ImageRef(1,1)))){
 	std::cerr << "bad copy: " << in.size() << " " << out.size() << " " << size << " " << begin << " " << dst << std::endl;
 	int *p = 0;
 	*p = 1;
@@ -38,7 +38,7 @@ in the output image
       Pixel::ConvertPixels<S,T>::convert(in.data(), out.data(), in.totalsize());
       return;
     }
-    
+
     const S* from = &in[begin];
     T* to = &out[dst];
     int i = 0;
@@ -48,18 +48,18 @@ in the output image
       to += out.size().x;
     }
   }
-  
+
   template <class T, bool pod = Internal::is_POD<T>::is_pod> struct ZeroPixel {
-      static void zero(T& t) { 
+      static void zero(T& t) {
 	  for (unsigned int c=0; c<Pixel::Component<T>::count; c++)
 	      Pixel::Component<T>::get(t,c) = 0;
       }
   };
-  
+
   template <class T> struct ZeroPixel<T,true> {
       static void zero(T& t) { memset(&t,0,sizeof(T)); }
   };
-  
+
   template <class T, bool pod = Internal::is_POD<T>::is_pod> struct ZeroPixels {
       static void zero(T* pixels, int count) {
 	  if (count) {
@@ -74,7 +74,7 @@ in the output image
 	  memset(pixels, 0, sizeof(T)*count);
       }
   };
-  
+
 
   /// Set a pixel to the default value (typically 0)
   /// For multi-component pixels, this zeros all components (sets them to defaults)
@@ -83,7 +83,7 @@ in the output image
   /// Set many pixels to the default value (typically 0)
   /// For multi-component pixels, this zeros all components (sets them to defaults)
   template <class T> inline void zeroPixels(T* pixels, int count) {  ZeroPixels<T>::zero(pixels, count);  }
-  
+
   /// Set the one-pixel border (top, bottom, sides) of an image to zero values
   template <class T> void zeroBorders(BasicImage<T>& I)
   {
@@ -98,7 +98,7 @@ in the output image
   /// Fill image borders
   /// @param im Image fo fill borders in
   /// @param pix Fill value
-  /// @param w border width 
+  /// @param w border width
   /// @ingroup gUtility
   template<class T> void fillBorders(SubImage<T>& im, const T pix, int w=1)
   {
@@ -109,13 +109,13 @@ in the output image
 			  	im[n][x] = pix;
 				im[im.size().y-1-n][x] = pix;
 		  }
-	
+
 	  for(int y=w; y < im.size().y - w; y++)
 		  for(int n=0; n < w; n++)
 		  {
 			  im[y][n] = pix;
 			  im[y][im.size().x - 1 - n] = pix;
-		  }	
+		  }
 
   }
 
@@ -170,7 +170,7 @@ in the output image
       }
   };
 
-  template <class T1, class T2> inline void square(const T1* in, T2* out, size_t count) 
+  template <class T1, class T2> inline void square(const T1* in, T2* out, size_t count)
   {
       while (count--) {
 	  *(out++) = static_cast<T2>(*in * *in);
@@ -178,7 +178,7 @@ in the output image
       }
   }
 
-  template <class T1, class T2> inline void subtract_square(const T1* in, T2* out, size_t count) 
+  template <class T1, class T2> inline void subtract_square(const T1* in, T2* out, size_t count)
   {
       while (count--) {
 	  *(out++) -= static_cast<T2>(*in * *in);
@@ -192,16 +192,16 @@ in the output image
   template <class T> inline double sum_squared_differences(const T* a, const T* b, size_t count) {
       return SumSquaredDifferences<double,double,T>::sum_squared_differences(a,b,count);
   }
-  
+
   /// Check if the pointer is aligned to the specified byte granularity
   template<int bytes> bool is_aligned(const void* ptr);
   template<> inline bool is_aligned<8>(const void* ptr) {   return ((reinterpret_cast<size_t>(ptr)) & 0x7) == 0;   }
   template<> inline bool is_aligned<16>(const void* ptr) {  return ((reinterpret_cast<size_t>(ptr)) & 0xF) == 0;   }
 
   /// Compute the number of pointer increments necessary to yield alignment of A bytes
-  template<int A, class T> inline size_t steps_to_align(const T* ptr) 
+  template<int A, class T> inline size_t steps_to_align(const T* ptr)
   {
-      return is_aligned<A>(ptr) ? 0 : (A-((reinterpret_cast<size_t>(ptr)) & (A-1)))/sizeof(T); 
+      return is_aligned<A>(ptr) ? 0 : (A-((reinterpret_cast<size_t>(ptr)) & (A-1)))/sizeof(T);
   }
 
   void differences(const byte* a, const byte* b, short* diff, unsigned int size);

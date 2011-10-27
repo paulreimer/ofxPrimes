@@ -137,7 +137,7 @@ static int check_leaf_variation( FidtrackerX *ft, Region *r, int width, int heig
     if( r->adjacent_region_count == 1 ){
 
 		if (abs(ft->average_leaf_size-((r->bottom-r->top)+(r->right-r->left)/2))>ft->average_leaf_size) return 0;
-		
+
      } else{
         for( i=0; i < r->adjacent_region_count; ++i ){
             Region *adjacent = r->adjacent_regions[i];
@@ -146,7 +146,7 @@ static int check_leaf_variation( FidtrackerX *ft, Region *r, int width, int heig
                 return check_leaf_variation( ft, adjacent, width, height );
         }
     }
-	
+
 	return 1;
 }
 
@@ -200,7 +200,7 @@ static char *build_left_heavy_depth_string( FidtrackerX *ft, Region *r )
             }
         }
 
-        qsort( r->adjacent_regions, r->adjacent_region_count, sizeof(Region*), depth_string_cmp ); 
+        qsort( r->adjacent_regions, r->adjacent_region_count, sizeof(Region*), depth_string_cmp );
 
         for( i=0; i < r->adjacent_region_count; ++i ){
             Region *adjacent = r->adjacent_regions[i];
@@ -257,7 +257,7 @@ static void compute_fiducial_statistics( FidtrackerX *ft, FiducialX *f,
     ft->white_leaf_count = 0.;
 
     ft->total_leaf_count = 0;
-    ft->total_leaf_size = 0.;	
+    ft->total_leaf_size = 0.;
     ft->average_leaf_size = 0.;
 
 //    ft->min_leaf_width_or_height = 0x7FFFFFFF;
@@ -298,7 +298,7 @@ static void compute_fiducial_statistics( FidtrackerX *ft, FiducialX *f,
 	else {
         ft->next_depth_string = 0;
         depth_string = build_left_heavy_depth_string( ft, r );
-	
+
         ft->temp_coloured_depth_string[0] = (char)( r->colour ? 'w' : 'b' );
         ft->temp_coloured_depth_string[1] = '\0';
         strcat( ft->temp_coloured_depth_string, depth_string );
@@ -374,7 +374,7 @@ static void propagate_descendent_count_and_max_depth_upwards(
     Region *parent = 0;
 
     assert( r->level == NOT_TRAVERSED );
-    assert( r->children_visited_count == (r->adjacent_region_count - 1)         // has an untraversed parent 
+    assert( r->children_visited_count == (r->adjacent_region_count - 1)         // has an untraversed parent
             || r->children_visited_count == r->adjacent_region_count );   // is adjacent to root region
 
     r->descendent_count = 0;
@@ -413,13 +413,13 @@ static void propagate_descendent_count_and_max_depth_upwards(
 				r->flags |= LOST_SYMBOL_FLAG;
 				link_region( &ft->root_regions_head, r );
        }
-  
+
 
         if( parent
                 && !(r->flags & (   SATURATED_REGION_FLAG |
                                     ADJACENT_TO_ROOT_REGION_FLAG |
                                     FREE_REGION_FLAG ) ) ){
-        
+
 
             ++parent->children_visited_count;
 
@@ -494,7 +494,7 @@ static void find_roots( Segmenter *s, FidtrackerX *ft)
             assert( r->level == NOT_TRAVERSED );
             assert( r->children_visited_count == 0 );
             propagate_descendent_count_and_max_depth_upwards( s, r, ft);
-       } 
+       }
 
     }
 }
@@ -560,11 +560,11 @@ int find_regionsX( RegionX *regions, int max_count,
 	int max_object_size,min_object_size = 0;
 	int pixel = 0;
 
-	max_object_size = height/2; 
+	max_object_size = height/2;
 	min_object_size = 2;
 
-    initialize_head_region( &ft->root_regions_head );	
-	
+    initialize_head_region( &ft->root_regions_head );
+
 	for( i=0; i < segments->region_count; ++i ) {
 		Region *r = LOOKUP_SEGMENTER_REGION( segments, i );
 
@@ -574,13 +574,13 @@ int find_regionsX( RegionX *regions, int max_count,
 				regions[j].right = r->right;
 				regions[j].top = r->top;
 				regions[j].bottom = r->bottom;
-	
+
 				regions[j].width = r->right-r->left+1;
 				regions[j].height = r->bottom-r->top+1;
 				regions[j].span = r->first_span;
 				regions[j].area = r->area;
 
-				
+
 				if ((regions[j].width>min_object_size) && (regions[j].width<max_object_size) && (regions[j].height>min_object_size) && (regions[j].height<max_object_size)) {
 					regions[j].x = regions[j].left+regions[j].width/2;
 					regions[j].y = regions[j].top+regions[j].height/2;
@@ -592,7 +592,7 @@ int find_regionsX( RegionX *regions, int max_count,
 						p = &ft->pixelwarp[ pixel ];
 						regions[j].x = p->x;
 						regions[j].y = p->y;
-/*						
+/*
 						pixel = (int)(width * regions[j].top + regions[j].left);
 						if ((pixel<0) || (pixel>=width*height)) continue;
 						p = &ft->pixelwarp[ pixel ];
@@ -605,14 +605,14 @@ int find_regionsX( RegionX *regions, int max_count,
 						regions[j].right = p->x;
 						regions[j].bottom = p->y;
 */
-					} 
+					}
 
 					j++;
 					if (j==max_count) return j;
 				}
-		} 
+		}
 	}
 
 	return j;
-	
+
 }

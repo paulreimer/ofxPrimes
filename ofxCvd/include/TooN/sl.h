@@ -44,7 +44,7 @@ template <int N, typename P> std::istream & operator>>(std::istream &, SL<N, P> 
 /// This can be used to conveniently estimate homographies on n-1 dimentional spaces.
 /// The implementation uses the matrix exponential function @ref exp for
 /// exponentiation from an element in the Lie algebra and LU to compute an inverse.
-/// 
+///
 /// The Lie algebra are the NxN matrices M with trace(M) = 0. The N*N-1 generators used
 /// to represent this vector space are the following:
 /// - diag(...,1,-1,...), n-1 along the diagonal
@@ -86,7 +86,7 @@ public:
 	template <int S, typename P, typename B>
 	static inline SL exp( const Vector<S,P,B> &);
 
-	/// returns one generator of the group. see SL for a detailed description of 
+	/// returns one generator of the group. see SL for a detailed description of
 	/// the generators used.
 	/// @arg i number of the generator between 0 and SL::dim -1 inclusive
 	static inline Matrix<N,N,Precision> generator(int);
@@ -104,7 +104,7 @@ private:
 		my_matrix /= pow(det, 1.0/N);
 	}
 
-	/// these constants indicate which parts of the parameter vector 
+	/// these constants indicate which parts of the parameter vector
 	/// map to which generators
 	///{
 	static const int COUNT_DIAG = N - 1;
@@ -139,7 +139,7 @@ inline Matrix<N,N,Precision> SL<N, Precision>::generator(int i){
 	} else if(i < SYMM_LIMIT){			// then the symmetric ones
 		int row = 0, col = i - DIAG_LIMIT + 1;
 		while(col > (N - row - 1)){
-			col -= (N - row - 1); 
+			col -= (N - row - 1);
 			++row;
 		}
 		col += row;
@@ -147,7 +147,7 @@ inline Matrix<N,N,Precision> SL<N, Precision>::generator(int i){
 	} else {							// finally the antisymmetric ones
 		int row = 0, col = i - SYMM_LIMIT + 1;
 		while(col > N - row - 1){
-			col -= N - row - 1; 
+			col -= N - row - 1;
 			++row;
 		}
 		col += row;

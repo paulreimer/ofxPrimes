@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_DISKBUFFER2_H
@@ -36,8 +36,8 @@ namespace CVD
 {
 	//
 	// GLOBLIST
-	/// Make a list of strings from a UNIX-style pattern 
-	/// pathname expansion. Tilde expansion is done, and * ? [] and {} can all be 
+	/// Make a list of strings from a UNIX-style pattern
+	/// pathname expansion. Tilde expansion is done, and * ? [] and {} can all be
 	/// used as normal. The filenames are returned in alphabetical (and numerical) order.
 	/// @param gl The pattern from which to generate the strings
 	/// @relatesalso DiskBuffer2
@@ -60,14 +60,14 @@ namespace CVD
 			/// An error occurred trying to open a file
 			/// @ingroup gException
 			struct BadFile: public All { BadFile(const std::string&, int); ///< Construct from filename and error number
-			}; 
+			};
 			/// An error occurred trying to read a file as an image
 			/// @ingroup gException
-			struct BadImage: public All { BadImage(const std::string& file, const std::string& error); ///< Construct from filename and error string 
+			struct BadImage: public All { BadImage(const std::string& file, const std::string& error); ///< Construct from filename and error string
 			};
 			/// The file loaded was a different size from the first frame
 			/// @ingroup gException
-			struct BadImageSize: public All { BadImageSize(const std::string& file); ///< Construct from filename  string 
+			struct BadImageSize: public All { BadImageSize(const std::string& file); ///< Construct from filename  string
 			};
 			/// get_frame() was called when at the end of the buffer
 			/// @ingroup gException
@@ -75,33 +75,33 @@ namespace CVD
 			/// seek_to() was called for an invalid timestamp
 			/// @ingroup gException
 			struct BadSeek: public All { BadSeek(double t);///< Construct from invalid timestamp
-			 }; 
-			
+			 };
+
 		}
 	}
 
-	/// Play a series of image files as a video stream. 
-	/// Provides frames of type CVD::DiskBuffer2Frame and throws exceptions of type 
+	/// Play a series of image files as a video stream.
+	/// Provides frames of type CVD::DiskBuffer2Frame and throws exceptions of type
 	/// CVD::Exceptions::DiskBuffer2
-	/// @param T The pixel type of the frames to provide (usually <code>CVD::Rgb<CVD::byte></code> 
-	/// or <code>CVD::byte</code>. If the image files are of a different type, they will be automatically 
+	/// @param T The pixel type of the frames to provide (usually <code>CVD::Rgb<CVD::byte></code>
+	/// or <code>CVD::byte</code>. If the image files are of a different type, they will be automatically
 	/// converted (see @link gImageIO Image loading and saving, and format conversion@endlink).
 	/// @ingroup gVideoBuffer
-	template<typename T> 
+	template<typename T>
 	class DiskBuffer2: public CVD::LocalVideoBuffer<T>
 	{
 		public:
-			/// Construct a DiskBuffer2 from a vector of filenames. 
+			/// Construct a DiskBuffer2 from a vector of filenames.
 			/// Typically the globlist() helper function is used to provide the filenames
 			/// e.g. <code>DiskBuffer2 buffer(globlist("~/Images/lab*.jpg"), 25);</code>
-			/// @param names The filenames to use (played in the order that they are in the vector) 
+			/// @param names The filenames to use (played in the order that they are in the vector)
 			/// @param fps The frames per second to report for this VideoBuffer
 			/// @param eob What should the buffer do when it reaches the end of the list of files?
 			DiskBuffer2(const std::vector<std::string>& names, double fps, VideoBufferFlags::OnEndOfBuffer eob = VideoBufferFlags::RepeatLastFrame);
 
  			virtual ImageRef size() {return my_size;}
-			
-			/// Is there another frame waiting in the buffer? By default, this always 
+
+			/// Is there another frame waiting in the buffer? By default, this always
 			/// returns true, but if the VideoBufferFlags::OnEndOfBuffer setting is VideoBufferFlags::UnsetPending, this will return
 			/// false after the last frame has been returned by get_frame()
 			virtual bool frame_pending() {return frame_ready;}
@@ -109,13 +109,13 @@ namespace CVD
 			virtual DiskBuffer2Frame<T>* get_frame();
 			virtual void put_frame(VideoFrame<T>* f);
 			virtual void seek_to(double t);
-		
+
 			/// What should the buffer do when it reaches the end of the list of files?
 			/// @param eob The desired behaviour
-			virtual void on_end_of_buffer(VideoBufferFlags::OnEndOfBuffer eob) 
+			virtual void on_end_of_buffer(VideoBufferFlags::OnEndOfBuffer eob)
 				{end_of_buffer_behaviour = eob;}
 
-			virtual double frame_rate() 
+			virtual double frame_rate()
 			{
 				return frames_per_sec;
 			}
@@ -134,14 +134,14 @@ namespace CVD
 	// CONSTRUCTOR
 	//
 	template<typename T>
-	inline DiskBuffer2<T>::DiskBuffer2(const std::vector<std::string>& names, double fps, VideoBufferFlags::OnEndOfBuffer eob) 
+	inline DiskBuffer2<T>::DiskBuffer2(const std::vector<std::string>& names, double fps, VideoBufferFlags::OnEndOfBuffer eob)
 	:LocalVideoBuffer<T>(VideoBufferType::NotLive),end_of_buffer_behaviour(eob)
 	{
 		frames_per_sec = fps;
 
 		start_time = 0;
 		next_frame=0;
-		time_per_frame = 1/fps;	
+		time_per_frame = 1/fps;
 
 		file_names = names;
 
@@ -154,7 +154,7 @@ namespace CVD
 
 		if(!im.good())
 			throw Exceptions::DiskBuffer2::BadFile(names[0], errno);
-		
+
 		try
 		{
 			img_load(foo, im);
@@ -181,7 +181,7 @@ namespace CVD
 			throw Exceptions::DiskBuffer2::EndOfBuffer();
 
 		Image<T> foo(my_size);
-		
+
 		std::ifstream im_file(file_names[next_frame].c_str(), std::ios::in|std::ios::binary);
 
 		if(!im_file.good())
@@ -198,7 +198,7 @@ namespace CVD
 		DiskBuffer2Frame<T>* vf = new DiskBuffer2Frame<T>(next_frame * time_per_frame + start_time, foo, file_names[next_frame]);
 
 		next_frame++;
-		
+
 		if(next_frame > (int)file_names.size()-1)
 		{
 			switch(end_of_buffer_behaviour)
@@ -206,18 +206,18 @@ namespace CVD
 				case VideoBufferFlags::RepeatLastFrame:
 					next_frame = file_names.size()-1;
 					break;
-				
+
 				case VideoBufferFlags::UnsetPending:
 					frame_ready = false;
 				   break;
-				
+
 				case VideoBufferFlags::Loop:
 					next_frame = 0;
 					break;
 			}
 		}
 
-		return vf;	
+		return vf;
 	}
 
 	//
@@ -231,7 +231,7 @@ namespace CVD
 
 		if(db2f == NULL)
 			throw CVD::Exceptions::VideoBuffer::BadPutFrame();
-		else 
+		else
 			delete db2f;
 	}
 

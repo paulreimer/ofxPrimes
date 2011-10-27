@@ -63,10 +63,10 @@ void ofxSimpleGuiToo::setup()
 
 	headerSimpleGuiConfig.fontSize = 16;
 	footerSimpleGuiConfig.fontSize = 16;
-	
+
 	headerSimpleGuiConfig.setup();
 	footerSimpleGuiConfig.setup();
-	
+
 	headerSimpleGuiConfig.fontOffset.y += 5;
 	footerSimpleGuiConfig.fontOffset.y += 5;
 
@@ -90,9 +90,9 @@ void ofxSimpleGuiToo::setup()
 
 	footerPage->addFPSCounter()
 	.setConfig(&footerSimpleGuiConfig);
-	
+
 	footerPage->height = footerHeight;
-	
+
 	headerBg.loadImage(config->chromeDir+"header-bg.png");
 	footerBg.loadImage(config->chromeDir+"footer-bg.png");
 

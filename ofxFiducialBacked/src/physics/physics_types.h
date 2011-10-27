@@ -12,18 +12,18 @@ namespace ofxFiducialBacked {
 }
 
 namespace ofxFiducialBacked {
-	namespace types {			
+	namespace types {
 		namespace physics {
 
 #ifdef NOTIFY_FIDUCIAL_STATUS
 			typedef map<int, int>				fiducial_states_t;
 			typedef fiducial_states_t::iterator	fiducial_state_iter;
 #endif
-			
+
 #ifdef NOTIFY_FIDUCIAL_INTERSECTION
 			typedef map<int, int>				fiducial_edges_t;
 			typedef fiducial_edges_t::iterator	fiducial_edge_iter;
-			
+
 			typedef map<int, int>				fiducial_physics_types_t;
 			typedef fiducial_physics_types_t::iterator physics_type_iter;
 
@@ -60,7 +60,7 @@ namespace ofxFiducialBacked {
 					return (fiducial.getId()==id);
 				}
 			};
-			
+
 		}
 	}
 }

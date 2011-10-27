@@ -34,7 +34,7 @@ WebSocketHandler::WebSocketHandler(StreamSocket& socket, SocketReactor& reactor)
 
 	bReplicateHeaders = WEBSOCKET_ACCEPT_ALL_CONNECTIONS;
 	bUseSizePreamble = false;
-	
+
 	_reactor.addEventHandler(_socket, NObserver<WebSocketHandler, ReadableNotification>	(*this, &WebSocketHandler::onReadable));
 	_reactor.addEventHandler(_socket, NObserver<WebSocketHandler, WritableNotification>	(*this, &WebSocketHandler::onWritable));
 	_reactor.addEventHandler(_socket, NObserver<WebSocketHandler, ShutdownNotification>	(*this, &WebSocketHandler::onShutdown));
@@ -91,7 +91,7 @@ WebSocketHandler::onWritable(const AutoPtr<WritableNotification>& pNf)
 
 //	if (!sentHandshake)
 //		sendHandshake();
-	
+
 //	if (!gotHandshake)
 //		getHandshake();
 }
@@ -142,7 +142,7 @@ WebSocketHandler::send(std::string& data)
 			s >>= 7;
 		}
 		sze_bytes += s & 0x7F;
-		
+
 		data = sze_bytes + data;
 	}
 	else {
@@ -172,7 +172,7 @@ WebSocketHandler::readHeader(const char* buffer, int n, std::string header)
 std::string
 WebSocketHandler::readResource(const char* buffer, int n)
 {
-	char *resource_from=NULL, *resource_to=NULL;		
+	char *resource_from=NULL, *resource_to=NULL;
 	resource_from = strnstr(buffer, "GET ", n);
 
 	if (resource_from != NULL)
@@ -197,7 +197,7 @@ WebSocketHandler::handshake(const char* buffer, int n)
 
 		if (bReplicateHeaders)
 		{
-			std::string socket = readHeader(buffer, n, "Host");			
+			std::string socket = readHeader(buffer, n, "Host");
 			std::string::size_type colon = socket.find_last_of(":");
 
 			if (colon != std::string::npos)

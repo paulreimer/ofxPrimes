@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //////////////////////////////////////////////////////////////////////
@@ -34,7 +34,7 @@
 
 namespace CVD {
 
-  namespace VideoFrameFlags 
+  namespace VideoFrameFlags
     {
       /// Fields etc
       enum FieldType{
@@ -44,13 +44,13 @@ namespace CVD {
 	Progressive,
 	Unknown
       };
-    }      
+    }
 
 /// A frame from a VideoBuffer.
 /// @param T The pixel type of the video frames
 /// @ingroup gVideoFrame
 template <class T>
-class VideoFrame : public BasicImage<T> 
+class VideoFrame : public BasicImage<T>
 {
 	public:
 		/// (Used internally) Construct a VideoFrame around a block of memory. The
@@ -58,7 +58,7 @@ class VideoFrame : public BasicImage<T>
 		/// @param t The time (in seconds) of this frame
 		/// @param data The image data for this frame
 		/// @param size The size of this video frame
-		VideoFrame(double t, T* data, const ImageRef& size, VideoFrameFlags::FieldType f=VideoFrameFlags::Unknown) 
+		VideoFrame(double t, T* data, const ImageRef& size, VideoFrameFlags::FieldType f=VideoFrameFlags::Unknown)
 		  :BasicImage<T>(data, size),my_field(f),my_timestamp(t)
 		{
 		}
@@ -67,7 +67,7 @@ class VideoFrame : public BasicImage<T>
 		/// @param t The time (in seconds) of this frame
 		/// @param im The image data for this frame. BasicImages do not manage their own
 		/// memory, so this must be managed externally
-		VideoFrame(double t, const BasicImage<T>& im, VideoFrameFlags::FieldType f=VideoFrameFlags::Unknown) 
+		VideoFrame(double t, const BasicImage<T>& im, VideoFrameFlags::FieldType f=VideoFrameFlags::Unknown)
 		  :BasicImage<T>(im),my_field(f),my_timestamp(t)
 		{
 		}

@@ -3,7 +3,7 @@
 
 namespace CVD{
 namespace Internal{
-	
+
 
 	template<class T> class simple_vector
 	{

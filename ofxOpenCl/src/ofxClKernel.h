@@ -44,19 +44,19 @@ public:
 	bool loadFromSource(char* _kernelSource, size_t kernelSourceSize);
 	virtual bool setup(const cl_context& _context, const cl_command_queue& _commandQ);
 	bool enqueue();
-		
+
 	void destroy();
 
 	~ofxClKernel();
-	
+
 //	void setWorkSize(size_t* _local, size_t* _global = 0, size_t* _offset = 0);
 
 protected:
 	//----------------------------------------
 	virtual void update() = 0;
-	
+
 	virtual void initKernelAssets() = 0;
-	virtual void initKernelArgs() = 0;	
+	virtual void initKernelArgs() = 0;
 	virtual void setKernelArgs() = 0;
 };
 

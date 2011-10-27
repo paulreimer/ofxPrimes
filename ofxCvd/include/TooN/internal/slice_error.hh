@@ -31,33 +31,33 @@ namespace TooN {
 
 namespace Internal
 {
-	template<bool StaticBad> 
+	template<bool StaticBad>
 	struct BadSlice;
-	
+
 	///@internal
 	///@brief A static slice is OK.
 	///This class is used after it has been determined that a slice is OK.
-	///It does nothing except provide a callable function. By contrast, 
+	///It does nothing except provide a callable function. By contrast,
 	///if the slice is not OK, then the class is not specified and the function
 	///is therefore not callable, and a compile error results.
 	///@ingroup gInternal
-	template<> 
+	template<>
 	struct BadSlice<0>{
 		static void check(){} ///<This function does nothing: it merely exists.
 	};
-	
+
 	///@internal
 	///@brief Check if a slice is OK.
 	///This class is used to see if a slice is OK. It provides a
 	///callable function which checks the run-time slice information.
 	///If the compile time information is bad, then it will not compile
-	///at all. Otherwise, the sizes are checked at run-time. The check 
+	///at all. Otherwise, the sizes are checked at run-time. The check
 	///will be optimized away if the sizes are known statically.
 	///@ingroup gInternal
-	template<int Size, int Start, int Length> 
+	template<int Size, int Start, int Length>
 	struct CheckSlice
 	{
-		
+
 		///@internal
 		///@brief choose a number statically or dynamically.
 		template<int Num> struct N
@@ -68,9 +68,9 @@ namespace Internal
 			}
 		};
 
-		///@internal 
+		///@internal
 		///@brief Check the slice.
-		///This is full static checking, which is stricter than 
+		///This is full static checking, which is stricter than
 		///mixed chacking. For instance, none of the slice parameters. This
 		///should be used in addition to the other check function.
 		///are allowed to be -1 (Dynamic).
@@ -81,9 +81,9 @@ namespace Internal
 			BadSlice<!(Start >= 0)>::check();
 			BadSlice<!(Length > 0)>::check();
 			BadSlice<(Size != Dynamic && (Start + Length > Size))>::check();
-		}	
+		}
 
-		///@internal 
+		///@internal
 		///@brief Check the slice.
 		///The policy is that static sized where present are used.
 		///However, for extra debugging one can test to see if the
@@ -98,10 +98,10 @@ namespace Internal
 			BadSlice<!(Size   == Dynamic || Size > 0)>::check();
 			BadSlice<!(Start  == Dynamic || Start >= 0)>::check();
 			BadSlice<!(Length == Dynamic || Length > 0)>::check();
-			
+
 			//We can make sure Length <= Size, even if Start is unknown
 			BadSlice<(Size!=Dynamic && Length != Dynamic && Length > Size)>::check();
-			
+
 			//We can make sure Start < Size even if Length is unknown
 			BadSlice<(Start != Dynamic && Size != Dynamic && Start >= Size)>::check();
 
@@ -123,7 +123,7 @@ namespace Internal
 					std::abort();
 				}
 			#endif
-			if( N<Start>::n(start) + N<Length>::n(length) > N<Size>::n(size) || 
+			if( N<Start>::n(start) + N<Length>::n(length) > N<Size>::n(size) ||
 			   N<Start>::n(start) < 0 ||
 			   N<Length>::n(length) < 0)
 			{
@@ -135,10 +135,10 @@ namespace Internal
 				#endif
 			}
 		}
-	};	
+	};
 
 	#ifdef TOON_TEST_INTERNALS
-		template<bool StaticBad> 
+		template<bool StaticBad>
 		struct BadSlice{
 			static void check(){
 				throw Internal::StaticSliceError();

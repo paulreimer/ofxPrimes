@@ -40,11 +40,11 @@ namespace CVD {
 		}
 	}
 
-	/// Play a series of image files as a video stream and use a list of provided timestamps. 
-	/// Provides frames of type CVD::DiskBuffer2Frame and throws exceptions of type 
+	/// Play a series of image files as a video stream and use a list of provided timestamps.
+	/// Provides frames of type CVD::DiskBuffer2Frame and throws exceptions of type
 	/// CVD::Exceptions::DiskBuffer2 and CVD::Exceptions::TimedDiskBuffer
-	/// @param T The pixel type of the frames to provide (usually <code>CVD::Rgb<CVD::byte></code> 
-	/// or <code>CVD::byte</code>. If the image files are of a different type, they will be automatically 
+	/// @param T The pixel type of the frames to provide (usually <code>CVD::Rgb<CVD::byte></code>
+	/// or <code>CVD::byte</code>. If the image files are of a different type, they will be automatically
 	/// converted (see @link gImageIO Image loading and saving, and format conversion@endlink).
 	/// @ingroup gVideoBuffer
 	template<class T>
@@ -57,12 +57,12 @@ namespace CVD {
 		/// @param times The frame time stamps
 		/// @param eob What should the buffer do when it reaches the end of the list of files?
 		TimedDiskBuffer(const std::vector<std::string>& names, const std::vector<double> & times , CVD::VideoBufferFlags::OnEndOfBuffer eob = CVD::VideoBufferFlags::RepeatLastFrame);
-	
+
 		virtual CVD::DiskBuffer2Frame<T>* get_frame();
 	protected:
 		std::vector<double> file_times;
 	};
-	
+
 	template<class T>
 	inline TimedDiskBuffer<T>::TimedDiskBuffer(const std::vector<std::string>& names, const std::vector<double> & times, CVD::VideoBufferFlags::OnEndOfBuffer eob )
 	: CVD::DiskBuffer2<T>(names, 1, eob )
@@ -71,7 +71,7 @@ namespace CVD {
 			throw Exceptions::TimedDiskBuffer::IncompatibleListLengths();
 		file_times = times;
 	}
-	
+
 	//
 	// GET FRAME
 	//

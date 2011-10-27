@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
@@ -35,14 +35,14 @@
 namespace CVD {
     #ifndef CVD_HAVE_PTHREAD
     #warning ReadAheadVideoBuffer will not do any read-ahead because threads are not supported in this build
-    template <class T> 
+    template <class T>
     class ReadAheadVideoBuffer : public VideoBuffer<T>
     {
     private:
 	VideoBuffer<T>& vbuffer;
     public:
 	virtual ~ReadAheadVideoBuffer() {}
-	ReadAheadVideoBuffer(VideoBuffer<T>& vb, size_t maxReadAhead=10) 
+	ReadAheadVideoBuffer(VideoBuffer<T>& vb, size_t maxReadAhead=10)
 	: VideoBuffer<T>(vb.type()),vbuffer(vb) {}
 	/// The size of the VideoFrames returned by this buffer
 	ImageRef size() { return vbuffer.size(); }
@@ -51,7 +51,7 @@ namespace CVD {
 	/// Tell the buffer that you are finished with this frame. Typically the VideoBuffer then destroys the frame.
 	/// \param f The frame that you are finished with.
 	void put_frame(VideoFrame<T>* f) { vbuffer.put_frame(f); }
-	/// Is there a frame waiting in the buffer? This function does not block. 
+	/// Is there a frame waiting in the buffer? This function does not block.
 	bool frame_pending() { return vbuffer.frame_pending(); }
 	/// What is the (expected) frame rate of this video buffer, in frames per second?
 	double frame_rate() { return vbuffer.frame_rate(); }
@@ -59,14 +59,14 @@ namespace CVD {
 	/// \param t The frame time in seconds
 	void seek_to(double t){ vbuffer.seek_to(t); }
     };
-#else    
+#else
     /// Decorator video buffer that preloads frames asynchronously in a separate thread.
     /// @param T The pixel type of the video frames
     /// @param vb The video buffer to wrap/preload
-    /// @param maxReadAhead The maximum number of frames to read ahead asynchronously; 
+    /// @param maxReadAhead The maximum number of frames to read ahead asynchronously;
     ///                     the underlying VideoBuffer must support this many concurrently existing VideoFrame's
     /// @ingroup gVideoBuffer
-    template <class T> 
+    template <class T>
     class ReadAheadVideoBuffer : public VideoBuffer<T>, public Runnable
     {
     private:
@@ -81,7 +81,7 @@ namespace CVD {
 	static VideoBufferType::Type type_update(VideoBufferType::Type t)
 	{
 		if(t== VideoBufferType::NotLive)
-			return t; 
+			return t;
 		else
 			return VideoBufferType::Flushable;
 	}
@@ -92,22 +92,22 @@ namespace CVD {
 	    thread.stop();
 	    qevent.trigger();
 	    qevent.unlock();
-	    thread.join();	    
+	    thread.join();
 	}
-	ReadAheadVideoBuffer(VideoBuffer<T>& vb, size_t maxReadAhead=10) 
+	ReadAheadVideoBuffer(VideoBuffer<T>& vb, size_t maxReadAhead=10)
 	: VideoBuffer<T>(type_update(vb.type())), vbuffer(vb), maxRA(maxReadAhead) {
-	    thread.start(this);	    
+	    thread.start(this);
 	}
 
 	void run() {
-	    while (!thread.shouldStop()) 
+	    while (!thread.shouldStop())
 	    {
 		// lock queue
 		{ Lock l(qevent);
 		    for (size_t i=0; i<putq.size(); i++)
 			vbuffer.put_frame(putq[i]);
 		    putq.resize(0);
-		    while (q.size() >= maxRA) {		    
+		    while (q.size() >= maxRA) {
 			qevent.wait();
 			if (thread.shouldStop())
 			    return;
@@ -134,17 +134,17 @@ namespace CVD {
 		qevent.wait();
 	    frame = q.front();
 	    q.pop_front();
-	    qevent.trigger(); 
+	    qevent.trigger();
 	    return frame;
 	}
 	/// Tell the buffer that you are finished with this frame. Typically the VideoBuffer then destroys the frame.
 	/// \param f The frame that you are finished with.
 	void put_frame(VideoFrame<T>* f) { Lock l(qevent); putq.push_back(f); }
-	/// Is there a frame waiting in the buffer? This function does not block. 
+	/// Is there a frame waiting in the buffer? This function does not block.
 	bool frame_pending() {
 	    return !q.empty();
 	}
-	/// What is the (expected) frame rate of this video buffer, in frames per second?		
+	/// What is the (expected) frame rate of this video buffer, in frames per second?
 	double frame_rate() { return vbuffer.frame_rate(); }
 	/// Go to a particular point in the video buffer (only implemented in buffers of recorded video)
 	/// \param t The frame time in seconds

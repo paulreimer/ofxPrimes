@@ -11,12 +11,12 @@
 
 namespace ofxFiducialBacked {
 	namespace gui {
-		class GuiPage : public ofxSimpleGuiPage 
+		class GuiPage : public ofxSimpleGuiPage
 		{
 		public:
 			GuiPage(string name="Fiducial Gui");
 		//	~GuiPage();
-			
+
 			virtual void setup();
 			virtual void update();
 			virtual void draw();
@@ -28,7 +28,7 @@ namespace ofxFiducialBacked {
 			void setAngle(float angle=0.0);
 			void setScale(float scale=1.0);
 
-			virtual void activate(bool isActivated = true);	
+			virtual void activate(bool isActivated = true);
 
 			// these behave very similar to those in flash
 			virtual void onRollOver(int x, int y)					{}
@@ -39,18 +39,18 @@ namespace ofxFiducialBacked {
 			virtual void onPress(int x, int y, int button)			{}
 			virtual void onRelease(int x, int y, int button)		{}
 			virtual void onReleaseOutside(int x, int y, int button)	{}
-			
+
 			virtual void keyPressed( int key ){}
 			virtual void keyReleased( int key ){}
-			
+
 		protected:
 			ofxSimpleGuiControl &addControl(ofxSimpleGuiControl& control);
 			bool hitTest(int tx, int ty);
 			void relocateMouseEvent(ofMouseEventArgs &e);
 
 			void _mouseMoved(ofMouseEventArgs &e);
-			void _mousePressed(ofMouseEventArgs &e);	
-			void _mouseDragged(ofMouseEventArgs &e);	
+			void _mousePressed(ofMouseEventArgs &e);
+			void _mouseDragged(ofMouseEventArgs &e);
 			void _mouseReleased(ofMouseEventArgs &e);
 
 			ofPoint offset;

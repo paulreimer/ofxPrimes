@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_INCLUDE_INTERNAL_IO_TEXT_H
@@ -52,9 +52,9 @@ namespace TEXT
 
 
 			typedef TypeList<double,  Head> Types;
-		
+
 		private:
-			std::auto_ptr<ReadPimpl> t; 
+			std::auto_ptr<ReadPimpl> t;
 	};
 
 
@@ -74,14 +74,14 @@ namespace TEXT
 			void write_raw_pixel_line(const float*);
 
 			template<class Incoming> struct Outgoing
-			{		
+			{
 				typedef double type;
-			};		
+			};
 
 		private:
-			std::auto_ptr<WritePimpl> t; 
+			std::auto_ptr<WritePimpl> t;
 	};
-	
+
 }
 }
 #endif

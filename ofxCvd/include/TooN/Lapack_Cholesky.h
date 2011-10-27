@@ -73,9 +73,9 @@ class Lapack_Cholesky {
 public:
 
     Lapack_Cholesky(){}
-	
+
 	template<class P2, class B2>
-	Lapack_Cholesky(const Matrix<Size, Size, P2, B2>& m) 
+	Lapack_Cholesky(const Matrix<Size, Size, P2, B2>& m)
 	  : my_cholesky(m), my_cholesky_lapack(m) {
 		SizeMismatch<Size,Size>::test(m.num_rows(), m.num_cols());
 		do_compute();
@@ -102,7 +102,7 @@ public:
 		  for (j=0;j<=i;j++) {
 		    my_cholesky[i][j]=my_cholesky_lapack[j][i];
 		  }
-		  // LAPACK does not set upper triangle to zero, 
+		  // LAPACK does not set upper triangle to zero,
 		  // must be done here
 		  for (;j<N;j++) {
 		    my_cholesky[i][j]=0;
@@ -124,7 +124,7 @@ public:
 		int N=my_cholesky.num_rows();
 		int NRHS=1;
 		int info;
-		potrs_("L", &N, &NRHS, my_cholesky_lapack.my_data, &N, result.my_data, &N, &info);     
+		potrs_("L", &N, &NRHS, my_cholesky_lapack.my_data, &N, result.my_data, &N, &info);
 		assert(info==0);
 		return result;
 	}
@@ -137,7 +137,7 @@ public:
 		int N=my_cholesky.num_rows();
 		int NRHS=m.num_cols();
 		int info;
-		potrs_("L", &N, &NRHS, my_cholesky_lapack.my_data, &N, result.my_data, &N, &info);     
+		potrs_("L", &N, &NRHS, my_cholesky_lapack.my_data, &N, result.my_data, &N, &info);
 		assert(info==0);
 		return result;
 	}
@@ -174,8 +174,8 @@ public:
 	}
 
 private:
-	Matrix<Size,Size,Precision> my_cholesky_lapack;     
-	Matrix<Size,Size,Precision> my_cholesky;     
+	Matrix<Size,Size,Precision> my_cholesky_lapack;
+	Matrix<Size,Size,Precision> my_cholesky;
 	int my_rank;
 };
 

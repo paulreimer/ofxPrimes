@@ -51,12 +51,12 @@ void
 GuiPage::draw()
 {
 	if(!enabled) return;
-	
+
 	if (x == FIDUCIAL_INVALID_COORDS && y == FIDUCIAL_INVALID_COORDS)
 		return;
 
 	glPushMatrix();
-	
+
 	glTranslatef(x,	y, 0.0);
 	glRotatef	(ofRadToDeg(angle), 0.0, 0.0, 1.0);
 	glTranslatef(offset.x, offset.y, 0.0);
@@ -82,7 +82,7 @@ GuiPage::relocateMouseEvent(ofMouseEventArgs& e)
 {
 	ofxPoint2f _new(e.x, e.y);
 	ofxPoint2f ref(x, y);
-	
+
 	_new.rotateRad(-angle, ref);
 
 	e.x = (_new.x - x - offset.x)/scale;
@@ -147,7 +147,7 @@ GuiPage::_mouseDragged(ofMouseEventArgs &e)
 			break;
 		}
 	}
-	
+
 	if (draggable)
 		offset += ofPoint(e_copy.x - saveX, e_copy.y - saveY);
 }
@@ -171,7 +171,7 @@ GuiPage::hitTest(int tx, int ty)
 	return ((tx > x) && (tx < x + width) && (ty > y) && (ty < y + height));
 //	return ((tx > 0) && (tx < scale*width) && (ty > 0) && (ty < scale*height));
 }
-	
+
 //--------------------------------------------------------------
 void
 GuiPage::activate(bool isActivated)
@@ -192,6 +192,6 @@ GuiPage::activate(bool isActivated)
 		ofRemoveListener(ofEvents.mouseReleased,	this, &GuiPage::_mouseReleased);
 	}
 }
-	
+
 } //gui
 } //ofxFiducialBacked

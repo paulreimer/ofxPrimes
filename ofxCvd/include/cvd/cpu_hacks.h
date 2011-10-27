@@ -1,6 +1,6 @@
 #ifndef CVD_CPU_HACKS_H
 #define CVD_CPU_HACKS_H
-/*                       
+/*
         This file is part of the CVD Library.
 
         Copyright (C) 2005 The Authors
@@ -17,7 +17,7 @@
 
         You should have received a copy of the GNU Lesser General Public
         License along with this library; if not, write to the Free Software
-        Foundation, Inc., 
+        Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
@@ -42,16 +42,16 @@ namespace CVD
 
 	#ifndef DOXYGEN_IGNORE_INTERNAL
 		#ifdef CVD_HAVE_FENV_H
-			inline void enableFPE() 
-			{ 
+			inline void enableFPE()
+			{
 				feclearexcept(FE_ALL_EXCEPT);
-				feenableexcept(FE_DIVBYZERO|FE_INVALID); 
+				feenableexcept(FE_DIVBYZERO|FE_INVALID);
 			}
 		#else
 			/// Enable floating point exceptions. This function may
 			/// do nothing, depending on the architecture
-			inline void enableFPE() 
-			{ 
+			inline void enableFPE()
+			{
 			}
 		#endif
 	#endif
@@ -69,12 +69,12 @@ namespace CVD
 	///				- Everything else
 	///					- *: nothing
 	template<int I> inline void prefetch(const void* ptr);
-	
+
 	inline void prefetch(const void* ptr);
 
 
 	#ifndef DOXYGEN_IGNORE_INTERNAL
-		#ifdef  CVD_HAVE_MMXEXT	
+		#ifdef  CVD_HAVE_MMXEXT
 			template<int I> inline void prefetch(const void* ptr)
 			{
                 _mm_prefetch((char *)ptr, _MM_HINT_NTA);
@@ -84,7 +84,7 @@ namespace CVD
 			{
 				_mm_prefetch((char *)ptr, _MM_HINT_T0);
 			}
-			
+
 			template<> inline void prefetch<1>(const void* ptr)
 			{
 				_mm_prefetch((char *)ptr, _MM_HINT_T1);
@@ -94,7 +94,7 @@ namespace CVD
 			{
                 _mm_prefetch((char *)ptr, _MM_HINT_T2);
 			}
-		
+
 			inline void prefetch(const void* ptr)
 			{
 				prefetch<-1>(ptr);

@@ -22,13 +22,13 @@
 @synthesize webView;
 
 - (void)setUrl:(NSString *)newUrl
-{	
+{
 	//Create a URL object.
 	NSURL *url = [NSURL URLWithString:newUrl];
-	
+
 	//URL Requst Object
 	NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
-	
+
 	//Load the request in the UIWebView.
 	[webView loadRequest:requestObj];
 }
@@ -71,7 +71,7 @@ public:
 		[UIWebViewWrapper.webView removeFromSuperview];
 		[UIWebViewWrapper release];
 		cout << "Break" << endl;
-	}	
+	}
 	WebViewController* UIWebViewWrapper;
 };
 static vector<ActorUIWebView> webViews;
@@ -85,7 +85,7 @@ namespace ofxFiducialBacked {
 		namespace iPhone {
 			namespace render {
 				void browser(ofRectangle frame, ofPoint origin, double angle, char* newUrl)
-				{					
+				{
 					static int slot;
 					int browsersAvail = webViews.size();
 					if (slot > browsersAvail-1)
@@ -93,9 +93,9 @@ namespace ofxFiducialBacked {
 							webViews.resize(browsersAvail+1);
 						else
 							slot = 0;
-					
+
 					WebViewController* viewWrapper = webViews[slot].UIWebViewWrapper;
-/*					
+/*
 					static bool bSetup;
 					if (!bSetup)
 					{
@@ -116,7 +116,7 @@ namespace ofxFiducialBacked {
 										 encoding:[NSString defaultCStringEncoding]];
 						[viewWrapper setUrl:url];
 					}
-					
+
 					[viewWrapper.webView setNeedsDisplay];
 					slot++;
 				}

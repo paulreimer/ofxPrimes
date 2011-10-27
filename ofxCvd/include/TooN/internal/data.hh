@@ -25,7 +25,7 @@ namespace TooN{
 	};
 
 	#ifdef DOXYGEN_INCLUDE_ONLY_FOR_DOCS
-	
+
 		///Package up the function arguments as some data for filling matrices.
 		///Matrices are filled in row major order.
 		///For example:

@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 // Pulled out of gl_helpers to make documentation neater
@@ -33,7 +33,7 @@
 
 namespace CVD
 {
-	
+
 	namespace gl
 	{
 		template<class C> struct data;
@@ -51,7 +51,7 @@ namespace CVD
 			static const int format=GL_LUMINANCE;
 			static const int type  =GL_BYTE;
 		};
-		
+
 		template<> struct data<unsigned  short>
 		{
 			static const int format=GL_LUMINANCE;
@@ -75,7 +75,7 @@ namespace CVD
 			static const int format=GL_LUMINANCE;
 			static const int type  =GL_INT;
 		};
-		
+
 		template<> struct data<float>
 		{
 			static const int format=GL_LUMINANCE;
@@ -87,11 +87,11 @@ namespace CVD
 			static const int format=GL_LUMINANCE;
 			static const int type  =GL_DOUBLE;
 		};
-	
-	
+
+
 
 		//Rgb<*> types
-	
+
 		template<> struct data<Rgb<unsigned char> >
 		{
 			static const int format=GL_RGB;
@@ -103,7 +103,7 @@ namespace CVD
 			static const int format=GL_RGB;
 			static const int type  =GL_BYTE;
 		};
-		
+
 		template<> struct data<Rgb<unsigned  short> >
 		{
 			static const int format=GL_RGB;
@@ -127,7 +127,7 @@ namespace CVD
 			static const int format=GL_RGB;
 			static const int type  =GL_INT;
 		};
-		
+
 		template<> struct data<Rgb<float> >
 		{
 			static const int format=GL_RGB;
@@ -139,10 +139,10 @@ namespace CVD
 			static const int format=GL_RGB;
 			static const int type  =GL_DOUBLE;
 		};
-		
-		
+
+
 		//Rgba<*> types
-	
+
 		template<> struct data<Rgba<unsigned char> >
 		{
 			static const int format=GL_RGBA;
@@ -154,7 +154,7 @@ namespace CVD
 			static const int format=GL_RGBA;
 			static const int type  =GL_BYTE;
 		};
-		
+
 		template<> struct data<Rgba<unsigned  short> >
 		{
 			static const int format=GL_RGBA;
@@ -178,7 +178,7 @@ namespace CVD
 			static const int format=GL_RGBA;
 			static const int type  =GL_INT;
 		};
-		
+
 		template<> struct data<Rgba<float> >
 		{
 			static const int format=GL_RGBA;
@@ -204,7 +204,7 @@ namespace CVD
 			static const int format=GL_LUMINANCE_ALPHA;
 			static const int type  =GL_BYTE;
 		};
-		
+
 		template<> struct data<La<unsigned  short> >
 		{
 			static const int format=GL_LUMINANCE_ALPHA;
@@ -228,7 +228,7 @@ namespace CVD
 			static const int format=GL_LUMINANCE_ALPHA;
 			static const int type  =GL_INT;
 		};
-		
+
 		template<> struct data<La<float> >
 		{
 			static const int format=GL_LUMINANCE_ALPHA;
@@ -248,7 +248,7 @@ namespace CVD
 			static const int format=GL_RGBA;
 			static const int type  =GL_UNSIGNED_BYTE;
 		};
-		
+
 	};
 
 

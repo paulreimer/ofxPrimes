@@ -18,16 +18,16 @@ ofxRemoteControl::~ofxRemoteControl() {
 void ofxRemoteControl::setup() {
 #ifdef USE_MSAREMOTE
 	msaRemote.start(port);
-	
+
 	ofAddListener(msaRemote.cursorAdded, this, &ofxRemoteControl::_cursorAdded);
 	ofAddListener(msaRemote.cursorRemoved, this, &ofxRemoteControl::_cursorRemoved);
 	ofAddListener(msaRemote.cursorUpdated, this, &ofxRemoteControl::_cursorUpdated);
 #endif
-	
+
 	pos.rot.set		(0, 0, 0);
 	pos.offset.set	(0, 0, 0);
 //	pos.offset.set	(0.5f, 0.5f, 4.0f);
-	
+
 	touchesAnglePrev = touchesAngle = 0.0;
 	touchesDistPrev = touchesDist = 0.0;
 }
@@ -35,17 +35,17 @@ void ofxRemoteControl::setup() {
 void ofxRemoteControl::update() {
 #ifdef USE_MSAREMOTE
 	if (!msaRemote.hasMessage()) return;
-	
+
 	msaRemote.getMessage();
-	
+
 	// invert x axis, and subtract 90 degrees
 	pos.rot.x =	msaRemote.accelData.x*90;
 	pos.rot.y = msaRemote.accelData.y*90;
-	
+
 	// do finger stuff
 	list<ofxTuioCursor*>cursorList = msaRemote.getTuioCursors();
 	list<ofxTuioCursor*>::iterator it = cursorList.begin();
-	
+
 	ofxTuioCursor*	first = *it;
 	if (verbose) cout << cursorList.size() << " fingers" << endl;
 
@@ -53,16 +53,16 @@ void ofxRemoteControl::update() {
 		ofxTuioCursor* second = *(++it);
 		touchesAngle = first->getAngleDegrees(second);
 		touchesDist = first->getDistance(second);
-		
+
 		if (newCursorDetected) {
 			newCursorDetected = false;
 			touchesAnglePrev = touchesAngle;
 			touchesDistPrev = touchesDist;
 		}
-		
+
 		pos.rot.z += touchesAngle - touchesAnglePrev;
 		pos.offset.z -= (touchesDist - touchesDistPrev)*4;
-		
+
 		touchesAnglePrev = touchesAngle;
 		touchesDistPrev = touchesDist;
 	} else if (cursorList.size() == 1) {
@@ -75,15 +75,15 @@ void ofxRemoteControl::update() {
 #ifdef USE_TOON
 SE3<> ofxRemoteControl::se3FromRemote() const {
 	/*	from http:/www.j3d.org/matrix_faq/matrfaq_latest.html
-	 
+
 		|  CE      -CF       D  |
 	 M =|  BDE+AF  -BDF+AE  -BC |
 		| -ADE+BF   ADF+BE   AC |
-	 
+
 	 This is the final rotation matrix.
-	 
+
 	 The individual values of A,B,C,D,E and F are evaluated first.
-	 */	
+	 */
 	ofPoint rotation = pos.rot;
 	double cosX = cos(ofDegToRad(rotation.x));
 	double sinX = sin(ofDegToRad(rotation.x));
@@ -97,7 +97,7 @@ SE3<> ofxRemoteControl::se3FromRemote() const {
 	 { sinX*sinY*cosZ + cosX*sinZ, -sinX*sinY*sinZ + cosX*cosZ, -sinX*cosY	},
 	 {-cosX*sinY*cosZ + sinX*sinZ,  cosX*sinY*sinZ + sinX*cosZ,  cosX*cosY	}
 	 };
-	 */	
+	 */
 	Matrix<3,3> rotMat;//(rotCoeffs);
 
 	rotMat[0][0] =  cosY*cosZ;

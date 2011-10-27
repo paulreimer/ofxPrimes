@@ -40,7 +40,7 @@ GuiPage* GuiSet::add(int fiducialId)
 	{
 		this->push_back(make_pair(fiducialId, new GuiPage(string("Fiducial "+fiducialId))));
 	}
-	
+
 //	return (*this)[fiducialId];
 	return find(fiducialId)->second;
 }
@@ -52,7 +52,7 @@ GuiSet::add(int fiducialId, GuiPage* newPage)
 	push_back(make_pair(fiducialId, newPage));
 	return newPage;
 }
-	
+
 void
 GuiSet::remove(int fiducialId)
 {
@@ -64,19 +64,19 @@ GuiSet::remove(int fiducialId)
 void
 GuiSet::update()
 {}
-	
-	
+
+
 #ifdef NOTIFY_FIDUCIAL_STATUS
 //--------------------------------------------------------------
 void
-GuiSet::fiducialFound(fiducialEvtArgs &args) 
+GuiSet::fiducialFound(fiducialEvtArgs &args)
 {
 	ofxFiducial		&fiducial	= *args.fiducial;
 	fiducialIndex	fiducialId	= fiducial.getId();
-	//	cout << "Fiducial " << fiducialId << " found\t\t+(" << fiducial.life << ")" << endl;	
+	//	cout << "Fiducial " << fiducialId << " found\t\t+(" << fiducial.life << ")" << endl;
 
 	fiducial_set_t::iterator chk_gui;
-	
+
 	chk_gui = find(fiducial.getId());
 	if (chk_gui != end())
 	{
@@ -87,19 +87,19 @@ GuiSet::fiducialFound(fiducialEvtArgs &args)
 
 //--------------------------------------------------------------
 void
-GuiSet::fiducialLost(fiducialEvtArgs &args) 
+GuiSet::fiducialLost(fiducialEvtArgs &args)
 {
 	ofxFiducial&	fiducial	= *args.fiducial;
 	fiducialIndex	fiducialId	= fiducial.getId();
-	
+
 	fiducial_set_t::iterator chk_gui;
-	
+
 	//	cout << "Fiducial " << fiducialId << " lost\t\t-(" << fiducial.life << ")" << endl;
-	
+
 	chk_gui = find(fiducial.getId());
 	if (chk_gui != end())
 		chk_gui->second->activate(false);
-	
+
 	fiducial_rays_t::iterator old_intersection_it = segments.find(fiducialId);
 	if (old_intersection_it != segments.end())
 		segments.erase(old_intersection_it);
@@ -111,11 +111,11 @@ GuiSet::fiducialUpdated(fiducialEvtArgs &args)
 {
 	ofxFiducial&	fiducial	= *args.fiducial;
 	fiducialIndex	fiducialId	= fiducial.getId();
-	
+
 	//	cout << "Fiducial " << fiducialId << " updated\t.(" << fiducial.life << ")" << endl;
-	
+
 	fiducial_set_t::iterator chk_gui;
-	
+
 	chk_gui = find(fiducial.getId());
 	if (chk_gui != end())
 	{
@@ -134,13 +134,13 @@ GuiSet::fiducialRayTermination(fiducialRayIntersectionEvtArgs &args)
 {
 	if (args.from == NULL)
 		return;
-	
+
 	float dist = args.from_pt.distance(args.to_pt);
 	float trimPct = 16.0/dist;
-	
+
 	ofxPoint2f draw_from = args.from_pt.getInterpolated(args.to_pt, trimPct); // 10*0.05/dist);
 	ofxPoint2f draw_to;
-	
+
 	if (args.to != NULL)
 		draw_to	= args.from_pt.getInterpolated(args.to_pt, 1-trimPct); // 10*0.95/dist);
 	else

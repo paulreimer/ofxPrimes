@@ -76,7 +76,7 @@ namespace TooN {
 		struct Underfill{};
 	}
 #endif
-	
+
 	using std::numeric_limits;
 	///Is a number a field? ie, +, -, *, / defined.
 	///Specialize this to make TooN work properly with new types.
@@ -87,7 +87,7 @@ namespace TooN {
 	{
 		static const int value = numeric_limits<C>::is_specialized; ///<Is C a field?
 	};
-	
+
 	///@internal
 	///@brief The namaespace holding all the internal code.
 	namespace Internal
@@ -119,15 +119,15 @@ namespace TooN {
 		///
 		///The other use is much more visible and is for objects such as TooN::Zeros and TooN::Idendity .
 		///
-		///The features allowed (construction, addition, etc) depend on the members present. 
-		///For simplicity, general arguments are given below. If members are non-general, then the 
+		///The features allowed (construction, addition, etc) depend on the members present.
+		///For simplicity, general arguments are given below. If members are non-general, then the
 		///operators will simply not be applicable to all vectors or matrices.
 		///
 		///Operators belong to any of a number of categories depending on the members they provide.
 		///The categories are:
 		///
 		/// - Sized operators
-		///   - These know their own size and provide. 
+		///   - These know their own size and provide.
 		///     The sizes are used only in construction of dynamic vectors or
 		///     matrices.
 		/// - Sizeable operators
@@ -143,11 +143,11 @@ namespace TooN {
 			///This must be provided in order to construct dynamic vectors.
 			int size() const;
 			///This along with num_cols() must be present in order to construct matrices.
-			int num_rows() const; 
+			int num_rows() const;
 			///This along with num_rows() must be present in order to construct matrices.
 			int num_cols() const;
 			///@}
-			
+
 			///@name Members used by Vector
 			///@{
 
@@ -157,7 +157,7 @@ namespace TooN {
 			void eval(Vector<Size, Precision, Base>& v) const;
 
 			///This must be present for vector += operator
-			template <int Size, typename P1, typename B1> 
+			template <int Size, typename P1, typename B1>
 			void plusequals(Vector<Size, P1, B1>& v) const;
 
 			///This must be present for vector -= operator
@@ -166,15 +166,15 @@ namespace TooN {
 
 			///This function must be present for vector + operator
 			///and operator + vector
-			template <int Size, typename P1, typename B1> 
+			template <int Size, typename P1, typename B1>
 			Operator<T> add(const Vector<Size, P1, B1>& v) const;
 
 			///This function must be present for vector - operator
-			template <int Size, typename P1, typename B1> 
+			template <int Size, typename P1, typename B1>
 			Operator<T> rsubtract(const Vector<Size, P1, B1>& v) const;
 
 			///This function must be present for operator - vector
-			template <int Size, typename P1, typename B1> 
+			template <int Size, typename P1, typename B1>
 			Operator<T> lsubtract(const Vector<Size, P1, B1>& v) const;
 
 			///@}
@@ -184,28 +184,28 @@ namespace TooN {
 			///This function must be present for construction and assignment
 			///of matrices to work.
 			template<int R, int C, class P, class B>
-			void eval(Matrix<R,C,P,B>& m) const; 
+			void eval(Matrix<R,C,P,B>& m) const;
 
 			///This function must be present for matrix + operator
 			///and operator + matrix
-			template <int Rows, int Cols, typename P1, typename B1> 
+			template <int Rows, int Cols, typename P1, typename B1>
 			Operator<T> add(const Matrix<Rows,Cols, P1, B1>& m) const;
 
 
 			///This function must be present for matrix - operator
-			template <int Rows, int Cols, typename P1, typename B1> 
+			template <int Rows, int Cols, typename P1, typename B1>
 			Operator<T> rsubtract(const Matrix<Rows,Cols, P1, B1>& m) const;
 
 			///This function must be present for operator - matrix
-			template <int Rows, int Cols, typename P1, typename B1> 
+			template <int Rows, int Cols, typename P1, typename B1>
 			Operator<T> lsubtract(const Matrix<Rows,Cols, P1, B1>& m) const;
 
 			///This must be present for matrix += operator
-			template <int Rows, int Cols, typename P1, typename B1> 
+			template <int Rows, int Cols, typename P1, typename B1>
 			void plusequals(Matrix<Rows,Cols, P1, B1>& m) const;
 
 			///This must be present for matrix -= operator
-			template <int Rows, int Cols, typename P1, typename B1> 
+			template <int Rows, int Cols, typename P1, typename B1>
 			void minusequals(Matrix<Rows,Cols, P1, B1>& m) const;
 			///@}
 
@@ -216,15 +216,15 @@ namespace TooN {
 			///Create an operator that knows its size.
 			///Suitable for vectors and square matrices.
 			Operator<T> operator()(int size) const;
-			
+
 			///Create an operator that knows its size, suitable for matrices.
 			Operator<T> operator()(int num_rows, int num_cols) const;
 			///@}
-			
+
 			///@name Members in the category ``scalable operators''
 			///@{
 			typedef T Precision; ///<Precision of the operator's scale.
-			
+
 			///Scale the operator by a scalar and return a new opeator.
 			template<class Pout, class Pmult> Operator<Internal::Identity<Pout> > scale_me(const Pmult& m) const
 			{
@@ -263,12 +263,12 @@ namespace TooN {
 			int e;
 		};
 	};
-	
+
 	///Used for slicing relative to the end, rather than with a known size.
 	///For example:
 	///@code
 	///    Vector<3> v = makeVector(6,5,4,3,2);
-	///    v.slice<1,  End<0> >(); //5 4 3 2 
+	///    v.slice<1,  End<0> >(); //5 4 3 2
 	///    v.slice<0, End<-1> >(); //6 5 4 3
 	///@endcode
 	///See also ``\ref sElemOps''.
@@ -279,7 +279,7 @@ namespace TooN {
 	///For example:
 	///@code
 	///    Vector<> v = makeVector(6,5,4,3,2);
-	///    v.slice(1, End); //5 4 3 2 
+	///    v.slice(1, End); //5 4 3 2
 	///@endcode
 	///See also ``\ref sElemOps''.
 	///@ingroup gLinAlg
@@ -292,7 +292,7 @@ namespace TooN {
 	///For example:
 	///@code
 	///    Vector<> v = makeVector(6,5,4,3,2);
-	///    v.slice(1, End(-1)); //5 4 3 
+	///    v.slice(1, End(-1)); //5 4 3
 	///@endcode
 	///See also ``\ref sElemOps''.
 	///@ingroup gLinAlg
@@ -300,7 +300,7 @@ namespace TooN {
 	{
 		return e;
 	}
-	
+
 	///All TooN classes default to using this precision for computations and storage.
 	typedef double DefaultPrecision;
 }
@@ -317,14 +317,14 @@ namespace TooN {
 
 #include <TooN/internal/vbase.hh>
 #include <TooN/internal/vector.hh>
-	
+
 #include <TooN/internal/mbase.hh>
 #include <TooN/internal/matrix.hh>
 #include <TooN/internal/reference.hh>
 
 #include <TooN/internal/make_vector.hh>
 #include <TooN/internal/operators.hh>
-	
+
 #include <TooN/internal/objects.h>
 
 #include <TooN/internal/diagmatrix.h>

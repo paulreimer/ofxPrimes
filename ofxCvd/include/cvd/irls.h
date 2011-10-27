@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //-*- c++ -*-
@@ -63,7 +63,7 @@ struct ILinear {
 
 /// Performs iterative reweighted least squares.
 /// @param Size the size
-/// @param Reweight The reweighting functor. This structure must provide reweight(), 
+/// @param Reweight The reweighting functor. This structure must provide reweight(),
 /// true-scale() and objective() methods. Existing examples are  Robust I, Robust II and ILinear.
 /// @ingroup gMaths
 template <int Size, class Reweight>

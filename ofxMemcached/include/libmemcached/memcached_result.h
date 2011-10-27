@@ -31,7 +31,7 @@ void memcached_result_free(memcached_result_st *result);
 LIBMEMCACHED_API
 void memcached_result_reset(memcached_result_st *ptr);
 LIBMEMCACHED_API
-memcached_result_st *memcached_result_create(memcached_st *ptr, 
+memcached_result_st *memcached_result_create(memcached_st *ptr,
                                              memcached_result_st *result);
 #define memcached_result_key_value(A) (A)->key
 #define memcached_result_key_length(A) (A)->key_length

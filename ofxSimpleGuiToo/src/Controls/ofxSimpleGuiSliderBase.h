@@ -16,9 +16,9 @@ public:
 
 	float		lerpSpeed;
 	Type		oldValue;
-	
+
 	bool		bLerpValue;
-	
+
 	bool		bValueRightAlign;
 
 	//--------------------------------------------------------------------- construct
@@ -33,7 +33,7 @@ public:
 		bLerpValue	= (smoothing!=0);
 		oldValue	= value;
 		controlType = "SliderBase";
-		
+
 		bValueRightAlign = true;
 		setup();
 	}
@@ -67,7 +67,7 @@ public:
 		if (oldValue != f)
 		{
 			oldValue = (*value) = f;
-			
+
 			if(!bLerpValue)				// if value has changed programmatically by something else
 				oldValue = (*value) = f;// save the value in target and oldvalue
 			else
@@ -187,7 +187,7 @@ public:
 
 	virtual void drawSliderText() {
 		string leftText, rightText;
-		
+
 		leftText = name+": ";
 
 		string& sliderText = bValueRightAlign? rightText : leftText;
@@ -196,12 +196,12 @@ public:
 		config->font.drawString(leftText,
 								config->fontOffset.x,
 								config->sliderHeight + config->fontOffset.y);
-		
+
 		if (bValueRightAlign)
 			config->font.drawString(rightText,
 									width - config->font.stringWidth(rightText) - config->fontOffset.x,
 									config->sliderHeight + config->fontOffset.y);
 	}
-			
+
 
 };

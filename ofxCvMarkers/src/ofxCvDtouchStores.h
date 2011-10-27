@@ -7,7 +7,7 @@ template <bool b>
 class BoolStore : public SequenceStore {
 public:
 	BoolStore(){}
-	
+
 	virtual void addSequence( int * seq, bool white ){ return; }
 	virtual bool contains(const int * seq, const bool white){ return b; }
 };
@@ -19,12 +19,12 @@ template <int nonnulls>
 class NonNullStore : public SequenceStore {
 public:
 	NonNullStore(){}
-	
+
 	virtual void addSequence( int * seq, bool white ){ return; }
 	virtual bool contains(const int * seq, const bool white){
 		for (int i=0; i<=nonnulls; i++)
 			if (*(seq+i) == 0) return false;
-		
+
 		return true;
 	}
 };
@@ -37,21 +37,21 @@ typedef BoolStore<false> NoStore;
  class LUTStore : public SequenceStore {
  public:
  LUTStore(){}
- 
+
  void addSequence(int* seq, bool white);
  bool contains(const int* seq, const bool white);
- 
+
  private:
  //	std::map<std::pair<std::vector<int>, bool> >, bool> seqs;
  };
- 
+
  class MapStore : public SequenceStore {
  public:
  MapStore(){}
- 
+
  virtual void addSequence(int* seq, bool white);
  virtual bool contains(const int* seq, const bool white);
- 
+
  private:
  //	std::map<std::pair<std::vector<int>, bool> >, bool> seqs;
  };

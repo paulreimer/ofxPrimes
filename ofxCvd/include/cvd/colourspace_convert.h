@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_INCLUDE_COLOURSPACE_CONVERT_H
@@ -29,7 +29,7 @@
 
 namespace CVD
 {
-		
+
 	/// Convert Bayer pattern of various forms to greyscale data
 	/// @param from The input data
 	/// @param to The output data
@@ -38,7 +38,7 @@ namespace CVD
 	template<> void convert_image(const BasicImage<bayer_grbg>& from, BasicImage<byte>& to);
 	template<> void convert_image(const BasicImage<bayer_gbrg>& from, BasicImage<byte>& to);
 	template<> void convert_image(const BasicImage<bayer_rggb>& from, BasicImage<byte>& to);
-	
+
 	/// Convert Bayer pattern of various forms to rgb data
 	/// @param from The input data
 	/// @param to The output data
@@ -47,8 +47,8 @@ namespace CVD
 	template<> void convert_image(const BasicImage<bayer_grbg>& from, BasicImage<Rgb<byte> >& to);
 	template<> void convert_image(const BasicImage<bayer_gbrg>& from, BasicImage<Rgb<byte> >& to);
 	template<> void convert_image(const BasicImage<bayer_rggb>& from, BasicImage<Rgb<byte> >& to);
-	 
-	
+
+
 	/// Convert YUV 411 pixel data to RGB
 	/// @param from The input data
 	/// @param to The output data
@@ -61,13 +61,13 @@ namespace CVD
 	/// @param to The output data
 	/// @ingroup gImageIO
 	template<> void convert_image(const BasicImage<yuv411>& from, BasicImage<byte>& to);
-	
+
 	/// Convert YUV 422 pixel data to RGB
 	/// @param from The input data
 	/// @param to The output data
 	/// @ingroup gImageIO
 	template<> void convert_image(const BasicImage<yuv422>& from, BasicImage<Rgb<byte> >& to);
-	  
+
 
 	/// Convert YUV 422 pixel data to Y only
 	/// @param from The input data
@@ -82,19 +82,19 @@ namespace CVD
 	/// @param from The input data
 	/// @ingroup gImageIO
 	template<> std::pair<Image<byte>,Image<Rgb<byte> > > convert_image_pair(const BasicImage<yuv411>& from);
-	
-	
+
+
 	/// Convert VUY 422 pixel data to RGB
 	/// @param from The input data
 	/// @param to The output data
 	/// @ingroup gImageIO
 	template<> void convert_image(const BasicImage<vuy422>& from, BasicImage<Rgb<byte> >& to);
-	
+
 	/// Convert VUY 422 pixel data to Y only
 	/// @param from The input data
 	/// @param to The output data
 	/// @ingroup gImageIO
-	template<> void convert_image(const BasicImage<vuy422>& from, BasicImage<byte>& to);	
+	template<> void convert_image(const BasicImage<vuy422>& from, BasicImage<byte>& to);
 
 
 	template<> struct IsConvertible<yuv411,      Rgb<byte> > { static const bool is=1; };

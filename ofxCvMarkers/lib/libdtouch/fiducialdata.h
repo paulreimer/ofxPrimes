@@ -52,7 +52,7 @@ class FiducialData
 {
 public:
 	const static int _maxBranches = 256;
-	
+
 protected:
 	int _type;
 	int _sequence[_maxBranches+1];
@@ -62,11 +62,11 @@ protected:
 	DTPoint _centre;
 	int _width;
 	int _height;
-	
+
 	int _angle;
-	
+
 	int _rootRegion;
-	
+
 	bool _whiteRoot;
 
 	DTPoint _branchCentre[_maxBranches];
@@ -79,11 +79,11 @@ protected:
 	//Tracking members
 	int _ID;
 	int _tracked;
-	
+
 
 public:
-	static int getMax() { return _maxBranches; } 
-	static int getMaxLenght() { return _maxBranches; } 
+	static int getMax() { return _maxBranches; }
+	static int getMaxLenght() { return _maxBranches; }
 
 	FiducialData(void);
 	~FiducialData(void);
@@ -96,7 +96,7 @@ public:
 	DTPoint getCentre() const { return _centre; }
 	void setCentre(const DTPoint& in_centre){ _centre = in_centre; }
 	DTPoint& Centre(){ return _centre; }
-	
+
 	int getSize() const { return _size; }
 	void setSize(const int& in_size){ _size = in_size; }
 	int& Size(){ return _size; }
@@ -112,7 +112,7 @@ public:
 	int getAngle() const { return _angle; }
 	void setAngle(const int& in_angle){ _angle = in_angle; }
 	int& Angle(){ return _angle; }
-	
+
 	int getRootRegion() const { return _rootRegion; }
 	void setRootRegion(const int& in_rootRegion){ _rootRegion = in_rootRegion; }
 	int& RootRegion(){ return _rootRegion; }
@@ -131,7 +131,7 @@ public:
 
 	int getBranchIndex(const int& i);//{ return branchIndex[i]; }
 	void setBranchCentre(const int& i, const int& index);//{ branchIndex[i] = index; }
-	
+
 	int * Sequence() { return _sequence; }
 	const int * getSequence() const { return _sequence; }
 

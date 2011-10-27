@@ -74,8 +74,8 @@ namespace TooN {
 		inline Precision true_scale(Precision d){return 1;} ///< Returns \f$w(x) + xw'(x)\f$.
 		inline Precision objective(Precision d){return d*d;} ///< Returns \f$\int xw(x)dx\f$.
 	};
-	
-	///A reweighting class where the objective function tends to a 
+
+	///A reweighting class where the objective function tends to a
 	///fixed value, rather than infinity. Note that this is not therefore
 	///a proper distribution since its integral is not finite. It is considerably
 	///more efficient than RobustI and II, since log() is not used.
@@ -90,9 +90,9 @@ namespace TooN {
 		{
 			double d = (1 + x*x/sd_inlier);
 			return 1/(d*d);
-		}	
+		}
 		///< Returns \f$\int xw(x)dx\f$.
-		Precision objective(Precision x) const 
+		Precision objective(Precision x) const
 		{
 			return x*x / (2*(1 + x*x/sd_inlier));
 		}
@@ -100,7 +100,7 @@ namespace TooN {
 
 	/// Performs iterative reweighted least squares.
 	/// @param Size the size
-	/// @param Reweight The reweighting functor. This structure must provide reweight(), 
+	/// @param Reweight The reweighting functor. This structure must provide reweight(),
 	/// true-scale() and objective() methods. Existing examples are  Robust I, Robust II and ILinear.
 	/// @ingroup gEquations
 	template <int Size, typename Precision, template <typename Precision> class Reweight>
@@ -115,7 +115,7 @@ namespace TooN {
 		{
 			my_residual=0;
 		}
-		
+
 		template<int Size2, typename Precision2, typename Base2>
 		inline void add_mJ(Precision m, const Vector<Size2,Precision2,Base2>& J) {
 			SizeMismatch<Size,Size2>::test(my_true_C_inv.num_rows(), J.size());

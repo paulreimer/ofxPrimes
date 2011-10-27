@@ -51,7 +51,7 @@ namespace TooN {
 		for (int i=0; i<size; ++i) {
 			int argmax = i;
 			Precision maxval = abs(A[i][i]);
-			
+
 			for (int ii=i+1; ii<size; ++ii) {
 				double v =  abs(A[ii][i]);
 				if (v > maxval) {
@@ -71,7 +71,7 @@ namespace TooN {
 			for (int j=i+1; j<size; ++j)
 				A[i][j] *= inv_pivot;
 			b[i] *= inv_pivot;
-			
+
 			for (int u=i+1; u<size; ++u) {
 				double factor = A[u][i];
 				//A[u][i] = 0;
@@ -80,7 +80,7 @@ namespace TooN {
 				b[u] -= factor * b[i];
 			}
 		}
-		
+
 		Vector<N,Precision> x(size);
 		for (int i=size-1; i>=0; --i) {
 			x[i] = b[i];
@@ -89,7 +89,7 @@ namespace TooN {
 		}
 		return x;
     }
-	
+
 	namespace Internal
 	{
 		template<int i, int j, int k> struct Size3
@@ -115,7 +115,7 @@ namespace TooN {
 		for (int i=0; i<size; ++i) {
 			int argmax = i;
 			Precision maxval = abs(A[i][i]);
-			
+
 			for (int ii=i+1; ii<size; ++ii) {
 				double v =  abs(A[ii][i]);
 				if (v > maxval) {
@@ -137,7 +137,7 @@ namespace TooN {
 			for (int j=i+1; j<size; ++j)
 				A[i][j] *= inv_pivot;
 			b[i] *= inv_pivot;
-			
+
 			for (int u=i+1; u<size; ++u) {
 				double factor = A[u][i];
 				//A[u][i] = 0;
@@ -146,7 +146,7 @@ namespace TooN {
 				b[u] -= factor * b[i];
 			}
 		}
-		
+
 		Matrix<Internal::Size3<R1, C1, R2>::s,C2,Precision> x(b.num_rows(), b.num_cols());
 		for (int i=size-1; i>=0; --i) {
 			for(int k=0; k <b.num_cols(); k++)

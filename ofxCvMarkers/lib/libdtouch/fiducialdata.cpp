@@ -39,7 +39,7 @@
 #include <string.h>
 #endif
 
-FiducialData::FiducialData(void) : 
+FiducialData::FiducialData(void) :
 	_type(0),
 	_centre(0,0),
 	_width(0),
@@ -59,7 +59,7 @@ FiducialData::FiducialData(void) :
 		_branchIndex[i] = 0;
 		_branchCentre[i] = DTPoint(-1,-1);
 	}
-	
+
 	memset(_sequenceString, 0, (_maxBranches+1)*5*sizeof(char));
 }
 
@@ -80,26 +80,26 @@ void FiducialData::init( int *in_sequence )
 }
 
 /*
-DTPoint FiducialData::getBranchCentre(const int& i){ 
+DTPoint FiducialData::getBranchCentre(const int& i){
 	assert( i>=0 && i<_sequence[0] );
-	return _branchCentre[i]; 
+	return _branchCentre[i];
 }
 */
 
-void FiducialData::setBranchCentre(const int& i, const DTPoint& p){ 
+void FiducialData::setBranchCentre(const int& i, const DTPoint& p){
 	assert( i>=0 && i<_sequence[0] );
-	_branchCentre[i] = p; 
+	_branchCentre[i] = p;
 }
 
 
-DTPoint FiducialData::getCorner(const int& i){ 
+DTPoint FiducialData::getCorner(const int& i){
 	assert( i>=0 && i<4 );
-	return _corner[i]; 
+	return _corner[i];
 }
 
-void FiducialData::setCorner(const int& i, const DTPoint& p){ 
+void FiducialData::setCorner(const int& i, const DTPoint& p){
 	assert( i>=0 && i<4 );
-	_corner[i] = p; 
+	_corner[i] = p;
 }
 
 bool operator==(const FiducialData& a, const FiducialData& b){
@@ -136,7 +136,7 @@ char * FiducialData::getSequenceString( bool colorInfo ) {
 			sprintf(_sequenceString,"%s,b",_sequenceString);
 		}
 	}
-	return _sequenceString; 
+	return _sequenceString;
 }
 #endif //ndef __SYMBIAN32__
 
@@ -151,7 +151,7 @@ int * FiducialData::parseSequenceL( const char * in_fiducialSequence, bool& whit
 	while( (*tmp == '[' || *tmp == '{' || *tmp == '(' || *tmp == ' ') && *tmp != 0 ){
 		tmp++;
 	}
-	
+
 	white = false;
 	IntList * result = IntList::newL();
 	for(char * tok = strtok( tmp, "," );tok!=NULL;tok = strtok( NULL, "," )){
@@ -163,7 +163,7 @@ int * FiducialData::parseSequenceL( const char * in_fiducialSequence, bool& whit
 			result->appendL( atoi(tok) );
 		}
 	}
-	
+
 	if( result->getSize() < 2 ){
 		delete result;
 		return NULL;
@@ -174,14 +174,14 @@ int * FiducialData::parseSequenceL( const char * in_fiducialSequence, bool& whit
 	#else
 	int * toReturn = new (ELeave) int[result->getSize()+1];
 	#endif
-	
+
 	int i=0;
 	toReturn[i++] = result->getSize();
 	for(result->reset();!(result->isNull());result->fwd()){
 		toReturn[i++] = result->getData();
 	}
 	delete result;
-	
+
 	return toReturn;
 }
 

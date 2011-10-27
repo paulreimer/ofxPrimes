@@ -16,7 +16,7 @@ namespace ofxProtobufBacked {
 
             void setup();
             void update();
-            
+
             ofxOscReceiver receiver;
             unsigned short port;
         };

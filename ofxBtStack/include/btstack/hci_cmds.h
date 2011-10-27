@@ -103,7 +103,7 @@
 // data: none
 #define BTSTACK_EVENT_POWERON_FAILED                       0x62
 
-// data: event (8), len(8), status (8), address(48), handle (16), psm (16), source_cid(16), dest_cid (16) 
+// data: event (8), len(8), status (8), address(48), handle (16), psm (16), source_cid(16), dest_cid (16)
 #define L2CAP_EVENT_CHANNEL_OPENED                         0x70
 
 // data: event (8), len(8), channel (16)
@@ -134,15 +134,15 @@
  */
 #define HCI_INQUIRY_LAP 0x9E8B33L  // 0x9E8B33: General/Unlimited Inquiry Access Code (GIAC)
 /**
- *  Hardware state of Bluetooth controller 
+ *  Hardware state of Bluetooth controller
  */
 typedef enum {
     HCI_POWER_OFF = 0,
-    HCI_POWER_ON 
+    HCI_POWER_ON
 } HCI_POWER_MODE;
 
 /**
- * State of BTstack 
+ * State of BTstack
  */
 typedef enum {
     HCI_STATE_OFF = 0,
@@ -151,7 +151,7 @@ typedef enum {
     HCI_STATE_HALTING
 } HCI_STATE;
 
-/** 
+/**
  * compact HCI Command packet description
  */
  typedef struct {

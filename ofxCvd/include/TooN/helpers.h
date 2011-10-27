@@ -61,7 +61,7 @@ namespace TooN {
 			for(int j=0; j < m.num_cols(); j++)
 				m[i][j] = p;
 	}
-	
+
 	///Compute the \f$L_2\f$ norm of \e v
 	///@param v \e v
 	///@ingroup gLinAlg
@@ -88,7 +88,7 @@ namespace TooN {
 		using std::sqrt;
 		return v * (1/sqrt(v*v));
 	}
-	
+
 	///Normalize a vector in place
 	///@param v Vector to normalize
 	///@ingroup gLinAlg
@@ -97,7 +97,7 @@ namespace TooN {
 		using std::sqrt;
 		v /= sqrt(v*v);
 	}
-	
+
 	///For a vector \e v of length \e i, return \f$[v_1, v_2, \cdots, v_{i-1}] / v_i \f$
 	///@param v \e v
 	///@ingroup gLinAlg
@@ -105,7 +105,7 @@ namespace TooN {
 		static const int Len = (Size==Dynamic?Dynamic:Size-1);
 		return v.template slice<0, Len>(0, v.size()-1) / v[v.size() - 1];
 	}
-	
+
 	//This should probably be done with an operator to prevent an extra new[] for dynamic vectors.
 	///For a vector \e v of length \e i, return \f$[v_1, v_2, \cdots, v_{i}, 1]\f$
 	///@param v \e v
@@ -117,7 +117,7 @@ namespace TooN {
 		result[v.size()] = 1;
 		return result;
 	}
-	
+
 	/**
        \overload
 	*/
@@ -184,7 +184,7 @@ namespace TooN {
 		}
 		return n;
 	}
-	
+
 	/// \e L<sub>1</sub> (col sum) norm of input matrix m
 	/// computes the maximum of the sums of absolute values over columns
 	///@ingroup gLinAlg
@@ -220,9 +220,9 @@ namespace TooN {
 			return result;
 		}
 	};
-	
-	/// computes the matrix exponential of a matrix m by 
-	/// scaling m by 1/(powers of 2), using Taylor series and 
+
+	/// computes the matrix exponential of a matrix m by
+	/// scaling m by 1/(powers of 2), using Taylor series and
 	/// squaring again.
 	/// @param m input matrix, must be square
 	/// @return result matrix of the same size/type as input
@@ -238,11 +238,11 @@ namespace TooN {
 			result = result * result;
 		return result;
 	}
-	
+
 	/// Returns true if every element is finite
 	///@ingroup gLinAlg
 	template<int S, class P, class B> bool isfinite(const Vector<S, P, B>& v)
-	{ 
+	{
 		using std::isfinite;
 		for(int i=0; i < v.size(); i++)
 			if(!isfinite(v[i]))
@@ -253,7 +253,7 @@ namespace TooN {
 	/// Returns true if any element is NaN
 	///@ingroup gLinAlg
 	template<int S, class P, class B> bool isnan(const Vector<S, P, B>& v)
-	{ 
+	{
 		using std::isnan;
 		for(int i=0; i < v.size(); i++)
 			if(isnan(v[i]))
@@ -261,7 +261,7 @@ namespace TooN {
 		return 0;
 	}
 
-	/// Symmetrize a matrix 
+	/// Symmetrize a matrix
 	///@param m \e m
 	///@return \f$ \frac{m + m^{\mathsf T}}{2} \f$
 	///@ingroup gLinAlg
@@ -276,7 +276,7 @@ namespace TooN {
 			}
 		}
 	}
-	
+
 	/// computes the trace of a square matrix
 	///@ingroup gLinAlg
 	template<int Rows, int Cols, typename Precision, typename Base>
@@ -298,14 +298,14 @@ namespace TooN {
 
 		TooN::Matrix<3> result;
 
-		result(0,0) = 0; 
-		result(0,1) = -vec[2]; 
+		result(0,0) = 0;
+		result(0,1) = -vec[2];
 		result(0,2) = vec[1];
-		result(1,0) = vec[2]; 
-		result(1,1) = 0; 
+		result(1,0) = vec[2];
+		result(1,1) = 0;
 		result(1,2) = -vec[0];
-		result(2,0) = -vec[1]; 
-		result(2,1) = vec[0]; 
+		result(2,0) = -vec[1];
+		result(2,1) = vec[0];
 		result(2,2) = 0;
 
 		return result;
@@ -362,7 +362,7 @@ namespace TooN {
                 }
             }
             return func.ret();
-        }        
+        }
 
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_functor_vector {
@@ -379,7 +379,7 @@ namespace TooN {
                     bestVal = curVal;
                 }
             }
-            Precision ret() { return bestVal; }            
+            Precision ret() { return bestVal; }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_element_functor_vector {
@@ -401,7 +401,7 @@ namespace TooN {
             }
             std::pair<Precision,int> ret() {
                 return std::pair<Precision,int>( bestVal, nBestIndex );
-            }            
+            }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_functor_matrix {
@@ -418,7 +418,7 @@ namespace TooN {
                     bestVal = curVal;
                 }
             }
-            Precision ret() { return bestVal; }            
+            Precision ret() { return bestVal; }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_element_functor_matrix {
@@ -442,9 +442,9 @@ namespace TooN {
                 }
             }
             std::pair<Precision,std::pair<int,int> > ret() {
-                return std::pair<Precision,std::pair<int,int> >( bestVal, 
+                return std::pair<Precision,std::pair<int,int> >( bestVal,
                                                                  std::pair<int,int>( nBestRow, nBestCol ) );
-            }            
+            }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_vertical_functor {
@@ -471,10 +471,10 @@ namespace TooN {
                 if( bestVal == NULL ) {
                     return null();
                 }
-                Vector<Dynamic,Precision> vRet = *bestVal; 
+                Vector<Dynamic,Precision> vRet = *bestVal;
                 delete bestVal;
                 return vRet;
-            }            
+            }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_element_vertical_functor {
@@ -507,17 +507,17 @@ namespace TooN {
                 if( bestVal == NULL ) {
                     return null();
                 }
-                std::pair<Vector<Dynamic,Precision>,Vector<Dynamic,Precision> > vRet = 
+                std::pair<Vector<Dynamic,Precision>,Vector<Dynamic,Precision> > vRet =
                     std::pair<Vector<Dynamic,Precision>,Vector<Dynamic,Precision> > (*bestVal, *bestIndices );
                 delete bestVal; bestVal = NULL;
                 delete bestIndices; bestIndices = NULL;
                 return vRet;
-            }            
+            }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_horizontal_functor {
             Vector<Dynamic,Precision>* bestVal;
-        public: 
+        public:
             accumulate_horizontal_functor() {
                 bestVal = NULL;
             }
@@ -535,14 +535,14 @@ namespace TooN {
                     (*bestVal)[nRow] = curVal;
                 }
             }
-            Vector<Dynamic,Precision> ret() { 
+            Vector<Dynamic,Precision> ret() {
                 if( bestVal == NULL ) {
                     return null();
                 }
                 Vector<Dynamic,Precision> vRet = *bestVal;
                 delete bestVal; bestVal = NULL;
-                return vRet; 
-            }            
+                return vRet;
+            }
         };
         template<typename Precision, typename ComparisonFunctor>
         class accumulate_element_horizontal_functor {
@@ -575,12 +575,12 @@ namespace TooN {
                 if( bestVal == NULL ) {
                     return null();
                 }
-                std::pair<Vector<Dynamic,Precision>,Vector<Dynamic,Precision> > vRet = 
+                std::pair<Vector<Dynamic,Precision>,Vector<Dynamic,Precision> > vRet =
                     std::pair<Vector<Dynamic,Precision>,Vector<Dynamic,Precision> >( *bestVal, *bestIndices );
                 delete bestVal; bestVal = NULL;
                 delete bestIndices; bestIndices = NULL;
                 return vRet;
-            }            
+            }
         };
     }
 
@@ -590,7 +590,7 @@ namespace TooN {
     template<int Size, typename Precision, typename Base> inline Precision min( const Vector<Size, Precision, Base>& v) {
         typedef Internal::accumulate_functor_vector<Precision, std::less<Precision> > vector_accumulate_functor;
         return Internal::accumulate<Size,Precision,Base,
-            vector_accumulate_functor, Precision >( v ); 
+            vector_accumulate_functor, Precision >( v );
     }
 	/// Finds the largest value of a vector.
 	/// @param v a vector
@@ -598,7 +598,7 @@ namespace TooN {
     template<int Size, typename Precision, typename Base> inline Precision max( const Vector<Size, Precision, Base>& v) {
         typedef Internal::accumulate_functor_vector<Precision, std::greater<Precision> > vector_accumulate_functor;
         return Internal::accumulate<Size,Precision,Base,
-            vector_accumulate_functor, Precision >( v ); 
+            vector_accumulate_functor, Precision >( v );
     }
 	/// Finds the smallest value of a matrix.
 	/// @param m a matrix
@@ -654,7 +654,7 @@ namespace TooN {
     template<int Size, typename Precision, typename Base> inline std::pair<Precision,int> min_element( const Vector<Size, Precision, Base>& v) {
         typedef Internal::accumulate_element_functor_vector<Precision, std::less<Precision> > vector_accumulate_functor;
         return Internal::accumulate<Size,Precision,Base,
-            vector_accumulate_functor, std::pair<Precision,int> >( v ); 
+            vector_accumulate_functor, std::pair<Precision,int> >( v );
     }
 	/// Finds the largest value of a vector and its index.
 	/// @param v a vector
@@ -662,8 +662,8 @@ namespace TooN {
     template<int Size, typename Precision, typename Base> inline std::pair<Precision,int> max_element( const Vector<Size, Precision, Base>& v) {
         typedef Internal::accumulate_element_functor_vector<Precision, std::greater<Precision> > vector_accumulate_functor;
         return Internal::accumulate<Size,Precision,Base,
-            vector_accumulate_functor, std::pair<Precision,int> >( v ); 
-    }    
+            vector_accumulate_functor, std::pair<Precision,int> >( v );
+    }
 	/// Finds the smallest value of a matrix and its row and column.
 	/// @param m a matrix
 	/// @return a pair containing the smallest value and a pair
@@ -683,7 +683,7 @@ namespace TooN {
         typedef std::pair<Precision,std::pair<int,int> > Ret;
         return Internal::accumulate<R,C,Precision,Base,
             matrix_accumulate_functor, Ret>( m );
-    }	
+    }
     /// Finds the smallest values of each column of a matrix and their
 	/// indices.
 	/// @param m a matrix

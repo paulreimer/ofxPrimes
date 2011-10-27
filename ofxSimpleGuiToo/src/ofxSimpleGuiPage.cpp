@@ -40,7 +40,7 @@ ofxSimpleGuiPage::ofxSimpleGuiPage(string name) : ofxSimpleGuiControl(name) {
 	disableAllEvents();
 	width = 0;
 	height = 0;
-	
+
 	bWrapControls = true;
 }
 
@@ -98,7 +98,7 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight)
 		return;
 
 	if(alignRight) x = ofGetWidth() - x -  config->gridSize.x;
-		
+
 	float posX		= 0;
 	float posY		= 0;
 
@@ -118,9 +118,9 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight)
 
 		float controlX = posX + x;
 		float controlY = posY + y;
-		
+
 		control.draw(controlX, controlY);
-		
+
 		if (control.controlType=="Content" || control.controlType=="SliderContent")
 			posY = getNextY(posY + control.height + config->margin.y + 2*config->padding.y + config->sliderTextHeight);
 		else
@@ -140,13 +140,13 @@ void ofxSimpleGuiPage::draw(float x, float y, bool alignRight)
 			if(alignRight) posX -= columnOffset;
 			else posX += columnOffset;
 			posY = 0;
-			
+
 			if (verticalSeparator.width && verticalSeparator.height)
 				verticalSeparator.draw(x + posX, y + posY, verticalSeparator.width*control.height/verticalSeparator.height, control.height);
 		}
 		else if (horizontalSeparator.width && horizontalSeparator.height)
 			horizontalSeparator.draw(x + posX, y + posY, control.width, horizontalSeparator.height*control.width/horizontalSeparator.width);
-		
+
 		//		if(guiFocus == controls[i]->guiID) controls[i]->focused = true;		// MEMO
 		//		else							   controls[i]->focused = false;
 	}
@@ -222,7 +222,7 @@ ofxSimpleGuiSliderContent &ofxSimpleGuiPage::addSlider(string name, int &value,
 													  int min, int max) {
 	return (ofxSimpleGuiSliderContent &)addControl(* new ofxSimpleGuiSliderContent(name, value, strs, contents, min, max));
 }
-	
+
 ofxSimpleGuiTitle &ofxSimpleGuiPage::addTitle(string name, bool &value) {
 	return (ofxSimpleGuiTitle &)addControl(* new ofxSimpleGuiTitle(name, value));
 }
@@ -234,6 +234,6 @@ ofxSimpleGuiToggle &ofxSimpleGuiPage::addToggle(string name, bool &value) {
 ofxSimpleGuiControl &ofxSimpleGuiPage::setConfig(ofxSimpleGuiConfig *config) {
 	for(int i=0; i<controls.size(); i++)
 		controls[i]->setConfig(config);
-	
-	return *this;	
+
+	return *this;
 }

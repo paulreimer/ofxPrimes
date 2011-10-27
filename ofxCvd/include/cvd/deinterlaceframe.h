@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef __DEINTERLACE_FRAME_H__
@@ -31,15 +31,15 @@ namespace CVD
 	/// interlaced frame.
 	/// If the buffer is extracting both fields from the video frames, the
 	/// time of the first field is reported as being the time of the
-	/// original frame, while the time of the second field will be 
+	/// original frame, while the time of the second field will be
 	/// 1/frame_rate() further on.
 	/// @param T The pixel type of the original video buffer
 	/// @ingroup gVideoFrame
-	template<typename T> 
+	template<typename T>
 	class DeinterlaceFrame: public VideoFrame<T>
 	{
 		friend class DeinterlaceBuffer<T>;
-		
+
 		public:
 			/// Access the original (interlaced) frame
 			const VideoFrame<T>* full_frame() {return real_frame;}
@@ -52,8 +52,8 @@ namespace CVD
 			DeinterlaceFrame(double time, T* data, const ImageRef& size) :
 			   VideoFrame<T>(time, data, size)
 			{
-			}	
-			
+			}
+
 		private:
 			VideoFrame<T>* real_frame;
 	};

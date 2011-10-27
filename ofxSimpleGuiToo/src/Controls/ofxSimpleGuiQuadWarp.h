@@ -15,15 +15,15 @@ public:
 	int				onPnt;
 	bool			mouseOn;
 	float			sw, sh;
-	
+
 	ofxSimpleGuiQuadWarp(string name, float x, float y, float sw, float sh, ofPoint **inpts);
-	
+
 	bool checkDistanceToPoint();
 
 	void mousePressed(int x, int y, int button);
 	void mouseDragged(int x, int y, int button);
 	void mouseReleased();
-	
+
 	void drawWidget(float x, float y);
 
 };

@@ -1,8 +1,8 @@
 /***************************************************************************
 	sequencefilestore.cpp
-	
+
 	Implmentation of the SequenceStore interface defined in fiducialdata.h
-	(in dtouch core). This class loads the sequence data from a file, and 
+	(in dtouch core). This class loads the sequence data from a file, and
 	it stores it in binary tree.
 
                              -------------------

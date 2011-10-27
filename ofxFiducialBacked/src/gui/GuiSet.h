@@ -12,7 +12,7 @@ namespace ofxFiducialBacked {
 		{
 		public:
 			GuiSet();
-			
+
 			virtual void setup();
 			virtual void update();
 
@@ -28,14 +28,14 @@ namespace ofxFiducialBacked {
 			void fiducialLost	(types::events::fiducialEvtArgs &args);
 			void fiducialUpdated(types::events::fiducialEvtArgs &args);
 #endif
-			
+
 #ifdef NOTIFY_FIDUCIAL_INTERSECTION
 			void fiducialRayTermination			(types::events::fiducialRayIntersectionEvtArgs &args);
 #endif
 			types::gui::fiducial_rays_t segments;
 			bool bUseFiducials;
 			ofxFiducialTracker *tracker;
-			
+
 			float scaleFac;
 		};
 	}

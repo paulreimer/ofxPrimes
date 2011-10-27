@@ -39,7 +39,7 @@ double shrDeltaT(int iCounterID);
 //////////////////////////////////////////////////////////////////////////////
 //! Gets the id of device with maximal FLOPS from the context
 //!
-//! @return the id 
+//! @return the id
 //! @param cxGPUContext         OpenCL context
 //////////////////////////////////////////////////////////////////////////////
 cl_device_id oclGetMaxFlopsDev(cl_context cxGPUContext);
@@ -61,5 +61,5 @@ void oclPrintDevInfo(int iLogMode, cl_device_id device);
 //! @param device_idx            index of the device of interest
 //////////////////////////////////////////////////////////////////////////////
 cl_device_id oclGetDev(cl_context cxGPUContext, unsigned int nr);
-	
+
 #endif

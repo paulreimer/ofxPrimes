@@ -40,12 +40,12 @@
 namespace TooN {
 /**
 Performs %LU decomposition and back substitutes to solve equations.
-The %LU decomposition is the fastest way of solving the equation 
+The %LU decomposition is the fastest way of solving the equation
 \f$M\underline{x} = \underline{c}\f$m, but it becomes unstable when
 \f$M\f$ is (nearly) singular (in which cases the SymEigen or SVD decompositions
 are better). It decomposes a matrix \f$M\f$ into
 \f[M = L \times U\f]
-where \f$L\f$ is a lower-diagonal matrix with unit diagonal and \f$U\f$ is an 
+where \f$L\f$ is a lower-diagonal matrix with unit diagonal and \f$U\f$ is an
 upper-diagonal matrix. The library only supports the decomposition of square matrices.
 It can be used as follows to solve the \f$M\underline{x} = \underline{c}\f$ problem as follows:
 @code
@@ -61,7 +61,7 @@ It can be used as follows to solve the \f$M\underline{x} = \underline{c}\f$ prob
   // compute x = M^-1 * c
   Vector<3> x = luM.backsub(c);
 @endcode
-The convention LU<> (=LU<-1>) is used to create an LU decomposition whose size is 
+The convention LU<> (=LU<-1>) is used to create an LU decomposition whose size is
 determined at runtime.
 @ingroup gDecomps
 **/
@@ -76,14 +76,14 @@ class LU {
 	:my_lu(m.num_rows(),m.num_cols()),my_IPIV(m.num_rows()){
 		compute(m);
 	}
-	
+
 	/// Perform the %LU decompsition of another matrix.
 	template<int S1, int S2, class Base>
 	void compute(const Matrix<S1,S2,Precision,Base>& m){
 		//check for consistency with Size
 		SizeMismatch<Size, S1>::test(my_lu.num_rows(),m.num_rows());
 		SizeMismatch<Size, S2>::test(my_lu.num_rows(),m.num_cols());
-	
+
 		//Make a local copy. This is guaranteed contiguous
 		my_lu=m;
 		int lda = m.num_rows();
@@ -103,7 +103,7 @@ class LU {
 	Matrix<Size,NRHS,Precision> backsub(const Matrix<Rows,NRHS,Precision,Base>& rhs){
 		//Check the number of rows is OK.
 		SizeMismatch<Size, Rows>::test(my_lu.num_rows(), rhs.num_rows());
-	
+
 		Matrix<Size, NRHS, Precision> result(rhs);
 
 		int M=rhs.num_cols();
@@ -132,7 +132,7 @@ class LU {
 	Vector<Size,Precision> backsub(const Vector<Rows,Precision,Base>& rhs){
 		//Check the number of rows is OK.
 		SizeMismatch<Size, Rows>::test(my_lu.num_rows(), rhs.size());
-	
+
 		Vector<Size, Precision> result(rhs);
 
 		int M=1;
@@ -153,7 +153,7 @@ class LU {
 		return result;
 	}
 
-	/// Calculate inverse of the matrix. This is not usually needed: if you need the inverse just to 
+	/// Calculate inverse of the matrix. This is not usually needed: if you need the inverse just to
 	/// multiply it by a matrix or a vector, use one of the backsub() functions, which will be faster.
 	Matrix<Size,Size,Precision> get_inverse(){
 		Matrix<Size,Size,Precision> Inverse(my_lu);
@@ -171,11 +171,11 @@ class LU {
 
 	/// Returns the L and U matrices. The permutation matrix is not returned.
 	/// Since L is lower-triangular (with unit diagonal)
-	/// and U is upper-triangular, these are returned conflated into one matrix, where the 
-	/// diagonal and above parts of the matrix are U and the below-diagonal part, plus a unit diagonal, 
+	/// and U is upper-triangular, these are returned conflated into one matrix, where the
+	/// diagonal and above parts of the matrix are U and the below-diagonal part, plus a unit diagonal,
 	/// are L.
 	const Matrix<Size,Size,Precision>& get_lu()const {return my_lu;}
-	
+
 	private:
 	inline int get_sign() const {
 		int result=1;
@@ -196,7 +196,7 @@ class LU {
 		}
 		return result;
 	}
-	
+
 	/// Get the LAPACK info
 	int get_info() const { return my_info; }
 
@@ -208,6 +208,6 @@ class LU {
 
 };
 }
-	
+
 
 #endif

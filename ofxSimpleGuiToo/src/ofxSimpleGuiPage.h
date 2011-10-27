@@ -72,15 +72,15 @@ public:
 										   map<int, string> strs,
 										   map<int, ofBaseDraws*> contents,
 										   int min=0, int max=0);
-	
+
 	ofxSimpleGuiControl		&setConfig(ofxSimpleGuiConfig *config);
-	
+
 protected:
 	vector <ofxSimpleGuiControl*>	controls;
 	float getNextY(float y);
 
 	bool bWrapControls;
-	
+
 	ofImage	verticalSeparator;
 	ofImage	horizontalSeparator;
 };
