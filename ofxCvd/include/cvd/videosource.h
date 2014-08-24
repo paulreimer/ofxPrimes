@@ -23,13 +23,13 @@ namespace CVD {
 	{
 		ParseException(const std::string& what_) { what = what_; }
 	};
-	
+
 	struct VideoSourceException : public Exceptions::All
 	{
 		VideoSourceException(const std::string& what_) { what = what_; }
 	};
 
-	struct VideoSource 
+	struct VideoSource
 	{
 		std::string protocol;
 		std::string identifier;
@@ -55,7 +55,7 @@ namespace CVD {
 			using std::ifstream;
 
 			auto_ptr<std::ifstream> stream(new ifstream(filename.c_str()));
-			
+
 			auto_ptr<VideoBuffer<T> > buf(static_cast<VideoBuffer<T>*>(new ServerPushJpegBuffer<T>(*stream)));
 			return new VideoBufferWithData<T, std::ifstream>(buf, stream);
 		}
@@ -71,12 +71,12 @@ namespace CVD {
 
 	void get_jpegstream_options(const VideoSource& vs, int& fps);
 
- 
+
     ////////////////////////////////////////////////////////////////////////////////
 	//
 	// Colourspace conversion buffer
 	//
-    
+
 	void get_colourspace_options(const VideoSource& vs, std::string& from);
 
 	template<class Out, class In, bool can_convert> struct MakeConverter{
@@ -145,7 +145,7 @@ namespace CVD {
 	{
 		static VideoBuffer<T>* make(const std::vector<std::string>& files, double fps, VideoBufferFlags::OnEndOfBuffer eob)
 		{
-			return new DiskBuffer2<T>(files, fps, eob);    
+			return new DiskBuffer2<T>(files, fps, eob);
 		}
 	};
 
@@ -160,7 +160,7 @@ namespace CVD {
 #endif
 
 	void get_files_options(const VideoSource& vs, int& fps, int& ra_frames, VideoBufferFlags::OnEndOfBuffer& eob);
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	//
 	// v4l1 buffer
@@ -207,7 +207,7 @@ namespace CVD {
 	{
 		throw VideoSourceException("VideoFileBuffer cannot handle types other than byte, Rgb<byte>");
 	}
-	
+
 	template <> VideoBuffer<byte>* makeVideoFileBuffer(const std::string& file, VideoBufferFlags::OnEndOfBuffer eob);
 	template <> VideoBuffer<Rgb<byte> >* makeVideoFileBuffer(const std::string& file, VideoBufferFlags::OnEndOfBuffer eob);
 
@@ -221,7 +221,7 @@ namespace CVD {
 	{
 		throw VideoSourceException("DVBuffer2 cannot handle " + PNM::type_name<T>::name());
 	}
-	
+
 	template <> VideoBuffer<byte>* makeDVBuffer2(int cam, ImageRef size, float fps, ImageRef offset);
 	template <> VideoBuffer<unsigned short>* makeDVBuffer2(int cam, ImageRef size, float fps, ImageRef offset);
 	template <> VideoBuffer<yuv411>* makeDVBuffer2(int cam, ImageRef size, float fps, ImageRef offset);
@@ -245,7 +245,7 @@ namespace CVD {
 	}
 	template <> VideoBuffer<vuy422> * makeQTBuffer( const ImageRef & size, int input, bool showsettings);
 	template <> VideoBuffer<yuv422> * makeQTBuffer( const ImageRef & size, int input, bool showsettings);
-	
+
 	void get_qt_options(const VideoSource & vs, ImageRef & size, bool & showsettings);
 
 
@@ -295,7 +295,7 @@ namespace CVD {
 			ImageRef size;
 			get_v4l1_options(vs, size);
 			return makeV4L1Buffer<T>(vs.identifier, size);
-		} 
+		}
 #endif
 #if CVD_INTERNAL_HAVE_V4LBUFFER
 		else if (vs.protocol == "v4l2") {
@@ -303,8 +303,8 @@ namespace CVD {
 			int input;
 			bool interlaced, verbose;
 			get_v4l2_options(vs, size, input, interlaced, verbose);
-			return makeV4LBuffer<T>(vs.identifier, size, input, interlaced, verbose);	
-		} 
+			return makeV4LBuffer<T>(vs.identifier, size, input, interlaced, verbose);
+		}
 #endif
 #if CVD_HAVE_DVBUFFER3
 		else if (vs.protocol == "dc1394") {
@@ -313,7 +313,7 @@ namespace CVD {
 			float fps;
 			get_dc1394_options(vs, size, fps, offset);
 			return makeDVBuffer2<T>(cam_no, size, fps, offset);
-		} 
+		}
 #endif
 #if CVD_HAVE_FFMPEG
 		else if (vs.protocol == "file") {
@@ -324,7 +324,7 @@ namespace CVD {
 			if (ra_frames)
 				vb = new ReadAheadVideoBuffer<T>(*vb, ra_frames);
 			return vb;
-		} 
+		}
 #endif
 #if CVD_HAVE_QTBUFFER
 	else if (vs.protocol == "qt") {
@@ -355,7 +355,7 @@ namespace CVD {
 #endif
 #ifdef CVD_HAVE_GLOB
 									   "files"
-#endif 
+#endif
 									   );
 	}
 
@@ -402,7 +402,7 @@ Open a V4L2 device at /dev/video0:
 @verbatim
 v4l2:///dev/video0
 @endverbatim
-   
+
 Open a V4L2 device with fields on input 2:
 @verbatim
 v4l2:[input=2,fields]///dev/video0
@@ -428,7 +428,7 @@ Open the first QuickTime camera and show the settings dialog
 qt:[showsettings=1]//0
 @endverbatim
 
-Open an HTTP camera. First create a named pipe from the shell, 
+Open an HTTP camera. First create a named pipe from the shell,
 and start grabbing video:
 @verbatim
 mkfifo /tmp/video
@@ -482,7 +482,7 @@ Options supported by the various protocols are:
 	  read_ahead  [= <number>] (default is 50 if specified without value)
 
 'colourspace' protcol (ColourspaceBuffer): identifier is a video URL
-      from = byte | mono | gray | grey | yuv411 | yuv422 | rgb<byte> 
+      from = byte | mono | gray | grey | yuv411 | yuv422 | rgb<byte>
 	         | rgb | bayer_bggr | bayer_gbrg | bayer_grbg | bayer_rggb  (default mono)
 
 @endverbatim
@@ -493,7 +493,7 @@ Options supported by the various protocols are:
 	{
 		std::istringstream in(src);
 		return open_video_source<T>(in);
-	}	 
+	}
 }
 
 #endif

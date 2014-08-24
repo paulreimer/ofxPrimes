@@ -2,7 +2,7 @@
 ofxDraggable::ofxDraggable() {
   content = NULL;
 }
-   
+
 void ofxDraggable::onPress(int mx, int my, int button) {
   // save the offset of where the mouse was clicked...
   // ...relative to the position of the object
@@ -20,7 +20,7 @@ void ofxDraggable::draw() {
      width = content->getWidth();
      height = content->getHeight();
      content->draw(x, y, width, height);
-     
+
      // add a border if mouse is pressed or over the object
      if(isMouseDown()) {
         ofNoFill();

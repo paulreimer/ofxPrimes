@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_RGBA_H
@@ -62,9 +62,9 @@ public:
    template <typename T2>
      Rgba<T>& operator=(const Rgba<T2>& c){
      red = static_cast<T>(c.red);
-     green = static_cast<T>(c.green); 
-     blue = static_cast<T>(c.blue); 
-     alpha = static_cast<T>(c.alpha); 
+     green = static_cast<T>(c.green);
+     blue = static_cast<T>(c.blue);
+     alpha = static_cast<T>(c.alpha);
      return *this;
    }
 
@@ -116,6 +116,6 @@ namespace Internal
 
 
 
-} // end namespace 
+} // end namespace
 #endif
 

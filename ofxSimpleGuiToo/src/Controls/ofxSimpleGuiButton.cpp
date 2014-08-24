@@ -42,7 +42,7 @@ ofxSimpleGuiButton::setMomentary(bool m)
 {
 	momentary = m;
 	return *this;
-}	
+}
 
 //---------------------------------------------------------------------
 bool
@@ -56,7 +56,7 @@ void
 ofxSimpleGuiButton::set(bool b)
 {
 	if (oldValue != b)
-	{		
+	{
 		oldValue = (*value) = b;
 		ofNotifyEvent(valueChangedEvt, args);
 	}
@@ -83,7 +83,7 @@ void
 ofxSimpleGuiButton::onRelease(int x, int y, int button)
 {
 	if(momentary) set(false);
-}	
+}
 
 //---------------------------------------------------------------------
 void
@@ -104,23 +104,23 @@ void
 ofxSimpleGuiButton::drawWidget(float x, float y)
 {
 	setPos(x, y);
-	
+
 	glPushMatrix();
 	glTranslatef(x, y, 0);
-	
+
 	ofEnableAlphaBlending();
 	ofFill();
-	
+
 	// if a toggle
 	if((*value) && !momentary)
 		checkedImage.draw(width - height - config->padding.y, 0, height, height);
 
 	ofFill();
-	
+
 	setTextColor();
 	config->font.drawString(name, config->fontOffset.x, config->fontOffset.y+6);
-	
+
 	ofDisableAlphaBlending();
-	
+
 	glPopMatrix();
 }

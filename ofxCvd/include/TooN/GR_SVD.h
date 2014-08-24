@@ -37,58 +37,58 @@
 
 namespace TooN
 {
-  
+
   /**
      @class GR_SVD TooN/GR_SVD.h
      Performs SVD and back substitute to solve equations.
-     This code is a c++ translation of the FORTRAN routine give in 
-     George E. Forsythe et al, Computer Methods for Mathematical 
-     Computations, Prentice-Hall 1977. That code itself is a 
+     This code is a c++ translation of the FORTRAN routine give in
+     George E. Forsythe et al, Computer Methods for Mathematical
+     Computations, Prentice-Hall 1977. That code itself is a
      translation of the ALGOL routine by Golub and Reinsch,
      Num. Math. 14, 403-420, 1970.
-  
+
      N.b. the singular values returned by this routine are not sorted.
-     N.b. this also means that even for MxN matrices with M<N, N 
+     N.b. this also means that even for MxN matrices with M<N, N
      singular values are computed and used.
-     
+
      The template parameters WANT_U and WANT_V may be set to false to
      indicate that U and/or V are not needed for a minor speed-up.
   **/
 
-  template<int M, int N, class Precision = DefaultPrecision, bool WANT_U = 1, bool WANT_V = 1> 
+  template<int M, int N, class Precision = DefaultPrecision, bool WANT_U = 1, bool WANT_V = 1>
   class GR_SVD
   {
   public:
-    
+
     template<class Precision2, class Base> GR_SVD(const Matrix<M, N, Precision2, Base> &A);
-  
+
     static const int BigDim = M>N?M:N;
     static const int SmallDim = M<N?M:N;
-    
+
     const Matrix<M,N,Precision>& get_U() { if(!WANT_U) throw(0); return mU;}
     const Matrix<N,N,Precision>& get_V() { if(!WANT_V) throw(0); return mV;}
     const Vector<N, Precision>& get_diagonal() {return vDiagonal;}
-    
+
     Precision get_largest_singular_value();
     Precision get_smallest_singular_value();
     int get_smallest_singular_value_index();
-    
+
     ///Return the pesudo-inverse diagonal. The reciprocal of the diagonal elements
     ///is returned if the elements are well scaled with respect to the largest element,
     ///otherwise 0 is returned.
     ///@param inv_diag Vector in which to return the inverse diagonal.
-    ///@param condition Elements must be larger than this factor times the largest diagonal element to be considered well scaled. 
+    ///@param condition Elements must be larger than this factor times the largest diagonal element to be considered well scaled.
     void get_inv_diag(Vector<N>& inv_diag, const Precision condition)
     {
       Precision dMax = get_largest_singular_value();
       for(int i=0; i<N; ++i)
-	inv_diag[i] = (vDiagonal[i] * condition > dMax) ? 
+	inv_diag[i] = (vDiagonal[i] * condition > dMax) ?
 	  static_cast<Precision>(1)/vDiagonal[i] : 0;
     }
-  
-    /// Calculate result of multiplying the (pseudo-)inverse of M by another matrix. 
-    /// For a matrix \f$A\f$, this calculates \f$M^{\dagger}A\f$ by back substitution 
-    /// (i.e. without explictly calculating the (pseudo-)inverse). 
+
+    /// Calculate result of multiplying the (pseudo-)inverse of M by another matrix.
+    /// For a matrix \f$A\f$, this calculates \f$M^{\dagger}A\f$ by back substitution
+    /// (i.e. without explictly calculating the (pseudo-)inverse).
     /// See the detailed description for a description of condition variables.
     template <int Rows2, int Cols2, typename P2, typename B2>
     Matrix<N,Cols2, typename Internal::MultiplyType<Precision,P2>::type >
@@ -99,9 +99,9 @@ namespace TooN
       return (get_V() * diagmult(inv_diag, (get_U().T() * rhs)));
     }
 
-    /// Calculate result of multiplying the (pseudo-)inverse of M by a vector. 
-    /// For a vector \f$b\f$, this calculates \f$M^{\dagger}b\f$ by back substitution 
-    /// (i.e. without explictly calculating the (pseudo-)inverse). 
+    /// Calculate result of multiplying the (pseudo-)inverse of M by a vector.
+    /// For a vector \f$b\f$, this calculates \f$M^{\dagger}b\f$ by back substitution
+    /// (i.e. without explictly calculating the (pseudo-)inverse).
     /// See the detailed description for a description of condition variables.
     template <int Size, typename P2, typename B2>
     Vector<N, typename Internal::MultiplyType<Precision,P2>::type >
@@ -122,19 +122,19 @@ namespace TooN
 
     /// Reorder the components so the singular values are in descending order
     void reorder();
-    
+
   protected:
     void Bidiagonalize();
     void Accumulate_RHS();
     void Accumulate_LHS();
     void Diagonalize();
     bool Diagonalize_SubLoop(int k, Precision &z);
-  
-    Vector<N,Precision> vDiagonal;   
-    Vector<BigDim, Precision> vOffDiagonal;     
+
+    Vector<N,Precision> vDiagonal;
+    Vector<BigDim, Precision> vOffDiagonal;
     Matrix<M, N, Precision> mU;
     Matrix<N, N, Precision> mV;
-    
+
     int nError;
     int nIterations;
     Precision anorm;
@@ -142,12 +142,12 @@ namespace TooN
 
 
 
-  template<int M, int N, class Precision, bool WANT_U, bool WANT_V> 
-  template<class Precision2, class Base> 
+  template<int M, int N, class Precision, bool WANT_U, bool WANT_V>
+  template<class Precision2, class Base>
   GR_SVD<M, N, Precision, WANT_U, WANT_V>::GR_SVD(const Matrix<M, N, Precision2, Base> &mA)
   {
     nError = 0;
-    mU = mA; 
+    mU = mA;
     Bidiagonalize();
     Accumulate_RHS();
     Accumulate_LHS();
@@ -165,7 +165,7 @@ namespace TooN
     anorm = 0.0;
     for(int i=0; i<N; ++i) // 300
       {
-	const int l = i+1; 
+	const int l = i+1;
 	vOffDiagonal[i] = scale * g;
 	g = 0.0;
 	Precision s = 0.0;
@@ -194,12 +194,12 @@ namespace TooN
 			  s += mU[k][i] * mU[k][j];
 			f = s / h;
 			for(int k=i; k<M; ++k)
-			  mU[k][j] += f * mU[k][i]; 
+			  mU[k][j] += f * mU[k][i];
 		      } // 150
 		  }// 190
 		for(int k=i; k<M; ++k)
 		  mU[k][i] *= scale;
-	      } // 210 
+	      } // 210
 	  } // 210
 	vDiagonal[i] = scale * g;
 	g = 0.0;
@@ -251,13 +251,13 @@ namespace TooN
     // i = N-1
     mV[N-1][N-1] = static_cast<Precision>(1);
     Precision g = vOffDiagonal[N-1];
-  
+
     // The loop
     for(int i=N-2; i>=0; --i) // 400
       {
 	const int l = i + 1;
 	if( g!=0) // 360
-	  { 
+	  {
 	    for(int j=l; j<N; ++j)
 	      mV[j][i] = (mU[i][j] / mU[i][l]) / g; // double division avoids possible underflow
 	    for(int j=l; j<N; ++j)
@@ -314,7 +314,7 @@ namespace TooN
 	mU[i][i] += static_cast<Precision>(1);
       } // 500
   }
-  
+
   template<int M, int N, class Precision,bool WANT_U, bool WANT_V>
   void GR_SVD<M,N,Precision,WANT_U,WANT_V>::Diagonalize()
   {
@@ -327,10 +327,10 @@ namespace TooN
 	do
 	  bConverged_Or_Error = Diagonalize_SubLoop(k, z);
 	while(!bConverged_Or_Error);
-	
+
 	if(nError)
 	  return;
-	
+
 	if(z < 0)
 	  {
 	    vDiagonal[k] = -z;
@@ -398,38 +398,38 @@ namespace TooN
 	    g = sqrt(f*f + 1.0);
 	    Precision signed_g =  (f>=0)?g:-g;
 	    f = ((x-z)*(x+z) + h*(y/(f + signed_g) - h)) / x;
-		  
+
 	    // Next QR transformation
 	    Precision c = 1.0;
 	    Precision s = 1.0;
 	    for(int i1 = l; i1<=k1; ++i1)
 	      { // 600
 		const int i=i1+1;
-		g = vOffDiagonal[i];    
+		g = vOffDiagonal[i];
 		y = vDiagonal[i];
 		h = s*g;
 		g = c*g;
-		z = sqrt(f*f + h*h);      
+		z = sqrt(f*f + h*h);
 		vOffDiagonal[i1] = z;
-		c = f/z;	      
+		c = f/z;
 		s = h/z;
-		f = x*c + g*s;      
+		f = x*c + g*s;
 		g = -x*s + g*c;
-		h = y*s;      
+		h = y*s;
 		y *= c;
 		if(WANT_V)
 		  for(int j=0; j<N; ++j)
 		    {
-		      Precision xx = mV[j][i1];   
+		      Precision xx = mV[j][i1];
 		      Precision zz = mV[j][i];
-		      mV[j][i1] = xx*c + zz*s; 
+		      mV[j][i1] = xx*c + zz*s;
 		      mV[j][i] = -xx*s + zz*c;
 		    }
 		z = sqrt(f*f + h*h);
 		vDiagonal[i1] = z;
 		if(z!=0)
 		  {
-		    c = f/z;  
+		    c = f/z;
 		    s = h/z;
 		  }
 		f = c*g + s*y;
@@ -437,9 +437,9 @@ namespace TooN
 		if(WANT_U)
 		  for(int j=0; j<M; ++j)
 		    {
-		      Precision yy = mU[j][i1];   
+		      Precision yy = mU[j][i1];
 		      Precision zz = mU[j][i];
-		      mU[j][i1] = yy*c + zz*s; 
+		      mU[j][i1] = yy*c + zz*s;
 		      mU[j][i] = -yy*s + zz*c;
 		    }
 	      } // 600
@@ -455,7 +455,7 @@ namespace TooN
     return false;
   }
 
-  
+
   template<int M, int N, class Precision, bool WANT_U, bool WANT_V>
   Precision GR_SVD<M,N,Precision,WANT_U,WANT_V>::get_largest_singular_value()
   {
@@ -464,7 +464,7 @@ namespace TooN
     for(int i=1; i<N; ++i) d = max(d, vDiagonal[i]);
     return d;
   }
-  
+
   template<int M, int N, class Precision, bool WANT_U, bool WANT_V>
   Precision GR_SVD<M,N,Precision,WANT_U,WANT_V>::get_smallest_singular_value()
   {
@@ -480,7 +480,7 @@ namespace TooN
     using std::min;
     int nMin=0;
     Precision d = vDiagonal[0];
-    for(int i=1; i<N; ++i) 
+    for(int i=1; i<N; ++i)
       if(vDiagonal[i] < d)
 	{
 	  d = vDiagonal[i];

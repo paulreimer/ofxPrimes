@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_LA_H
@@ -58,22 +58,22 @@ namespace CVD {
       template <typename T2>
 	La<T>& operator=(const La<T2>& c){
 	luminance = static_cast<T>(c.luminance);
-	alpha = static_cast<T>(c.alpha); 
+	alpha = static_cast<T>(c.alpha);
 	return *this;
       }
-   
+
       /// Logical equals operator. Returns true if each component is the same.
       /// @param c La to compare with
       bool operator==(const La<T>& c) const
       {return luminance == c.luminance && alpha == c.alpha;}
-      
+
       /// Logical not-equals operator. Returns true unless each component is the same.
       /// @param c La to compare with
       bool operator!=(const La<T>& c) const
       {return luminance != c.luminance || alpha != c.alpha;}
-      
+
     };
-  
+
   /// Write the colour to a stream in the format "(luminance,alpha)"
   /// @param os The stream
   /// @param x The colour object
@@ -83,7 +83,7 @@ namespace CVD {
     {
       return os << "(" << x.luminance << "," << x.alpha << ")";
     }
-  
+
   /// Write the colour to a stream in the format "(luminance,alpha)"
   /// @param os The stream
   /// @param x The colour object
@@ -93,7 +93,7 @@ namespace CVD {
     return os << "(" << static_cast<unsigned int>(x.luminance) << ","
 	      << static_cast<unsigned int>(x.alpha) << ")";
   }
-  
+
 #ifndef DOXYGEN_IGNORE_INTERNAL
   namespace Internal
   {
@@ -103,9 +103,9 @@ namespace CVD {
       };
   }
 #endif
-  
-  
-  
-} // end namespace 
+
+
+
+} // end namespace
 #endif
 

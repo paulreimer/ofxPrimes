@@ -44,7 +44,7 @@ namespace ofxProtobufBacked {
 #ifdef USE_LIBMEMCACHED
             protobuf::Gui* get(string key);
 
-            vector<socket_t> memcachedSockets;			
+            vector<socket_t> memcachedSockets;
             memcache::Memcache memc;
 #endif
 
@@ -54,7 +54,7 @@ namespace ofxProtobufBacked {
             vector<socket_t> oscInSockets;
             vector<osc::OscImporter> oscImporters;
 #endif
-            
+
 #ifdef USE_OSC_OUT
             vector<socket_t> oscOutSockets;
             vector<osc::OscExporter> oscExporters;
@@ -67,16 +67,16 @@ namespace ofxProtobufBacked {
             void fiducialLost	(ofxFiducialBacked::types::events::fiducialEvtArgs &args);
             void fiducialUpdated(ofxFiducialBacked::types::events::fiducialEvtArgs &args);
 #endif
-            
+
 #ifdef NOTIFY_FIDUCIAL_INTERSECTION
             void fiducialRayTermination			(ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs &args);
-            
+
             void fiducialRayIntersectionFound	(ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs &args);
             void fiducialRayIntersectionLost	(ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs &args);
             void fiducialRayIntersectionUpdated	(ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs &args);
 #endif
 
-        private:			
+        private:
             ofxFiducialBacked::gui::GuiGraph graph;
         };
     }

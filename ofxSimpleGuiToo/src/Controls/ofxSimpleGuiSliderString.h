@@ -16,14 +16,14 @@ public:
 
 		this->strs = strs;
 	}
-	
+
 	void drawSliderText() {
 		map<int, string>::iterator chk = strs.find(*value);
 		string leftText, rightText;
 		leftText = name+": ";
 
 		string& sliderText = bValueRightAlign? rightText : leftText;
-		
+
 		if (chk != strs.end())
 			sliderText += chk->second;
 		else

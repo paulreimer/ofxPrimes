@@ -48,7 +48,7 @@ namespace CVD
 		bayer_gbrg() {}
 		bayer_gbrg(unsigned char v) : val(v) {}
 	};
-	
+
 	/// Bayer datatype representing the colour filter pattern GRBG
 	/// @ingroup gVideoBuffer
 	struct bayer_grbg
@@ -68,12 +68,12 @@ namespace CVD
 		bayer_rggb() {}
 		bayer_rggb(unsigned char v) : val(v) {}
 	};
-	
+
 	/// typedef to support old bayer datatype
 	/// @ingroup gVideoBuffer
 	/// @deprecated
 	typedef bayer_bggr bayer;
-	
+
 	/// A datatype to represent yuv411 (uyyvyy) data, typically from firewire
 	/// cameras. It can be used to configure dvbuffer to return this format.
 	/// @ingroup gVideoBuffer
@@ -95,7 +95,7 @@ namespace CVD
 	{
 		unsigned short val;
 	};
-	
+
 	/// A datatype to represent the other yuv422 (uyvy) data. This is returned
 	/// by the @ref QTBuffer on Mac OSX. See the following from Apple:
 	/// http://developer.apple.com/quicktime/icefloe/dispatch020.html
@@ -147,7 +147,7 @@ namespace CVD
             static const int bits_used = 8;
             static const unsigned char max_intensity=(1 << bits_used) - 1;
         };
-	
+
 	template<int LIFT> struct traits<bayer_grbg, LIFT>
         {
             typedef int wider_type;
@@ -159,7 +159,7 @@ namespace CVD
         };
     }
 
-   
+
 #ifndef DOXYGEN_IGNORE_INTERNAL
     namespace Internal
     {

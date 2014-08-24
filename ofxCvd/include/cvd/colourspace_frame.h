@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_COLOURSPACE_FRAME_H
@@ -29,7 +29,7 @@ namespace CVD
 	//template<class To, class From> class ColourspaceBuffer;
 
 	/// A frame from a ColourspaceBuffer. Can be treated as a VideoFrame
-	template<class T> 
+	template<class T>
 	class ColourspaceFrame : public CVD::LocalVideoFrame<T>
 	{
 		/// Allow ColourspaceBuffer to manage frames.
@@ -41,7 +41,7 @@ namespace CVD
 			ColourspaceFrame(double time, CVD::Image<T>& converted)
 			:LocalVideoFrame<T>(time, converted)
 			{
-			}	
+			}
 	};
 }
 

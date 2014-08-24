@@ -10,9 +10,9 @@ namespace TooN
 
 /** This is an implementation of the Downhill Simplex (Nelder & Mead, 1965)
     algorithm. This particular instance will minimize a given function.
-	
+
 	The function maintains \f$N+1\f$ points for a $N$ dimensional function, \f$f\f$
-	
+
 	At each iteration, the following algorithm is performed:
 	- Find the worst (largest) point, \f$x_w\f$.
 	- Find the centroid of the remaining points, \f$x_0\f$.
@@ -34,7 +34,7 @@ namespace TooN
 	- \f$\rho = 2\f$
 	- \f$\gamma = 1/2\f$
 	- \f$\sigma = 1/2\f$
-	
+
 	Example usage:
 	@code
 #include <TooN/optimization/downhill_simplex.h>
@@ -61,7 +61,7 @@ int main()
 		{
 			cout << dh.get_values()[dh.get_best()] << endl;
 		}
-		
+
 		cout << dh_fixed.get_simplex()[dh_fixed.get_best()] << endl;
 }
 
@@ -102,7 +102,7 @@ template<int N=-1, typename Precision=double> class DownhillSimplex
 
 			restart(func, c, spread);
 		}
-		
+
 		/// This function sets up the simplex around, with one point at \e c and the remaining
 		/// points are made by moving by \e spread along each axis aligned unit vector.
 		///
@@ -120,11 +120,11 @@ template<int N=-1, typename Precision=double> class DownhillSimplex
 			for(int i=0; i < values.size(); i++)
 				values[i] = func(simplex[i]);
 		}
-		
+
 		///Check to see it iteration should stop. You probably do not want to use
 		///this function. See iterate() instead. This function updates nothing.
 		///The termination criterion is that the simplex span (distancve between
-		///the best and worst vertices) is small compared to the scale or 
+		///the best and worst vertices) is small compared to the scale or
 		///small overall.
 		bool finished()
 		{
@@ -133,10 +133,10 @@ template<int N=-1, typename Precision=double> class DownhillSimplex
 
 			if(span/scale < epsilon || span < zero_epsilon)
 				return 1;
-			else 
+			else
 				return 0;
 		}
-		
+
 		/// This function resets the simplex around the best current point.
 		///
 		///@param func       Functor to minimize.
@@ -151,21 +151,21 @@ template<int N=-1, typename Precision=double> class DownhillSimplex
 		{
 			return simplex;
 		}
-		
+
 		///Return the score at the vertices
 		const Values& get_values() const
 		{
 			return values;
 		}
-		
+
 		///Get the index of the best vertex
-		int get_best() const 
+		int get_best() const
 		{
 			return std::min_element(&values[0], &values[0] + values.size()) - &values[0];
 		}
-		
+
 		///Get the index of the worst vertex
-		int get_worst() const 
+		int get_worst() const
 		{
 			return std::max_element(&values[0], &values[0] + values.size()) - &values[0];
 		}
@@ -256,7 +256,7 @@ template<int N=-1, typename Precision=double> class DownhillSimplex
 					return;
 				}
 			}
-			
+
 			//Otherwise, fr is worse than the worst point, or the fc was worse
 			//than fr. So shrink the whole simplex around the best point.
 			for(int i=0; i < simplex.num_rows(); i++)

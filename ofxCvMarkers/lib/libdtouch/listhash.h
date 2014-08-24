@@ -77,17 +77,17 @@ protected:
 		return _toc[target];
 	}
 
-	ListHash( const int &initialSize ) : 
-		List<T>(), 
-		_capacity(initialSize) 
+	ListHash( const int &initialSize ) :
+		List<T>(),
+		_capacity(initialSize)
 	{ }
-	
+
 	void constructL(){
 		//_toc = new (ListItem<T> *)[_capacity];
 		_toc = new ListItem<T>*[_capacity];
 		memset( _toc, 0, _capacity*sizeof(ListItem<T> *) );
 	}
-	
+
 public:
 	static ListHash * newL( const int &initialSize ){
 		#ifndef __SYMBIAN32__
@@ -101,7 +101,7 @@ public:
 		#endif
 		return self;
 	}
-	
+
 	~ListHash(){
 		//std::cerr << "~ListHash called" << std::endl;
 		//delete _first; _first != NULL;
@@ -118,12 +118,12 @@ public:
 
 	void empty() {
 		// the following is efficient because the array
-		// is very sparsely populated, so using a memset would 
+		// is very sparsely populated, so using a memset would
 		// be very slow
-		for(this->reset();!(this->nullTest());this->fwd()){ 
-			_toc[this->getData()] = NULL; 
+		for(this->reset();!(this->nullTest());this->fwd()){
+			_toc[this->getData()] = NULL;
 		}
-		
+
 		// delete _first; _first=NULL;
 		_current = _first;
 		while( _current != NULL ){
@@ -158,7 +158,7 @@ public:
 			return;
 		}
 		if( _first == NULL ){
-			#ifndef __SYMBIAN32__ 
+			#ifndef __SYMBIAN32__
 			_first = new ListItem<T>(in_data);
 			#else
 			_first = new (ELeave) ListItem<T>(in_data);
@@ -168,7 +168,7 @@ public:
 			_current = _first;
 			_last = _first;
 		}else{
-			#ifndef __SYMBIAN32__ 
+			#ifndef __SYMBIAN32__
 			_last->setNext( new ListItem<T>( in_data, NULL ) );
 			#else
 			_last->setNext( new (ELeave) ListItem<T>( in_data, NULL ) );

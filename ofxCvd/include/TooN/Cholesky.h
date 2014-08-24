@@ -38,7 +38,7 @@ namespace TooN {
 
 /**
 Decomposes a positive-semidefinite symmetric matrix A (such as a covariance) into L*D*L^T, where L is lower-triangular and D is diagonal.
-Also can compute the classic A = L*L^T, with L lower triangular.  The LDL^T form is faster to compute than the classical Cholesky decomposition. 
+Also can compute the classic A = L*L^T, with L lower triangular.  The LDL^T form is faster to compute than the classical Cholesky decomposition.
 Use get_unscaled_L() and get_D() to access the individual matrices of L*D*L^T decomposition. Use get_L() to access the lower triangular matrix of the classic Cholesky decomposition L*L^T.
 The decomposition can be used to compute A^-1*x, A^-1*M, M*A^-1*M^T, and A^-1 itself, though the latter rarely needs to be explicitly represented.
 Also efficiently computes det(A) and rank(A).
@@ -79,7 +79,7 @@ public:
 		SizeMismatch<Size,Size>::test(m.num_rows(), m.num_cols());
 		do_compute();
 	}
-	
+
 	/// Constructor for Size=Dynamic
 	Cholesky(int size) : my_cholesky(size,size) {}
 
@@ -92,7 +92,7 @@ public:
 		my_cholesky=m;
 		do_compute();
 	}
-	
+
 	private:
 	void do_compute() {
 		int size=my_cholesky.num_rows();
@@ -136,7 +136,7 @@ public:
 			}
 			y[i]=val;
 		}
-		
+
 		// backsub through diagonal
 		for(int i=0; i<size; i++){
 			y[i]/=my_cholesky(i,i);
@@ -171,7 +171,7 @@ public:
 			}
 			y[i]=val;
 		}
-		
+
 		// backsub through diagonal
 		for(int i=0; i<size; i++){
 			y[i]*=(1/my_cholesky(i,i));
@@ -197,7 +197,7 @@ public:
 		Matrix<Size,Size,Precision>I(Identity(my_cholesky.num_rows()));
 		return backsub(I);
 	}
-	
+
 	///Compute the determinant.
 	Precision determinant(){
 		Precision answer=my_cholesky(0,0);
@@ -223,7 +223,7 @@ public:
 		}
 		return m;
 	}
-			
+
 	Matrix<Size,Size,Precision> get_D() const {
 		Matrix<Size,Size,Precision> m(my_cholesky.num_rows(),
 					      my_cholesky.num_rows());
@@ -233,7 +233,7 @@ public:
 		}
 		return m;
 	}
-	
+
 	Matrix<Size,Size,Precision> get_L() const {
 		Matrix<Size,Size,Precision> m(my_cholesky.num_rows(),
 					      my_cholesky.num_rows());

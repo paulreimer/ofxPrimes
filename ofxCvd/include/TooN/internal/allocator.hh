@@ -34,7 +34,7 @@
 // copying is done at a much higher level: above the level that knows how the
 // data is laid out in memory.
 //
-// At this level, copy construction is required since it is only known here 
+// At this level, copy construction is required since it is only known here
 // whether data or a reference to data should be copied.
 
 #ifdef __GNUC__
@@ -55,7 +55,7 @@ template<int Size, class Precision> class StackOrHeap<Size,Precision,0>
 public:
 	StackOrHeap()
 	{
-		debug_initialize(my_data, Size);	
+		debug_initialize(my_data, Size);
 	}
 	Precision my_data[Size];
 };
@@ -65,7 +65,7 @@ template<int Size> class StackOrHeap<Size,double,0>
 public:
 	StackOrHeap()
 	{
-		debug_initialize(my_data, Size);	
+		debug_initialize(my_data, Size);
 	}
 	double my_data[Size] TOON_ALIGN8 ;
 };
@@ -77,7 +77,7 @@ template<int Size, class Precision> class StackOrHeap<Size, Precision, 1>
 		StackOrHeap()
 		:my_data(new Precision[Size])
 		{
-			debug_initialize(my_data, Size);	
+			debug_initialize(my_data, Size);
 		}
 
 
@@ -97,7 +97,7 @@ template<int Size, class Precision> class StackOrHeap<Size, Precision, 1>
 };
 
 ///@internal
-///@brief This allocator object sets aside memory for a statically sized object. 
+///@brief This allocator object sets aside memory for a statically sized object.
 ///It will
 ///put all the data on the stack if there are less then TooN::max_bytes_on_stack of
 ///data, otherwise it will use new/delete.
@@ -111,7 +111,7 @@ template<int Size, class Precision> class StaticSizedAllocator: public StackOrHe
 ///@brief Allocate memory for a Vector.
 ///@ingroup gInternal
 template<int Size, class Precision> struct VectorAlloc : public StaticSizedAllocator<Size, Precision> {
-	
+
 	///Default constructor (only for statically sized vectors)
 	VectorAlloc() { }
 
@@ -121,7 +121,7 @@ template<int Size, class Precision> struct VectorAlloc : public StaticSizedAlloc
 	///Construction from an Operator. See Operator::size().
 	template<class Op>
 	VectorAlloc(const Operator<Op>&) {}
-	
+
 	///Return the size of the vector.
 	int size() const {
 		return Size;
@@ -138,7 +138,7 @@ template<int Size, class Precision> struct VectorAlloc : public StaticSizedAlloc
 	{
 		return my_data;
 	}
-	
+
 	protected:
 
 		Precision *data()
@@ -159,22 +159,22 @@ template<class Precision> struct VectorAlloc<Dynamic, Precision> {
 
 	VectorAlloc(const VectorAlloc& v)
 	:my_data(new Precision[v.my_size]), my_size(v.my_size)
-	{ 
+	{
 		for(int i=0; i < my_size; i++)
 			my_data[i] = v.my_data[i];
 	}
 
 	VectorAlloc(int s)
 	:my_data(new Precision[s]), my_size(s)
-	{ 
-		debug_initialize(my_data, my_size);	
+	{
+		debug_initialize(my_data, my_size);
 	}
 
 	template <class Op>
-	VectorAlloc(const Operator<Op>& op) 
-	: my_data(new Precision[op.size()]), my_size(op.size()) 
+	VectorAlloc(const Operator<Op>& op)
+	: my_data(new Precision[op.size()]), my_size(op.size())
 	{
-		debug_initialize(my_data, my_size);	
+		debug_initialize(my_data, my_size);
 	}
 
 	int size() const {
@@ -210,26 +210,26 @@ template<class Precision> struct VectorAlloc<Dynamic, Precision> {
 
 
 template<class Precision> struct VectorAlloc<Resizable, Precision> {
-	protected: 
+	protected:
 		std::vector<Precision> numbers;
-	
+
 	public:
 
 		VectorAlloc()
-		{ 
+		{
 		}
 
 		VectorAlloc(int s)
 		:numbers(s)
-		{ 
-			debug_initialize(data(), size());	
+		{
+			debug_initialize(data(), size());
 		}
 
 		template <class Op>
-		VectorAlloc(const Operator<Op>& op) 
-		:numbers(op.size()) 
+		VectorAlloc(const Operator<Op>& op)
+		:numbers(op.size())
 		{
-			debug_initialize(data(), size());	
+			debug_initialize(data(), size());
 		}
 
 		int size() const {
@@ -274,7 +274,7 @@ template<int S, class Precision> struct VectorSlice
 	}
 
 	//Optional Constructors
-	
+
 	Precision* const my_data;
 	VectorSlice(Precision* p)
 	:my_data(p){}
@@ -284,7 +284,7 @@ template<int S, class Precision> struct VectorSlice
 
 	template<class Op>
 	VectorSlice(const Operator<Op>& op) : my_data(op.data()) {}
-	
+
 	protected:
 		Precision *data()
 		{
@@ -378,20 +378,20 @@ template<> struct SizeHolder<-1>
 template<int S> struct RowSizeHolder: private SizeHolder<S>
 {
 	///Construct from an int to provide a run time size if
-	///necessary. 
+	///necessary.
 	///@param i The size, which is discarded for the static case.
 	RowSizeHolder(int i)
 	:SizeHolder<S>(i){}
 
 	RowSizeHolder()
 	{}
-	
+
 	///Construct from an Operator, taking the size from the operator.
 	///The size is only used in the dynamic case.
 	///@param op Operator from which to determine the size.
 	template<typename Op>
 	RowSizeHolder(const Operator<Op>& op) : SizeHolder<S>(op.num_rows()) {}
-	
+
 	///Return the number of rows.
 	int num_rows() const {return SizeHolder<S>::size();}
 };
@@ -404,7 +404,7 @@ template<int S> struct RowSizeHolder: private SizeHolder<S>
 template<int S> struct ColSizeHolder: private SizeHolder<S>
 {
 	///Construct from an int to provide a run time size if
-	///necessary. 
+	///necessary.
 	///@param i The size, which is discarded for the static case.
 	ColSizeHolder(int i)
 	:SizeHolder<S>(i){}
@@ -419,12 +419,12 @@ template<int S> struct ColSizeHolder: private SizeHolder<S>
 	ColSizeHolder(const Operator<Op>& op) : SizeHolder<S>(op.num_cols()) {}
 
 	///Return the number of columns.
-	int num_cols() const {return SizeHolder<S>::size();}	
+	int num_cols() const {return SizeHolder<S>::size();}
 };
 
 
 
-template<int R, int C, class Precision, bool FullyStatic=(R>=0 && C>=0)> 
+template<int R, int C, class Precision, bool FullyStatic=(R>=0 && C>=0)>
 struct MatrixAlloc: public StaticSizedAllocator<R*C, Precision>
 {
 	MatrixAlloc(int,int)
@@ -452,7 +452,7 @@ struct MatrixAlloc: public StaticSizedAllocator<R*C, Precision>
 		return my_data;
 	}
 
-	const Precision* get_data_ptr() const 
+	const Precision* get_data_ptr() const
 	{
 		return my_data;
 	}
@@ -467,7 +467,7 @@ template<int R, int C, class Precision> struct MatrixAlloc<R, C, Precision, fals
 
 	using RowSizeHolder<R>::num_rows;
 	using ColSizeHolder<C>::num_cols;
-	
+
 	// copy constructor so guaranteed contiguous
 	MatrixAlloc(const MatrixAlloc& m)
 		:RowSizeHolder<R>(m.num_rows()),
@@ -482,9 +482,9 @@ template<int R, int C, class Precision> struct MatrixAlloc<R, C, Precision, fals
 	MatrixAlloc(int r, int c)
 	:RowSizeHolder<R>(r),
 	 ColSizeHolder<C>(c),
-	 my_data(new Precision[num_rows()*num_cols()]) 
+	 my_data(new Precision[num_rows()*num_cols()])
 	{
-		debug_initialize(my_data, num_rows()*num_cols());	
+		debug_initialize(my_data, num_rows()*num_cols());
 	}
 
 	template <class Op>	MatrixAlloc(const Operator<Op>& op)
@@ -492,7 +492,7 @@ template<int R, int C, class Precision> struct MatrixAlloc<R, C, Precision, fals
 		 ColSizeHolder<C>(op),
 		 my_data(new Precision[num_rows()*num_cols()])
 	{
-		debug_initialize(my_data, num_rows()*num_cols());	
+		debug_initialize(my_data, num_rows()*num_cols());
 	}
 
 	~MatrixAlloc() {
@@ -504,7 +504,7 @@ template<int R, int C, class Precision> struct MatrixAlloc<R, C, Precision, fals
 		return my_data;
 	}
 
-	const Precision* get_data_ptr() const 
+	const Precision* get_data_ptr() const
 	{
 		return my_data;
 	}
@@ -528,7 +528,7 @@ template<int R, int C, class Precision> struct MatrixSlice
 		:RowSizeHolder<R>(r),
 		 ColSizeHolder<C>(c),
 		 my_data(p){}
-	
+
 	template<class Op>
 	MatrixSlice(const Operator<Op>& op)
 		:RowSizeHolder<R>(op),

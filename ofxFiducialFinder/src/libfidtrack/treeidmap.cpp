@@ -112,12 +112,12 @@ public:
             std::cout << "error opening configuration file\n";
         }else{
 		//std::cout << file_name << std::endl;
-		
+
  	    // add the finger
 	    //treeIdMap_.insert( std::make_pair( "w012", FINGER_ID ));
 	    // white margin workaround
 	    //treeIdMap_.insert( std::make_pair( "w0", FINGER_ID ));
- 
+
      	    minNodeCount = 0x7FFF;
             minDepth = 0x7FFF;
             while( !is.eof() ){
@@ -174,7 +174,7 @@ public:
         owner_->min_depth = minDepth;
         owner_->max_depth = maxDepth;
         owner_->max_adjacencies = maxAdjacencies;
-		
+
 		//std::cout << minNodeCount << " " << maxNodeCount << " " << minDepth << " " << maxDepth << " " << maxAdjacencies << std::endl;
 
     }

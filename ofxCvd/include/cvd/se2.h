@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2007 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //-*- c++ -*-
@@ -26,14 +26,14 @@
 
 namespace CVD {
 
-/// Class to represent a tho-dimensional Euclidean transformation (a rotation and a translation). 
+/// Class to represent a tho-dimensional Euclidean transformation (a rotation and a translation).
 /// This can be represented by a member of the Special Euclidean Lie group SE2. These can be parameterised
 /// by three numbers (in the space of the Lie Algebra). In this class, the first two parameters are a
 /// translation vector while the third number is a rotation angle.
 ///
 /// See the TooN documentation
 /// @ingroup gLinAlg
-	
+
 	using TooN::SE2;
 
 }

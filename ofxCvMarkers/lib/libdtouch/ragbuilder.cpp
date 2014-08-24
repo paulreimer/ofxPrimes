@@ -39,7 +39,7 @@
 /*
 RAGBuilder::RAGBuilder( const unsigned char *in_image, const int &in_width, const int &in_height,
 	const unsigned char *in_threshold, RegionAdjacencyGraph *in_rag, bool *in_stored )
-	: _width(in_width), _height(in_height), _image(in_image), 
+	: _width(in_width), _height(in_height), _image(in_image),
 		_threshold(in_threshold), _stored(in_stored), _rag(in_rag){
 	// do nothing?
 
@@ -58,12 +58,12 @@ int RAGBuilder::buildRAGL( const int &maxRegions ){
 	_rag->_region[0]->appendL( DTPoint(0,0) );
 	if( *_image > *_threshold ){
 		_rag->_region[0]->_white = true;
-	}else{ 
-		_rag->_region[0]->_white = false; 
+	}else{
+		_rag->_region[0]->_white = false;
 	}
 	*(_rag->_labelsMap) = _rag->getNewLabelL();
 	_rag->_region[0]->appendToLabelPtrListL( *(_rag->_labelsMap) );
-  
+
 	int x;
 	int y;
 
@@ -279,7 +279,7 @@ int RAGBuilder::buildRAGL( const int &maxRegions ){
 
 			// check the graph size
 			// if it's above a threshold
-			// abort the construction 
+			// abort the construction
 			if( !(_rag->_used < maxRegions) ){
 				return -1;
 				// clean up?
@@ -428,16 +428,16 @@ int RAGBuilder::buildRAGBorderL( const int &maxRegions ){
 				*currentLabel = *aboveLabel;
 				// add current to the region of the one above
 				_rag->_region[**currentLabel]->appendL( x, y );
-				// link the region containing current and the region 
-				// containing the left neighbour in the RAG 
+				// link the region containing current and the region
+				// containing the left neighbour in the RAG
 				_rag->linkL(**currentLabel,**leftLabel);
 			}else if( !currentEqualsAbove && currentEqualsLeft ){
 				// set the label of the current pel to be the same as the one on the left
 				*currentLabel = *leftLabel;
 				// add current to the region of the pel on the left
 				_rag->_region[**currentLabel]->appendL( x, y );
-				// link the region containing current and the region 
-				// containing the neighbour above in the RAG 
+				// link the region containing current and the region
+				// containing the neighbour above in the RAG
 				_rag->linkL(**currentLabel,**aboveLabel);
 			}else if( !currentEqualsAbove && !currentEqualsLeft ){
 				// in this case current is different from both "direct" neighbours
@@ -522,22 +522,22 @@ int RAGBuilder::buildRAGBorderL( const int &maxRegions ){
 }
 */
 
-int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image, 
+int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 		const unsigned char *_threshold, RegionAdjacencyGraph *_rag )
 {
 	const int _width = _rag->getWidth();
 	const int _height = _rag->getHeight();
 
 	bool *_stored = _rag->getStored();
-	
+
 	const int maxRegions = _rag->getSize() - 2;
-	
+
 	// first pixel
 	_rag->_region[0]->appendL( 0, 0 );
 	if( *_image > *_threshold ){
 		_rag->_region[0]->_white = true;
-	}else{ 
-		_rag->_region[0]->_white = false; 
+	}else{
+		_rag->_region[0]->_white = false;
 	}
 	*(_rag->_labelsMap) = _rag->getNewLabelL();
 	// store the pointer to the current label in the current region
@@ -554,7 +554,7 @@ int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 	memset(_stored, false, _height*_width*sizeof(unsigned char));
 
 	*_stored = true;
-  
+
 	int x;
 	int y;
 
@@ -576,7 +576,7 @@ int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 	bool *currentStored;
 	bool *aboveStored;
 	bool *leftStored;
-  
+
 	//first row
 	{
 		y=0;
@@ -589,7 +589,7 @@ int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 
 		currentStored = _stored + 1;
 		leftStored = _stored;
-    
+
 		for(x=1;x<_width;x++){
 			if( (*current >= *currentThreshold) == (*left >= *leftThreshold) ){
 				// current is the same colour as left
@@ -624,7 +624,7 @@ int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 			leftLabel++;
 
 			*currentStored++ = true;
-      
+
 			//std::cout << "(x,y): (" << x << "," << y << ")";
 			//std::cout << " l: " << *leftLabel << " " ;
 			//std::cout << ((*left>*leftThreshold)?("w"):("b")) << std::endl;
@@ -639,15 +639,15 @@ int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 
 		current = _image+yOffset;
 		above = _image+yOffset-_width;
-		
+
 		currentThreshold = _threshold+yOffset;
 		aboveThreshold = _threshold+yOffset-_width;
-		
+
 		currentLabel = (_rag->_labelsMap)+yOffset;
 		aboveLabel = (_rag->_labelsMap)+yOffset-_width;
-		
+
 		*(_stored+yOffset) = true;
-		
+
 		if( (*current >= *currentThreshold) == (*above >= *aboveThreshold) ){
 			// current is the same colour as above
 			// set the label of the current pel to be the same as above
@@ -866,7 +866,7 @@ int RAGBuilder::buildRAGFullBorderL( const unsigned char *_image,
 			}
 		}
 	}
-	
+
 	return 0;
 }
 

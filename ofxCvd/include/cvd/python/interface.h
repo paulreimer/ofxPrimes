@@ -19,7 +19,7 @@
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301  USA
  */
 
@@ -65,16 +65,16 @@ namespace PyCVD {
 
   template<class I>
     CVD::BasicImage<I> fromNumpyToBasicImage(PyObject *p, const std::string &n="") {
-    
+
     if (!PyArray_Check(p)
-	|| PyArray_NDIM(p) != 2 
-	|| !PyArray_ISCONTIGUOUS(p) 
+	|| PyArray_NDIM(p) != 2
+	|| !PyArray_ISCONTIGUOUS(p)
 	|| PyArray_TYPE(p) != NumpyType<I>::num) {
       throw std::string(n + " must be a contiguous array of " + NumpyType<I>::name() + " (type code " + NumpyType<I>::code() + ")!");
     }
 
     PyArrayObject* image = (PyArrayObject*)p;
-    
+
     int sm = image->dimensions[1];
     int sn = image->dimensions[0];
     CVD::BasicImage <I> img((I*)image->data, CVD::ImageRef(sm, sn));
@@ -83,13 +83,13 @@ namespace PyCVD {
 
   template<class I>
     CVD::BasicImage<I> fromNumpyToBasicImage(PyArrayObject *image, const std::string& n="") {
-    
-    if (PyArray_NDIM(image) != 2 
-	|| !PyArray_ISCONTIGUOUS(image) 
+
+    if (PyArray_NDIM(image) != 2
+	|| !PyArray_ISCONTIGUOUS(image)
 	|| PyArray_TYPE(image) != NumpyType<I>::num) {
       throw std::string(n + " must be a contiguous array of " + NumpyType<I>::name() + " (type code " + NumpyType<I>::code() + ")!");
     }
-    
+
     int sm = image->dimensions[1];
     int sn = image->dimensions[0];
     CVD::BasicImage <I> img((I*)image->data, CVD::ImageRef(sm, sn));

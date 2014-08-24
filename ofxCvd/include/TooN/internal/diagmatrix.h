@@ -34,13 +34,13 @@ namespace TooN {
 
 
 /**
-@class DiagonalMatrix 
+@class DiagonalMatrix
 A diagonal matrix
 
 Support is limited but diagonal matrices can be multiplied by vectors, matrices
 or diagonal matrices on either side.
 
-Diagonal matrices can be created from vectors by using the <code> as_diagonal() 
+Diagonal matrices can be created from vectors by using the <code> as_diagonal()
 </code> member function:
 
 @code
@@ -57,7 +57,7 @@ struct DiagonalMatrix {
 public:
 	///@name Constructors
 	///@{
-	
+
 	inline DiagonalMatrix() {}
 	inline DiagonalMatrix(int size_in) : my_vector(size_in) {}
 	inline DiagonalMatrix(Precision* data) : my_vector(data) {}
@@ -67,14 +67,14 @@ public:
 
 	// constructors to allow return value optimisations
 	// construction from 0-ary operator
-	///my_vector constructed from a TooN::Operator 
+	///my_vector constructed from a TooN::Operator
 	template <class Op>
 	inline DiagonalMatrix(const Operator<Op>& op)
 		: my_vector (op)
 	{
 		op.eval(my_vector);
 	}
-	
+
 	// constructor from arbitrary vector
 	template<int Size2, typename Precision2, typename Base2>
 	inline DiagonalMatrix(const Vector<Size2,Precision2,Base2>& from)
@@ -86,11 +86,11 @@ public:
 
 
 
-	///Index the leading elements on the diagonal 
+	///Index the leading elements on the diagonal
 	Precision& operator[](int i){return my_vector[i];}
-	///Index the leading elements on the diagonal 
+	///Index the leading elements on the diagonal
 	const Precision& operator[](int i) const {return my_vector[i];}
-	
+
 	///Return the leading diagonal as a vector.
 	typename Vector<Size, Precision, Base>::as_slice_type diagonal_slice() {
 		return my_vector.as_slice();
@@ -100,7 +100,7 @@ public:
 	const typename Vector<Size, Precision, Base>::as_slice_type diagonal_slice() const {
 		return my_vector.as_slice();
 	}
-	
+
 	///The vector used to hold the leading diagonal.
 	Vector<Size,Precision,Base> my_vector;
 };
@@ -132,7 +132,7 @@ operator* (const Matrix<R, C, P1, B1>& m, const DiagonalMatrix<Size, P2, B2>& d)
 	return diagmult(m,d.my_vector);
 }
 
-template<int R, int C, typename P1, typename B1, int Size, typename P2, typename B2> 
+template<int R, int C, typename P1, typename B1, int Size, typename P2, typename B2>
 Matrix<R, C, typename Internal::MultiplyType<P1,P2>::type>
 operator* (const DiagonalMatrix<Size,P1,B1>& d, const Matrix<R,C,P2,B2>& m)
 {

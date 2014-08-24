@@ -8,7 +8,7 @@ namespace Internal {
 	struct DCheck {
 		static int val() {return N;}
 	};
-	
+
 	template<>
 	struct DCheck<-1>{
 		static Argument_Needed_For_Dynamic_Parameter val(); // {return ArgumentNeededForDynamicParameter();}

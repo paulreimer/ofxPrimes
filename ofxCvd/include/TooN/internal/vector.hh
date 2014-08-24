@@ -35,8 +35,8 @@ namespace TooN {
 
 /**
 @class TooN::Vector vector.hh TooN/toon.h
-A vector. 
-Support is provided for all the usual vector operations: 
+A vector.
+Support is provided for all the usual vector operations:
 - elements can be accessed using the familiar [] notation with the index starting at 0
 - they can be added or subtracted
 - they can be printed or loaded from streams
@@ -119,7 +119,7 @@ into matrices with one row or column by using as_row() or as_col():
 @code
 double d[3] = {1,2,3};
 Vector<3> v(d);
-Matrix<3,3> M = v.as_col() * v.as_row(); // creates a symmetric rank 1 matrix from v 
+Matrix<3,3> M = v.as_col() * v.as_row(); // creates a symmetric rank 1 matrix from v
 @endcode
 
 @ingroup gLinAlg
@@ -149,7 +149,7 @@ public:
 
 	/// Constructor used when constructing a vector which references
 	/// other data, e.g.
-	/// @code 
+	/// @code
 	/// double[] d = {1,2,3};
 	/// Vector<3,double,Reference> v(d);
 	/// @endcode
@@ -158,7 +158,7 @@ public:
 
 	/// Constructor used when constructing a dynamic vector which references
 	/// other data, e.g.
-	/// @code 
+	/// @code
 	/// double[] d = {1,2,3};
 	/// Vector<Dynamic,double,Reference> v(d,3);
 	/// @endcode
@@ -167,7 +167,7 @@ public:
 	/// internal constructor
 	inline Vector(Precision* data_in, int size_in, int stride_in, Internal::Slicing)
   : Base::template VLayout<Size, Precision>(data_in, size_in, stride_in) {}
-	
+
 	using Base::template VLayout<Size, Precision>::size;
 
 	/// construction from Operator object
@@ -188,7 +188,7 @@ public:
 	// objects, C++ automatically copies the data.  For slice objects, C++ copies
 	// all parts (pointer and size), which is correct.  For dynamically sized
 	// non-slice objects the copying has to be done by hand.
-	
+
 	// inline Vector(const Vector&from);
 
 	/// constructor from arbitrary vector
@@ -267,14 +267,14 @@ public:
 			(*this)[i]/=rhs;
 		return *this;
 	}
-	
+
 	/// multiply this vector by a constant
 	Vector& operator*=(const Precision& rhs) {
 		for(int i=0; i<size(); i++)
 			(*this)[i]*=rhs;
 		return *this;
 	}
-	
+
 	/// add another vector onto this one
 	template<int Size2, class Precision2, class Base2>
 	Vector& operator+=(const Vector<Size2, Precision2, Base2>& rhs) {
@@ -283,7 +283,7 @@ public:
 			(*this)[i]+=rhs[i];
 		return *this;
 	}
-	
+
 	/// add an Operator object onto this vector
 	///
 	/// this is used to handle cases such as:
@@ -296,14 +296,14 @@ public:
 	{
 		op.plusequals(*this);
 		return *this;
-	}		
+	}
 
 	template<class Op>
 	Vector& operator-=(const Operator<Op>& op)
 	{
 		op.minusequals(*this);
 		return *this;
-	}		
+	}
 
 	/// subtract another vector from this one
 	template<int Size2, class Precision2, class Base2>
@@ -354,7 +354,7 @@ public:
 
 	/// What is the size of this vector?
 	int size() const;
-	
+
 	/// Resize the vector. This is only provided if the vector is
 	/// declared as Resizable. Existing elements are retained, new
 	/// elements are uninitialized. Resizing has the same efficiency
@@ -390,7 +390,7 @@ public:
 	   This method is not defined by Vector: it is inherited.
 	*/
 	Matrix<1, Size, Precision> as_row();
-  
+
 	/**
 	   Convert this vector into a Size-by-1 matrix, i.e. a matrix which has this
 	   vector as its only column.
@@ -402,7 +402,7 @@ public:
 	   This method is not defined by Vector: it is inherited.
 	*/
 	Matrix<Size, 1, Precision> as_col();
-  
+
 	/**
 	   Convert this vector into a Diagonal Size-by-Size matrix, i.e. a matrix which is
 	   zero everywhere except on the diagonal and the diagonal contains the values from this vector
@@ -429,7 +429,7 @@ public:
 	*/
 	template<Start, Length>
 	const Vector<Length,Precision>& slice() const;
-  
+
 	/**
 	   Extract a sub-vector. The vector extracted will be begin at element Start
 	   and will contain the next Length elements. This version can be used as an
@@ -445,7 +445,7 @@ public:
 	*/
 	template<Start, Length>
 	Vector<Length,Precision>& slice();
-  
+
 	/**
 	   Extract a sub-vector with runtime parameters.
 	   The vector extracted will be begin at element start and will contain the next
@@ -460,7 +460,7 @@ public:
 	*/
 	template<Start, Length>
 	const Vector<Length,Precision>& slice() const;
-  
+
 	/**
 	   Extract a sub-vector with runtime parameters, which can be used as an
 	   l-value.

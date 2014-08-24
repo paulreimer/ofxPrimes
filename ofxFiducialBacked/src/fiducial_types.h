@@ -8,7 +8,7 @@ namespace ofxFiducialBacked {
 	namespace types {
 		typedef int fiducialIndex;
 		//typedef ofxFiducial* fiducialIndex;
-		
+
 		typedef list<ofxFiducial>			fiducials_t;
 		typedef fiducials_t::iterator		fiducial_iter;
 

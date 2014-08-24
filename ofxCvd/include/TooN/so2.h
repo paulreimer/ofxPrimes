@@ -53,17 +53,17 @@ class SO2 {
 
 public:
 	/// Default constructor. Initialises the matrix to the identity (no rotation)
-	SO2() : my_matrix(Identity) {} 
- 	
+	SO2() : my_matrix(Identity) {}
+
 	/// Construct from a rotation matrix.
 	SO2(const Matrix<2,2,Precision>& rhs) {  *this = rhs; }
-	
+
 	/// Construct from an angle.
 	SO2(const Precision l) { *this = exp(l); }
-  
+
 	/// Assigment operator from a general matrix. This also calls coerce()
 	/// to make sure that the matrix is a valid rotation matrix.
-	template <int R, int C, typename P, typename A> 
+	template <int R, int C, typename P, typename A>
 	inline SO2& operator=(const Matrix<R,C,P,A>& rhs){
 		my_matrix = rhs;
 		coerce();
@@ -120,14 +120,14 @@ public:
 	Matrix<2,2,Precision> my_matrix;
 };
 
-/// Write an SO2 to a stream 
+/// Write an SO2 to a stream
 /// @relates SO2
 template <typename Precision>
 inline std::ostream& operator<< (std::ostream& os, const SO2<Precision> & rhs){
 	return os << rhs.get_matrix();
 }
 
-/// Read from SO2 to a stream 
+/// Read from SO2 to a stream
 /// @relates SO2
 template <typename Precision>
 inline std::istream& operator>>(std::istream& is, SO2<Precision>& rhs){
@@ -151,7 +151,7 @@ inline Vector<2, typename Internal::MultiplyType<PV,P1>::type> operator*(const V
 
 /// Right-multiply by a Matrix
 /// @relates SO2
-template <int R, int C, typename P1, typename P2, typename Accessor> 
+template <int R, int C, typename P1, typename P2, typename Accessor>
 inline Matrix<2,C,typename Internal::MultiplyType<P1,P2>::type> operator*(const SO2<P1> & lhs, const Matrix<R,C,P2,Accessor>& rhs){
 	return lhs.get_matrix() * rhs;
 }

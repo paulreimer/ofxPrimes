@@ -9,7 +9,7 @@
 
 namespace CVD
 {
-	
+
 	#ifndef DOXYGEN_IGNORE_INTERNAL
 	namespace TensorVoting
 	{
@@ -36,7 +36,7 @@ namespace CVD
 	computed as follows.  Consider that there is a point at \f$(0,0)\f$, with
 	gradient normal \f$(0,1)\f$. This will make a contribution to the point
 	\f$(x,y)\f$.
-	
+
 	The arc-length, \f$l\f$, of the arc passing through \f$(0,0)\f$, tangent to
 	the gradient at this point and also passing through \f$(x, y)\f$ is:
 	\f[
@@ -59,7 +59,7 @@ namespace CVD
 	\f$\kappa\f$ controls the kernel shape independent of the size.
 	The complete tensor contribution is therefore:
 	\f[
-		e^{-\frac{l^2}{\sigma^2} - \kappa\frac{\sigma^2}{r^2}} 
+		e^{-\frac{l^2}{\sigma^2} - \kappa\frac{\sigma^2}{r^2}}
 							\left[
 								\begin{array}{c}
 									\cos 2\theta\\
@@ -102,8 +102,8 @@ namespace CVD
 			double angle =  M_PI * i / num_divs;
 			kernels.push_back(TensorVoting::compute_a_tensor_kernel(kernel_radius, cutoff, angle, sigma, ratio, field.row_stride()));
 		}
-		
-		
+
+
 		for(int y= kernel_radius; y < field.size().y - kernel_radius; y++)
 			for(int x= kernel_radius; x < field.size().x - kernel_radius; x++)
 			{
@@ -116,7 +116,7 @@ namespace CVD
 				const vector<pair<TV_coord, Matrix<2> > >& kernel = kernels[direction];
 
 				Matrix<2>* p = &field[y][x];
-				
+
 				//The matrices are all symmetric, so only use the upper right triangle.
 				for(unsigned int i=0; i < kernel.size(); i++)
 				{
@@ -144,7 +144,7 @@ namespace CVD
 				const vector<pair<TV_coord, Matrix<2> > >& kernel = kernels[direction];
 
 				Matrix<2>* p = &field[y][x];
-				
+
 				//The matrices are all symmetric, so only use the upper right triangle.
 				for(unsigned int i=0; i < kernel.size(); i++)
 				{
@@ -164,7 +164,7 @@ namespace CVD
 
 		return field;
 	}
-	
+
 
 	#ifdef CVD_EXPERIMENTAL
 
@@ -180,7 +180,7 @@ namespace CVD
 		Image<__m128> field(image.size());
 		field.zero();
 
-		
+
 		//In much the same way as dense_tensor_vote_gradients, build up the kernel.
 		int kernel_radius =  (int)ceil(sigma * sqrt(-log(cutoff)));
 		vector<vector<pair<int, Matrix<2> > > > matrix_kernels;
@@ -239,7 +239,7 @@ namespace CVD
 				ffield[y][x][1][0] = f[2];
 				ffield[y][x][1][1] = f[3];
 			}
-		
+
 		return ffield;
 	}
 	#endif

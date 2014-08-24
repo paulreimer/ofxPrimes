@@ -39,20 +39,20 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 {
 	cameraController= [PLCameraController performSelector:@selector(sharedInstance)];
 	previewView		= [cameraController performSelector:@selector(previewView)];
-	
+
 #ifdef FRAMEBUFFER_HACKS
 	bytes = NULL;
 #endif
 	//	previewView.frame = CGRectMake(0,0, 320, 480);
-	
+
 	[previewView retain];
 	[cameraController retain];
 
 	[iPhoneGlobals.window addSubview:previewView];
 	[iPhoneGlobals.window sendSubviewToBack:previewView];
-	
+
 	iPhoneGlobals.glView.opaque = NO;
-	
+
 	[cameraController performSelector:@selector(startPreview)];
 
 	[cameraController setDelegate:iPhoneGlobals.appDelegate];
@@ -62,11 +62,11 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 	[cameraController setCameraMode:1];
 
 #ifdef FRAMEBUFFER_HACKS
-#ifdef CREATE_SURFACE	
+#ifdef CREATE_SURFACE
 	CFMutableDictionaryRef dict;
 	int x = 320, y = 480, pitch = x * 2, size = 2 * x * y, i;
-	char *pixelFormat = "565L";	
-	
+	char *pixelFormat = "565L";
+
 	dict = CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
 									 &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
 	CFDictionarySetValue(dict, kCoreSurfaceBufferGlobal, kCFBooleanTrue);
@@ -83,10 +83,10 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 						 CFNumberCreate(kCFAllocatorDefault, kCFNumberSInt32Type, &size));
 
 	CGRect rect = [ UIHardware fullScreenApplicationContentRect ];
-    rect.origin.x = rect.origin.y = 0.0f;	
-	
+    rect.origin.x = rect.origin.y = 0.0f;
+
 	previewSurface = CoreSurfaceBufferCreate(dict);
-	previewLayer = [ [ CALayer layer ] retain ];	
+	previewLayer = [ [ CALayer layer ] retain ];
 	[ previewLayer setFrame: rect ];
 	[ previewLayer setContents: previewSurface ];
 	[ previewLayer setOpaque: YES ];
@@ -115,10 +115,10 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 #else
 	coreSurfaceBuffer = [cameraController _createPreviewIOSurface];
 #endif
-	
-//	CALayer* cameraLayer = previewView.layer;	
+
+//	CALayer* cameraLayer = previewView.layer;
 //	cout << "CoreSurfaceBufferRef @" << coreSurfaceBuffer << endl;
-	
+
 	if (!coreSurfaceBuffer)
 		return;
 
@@ -127,7 +127,7 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 
 	int width = surface.width;
 	int height = surface.height;
-	
+
 	if (!capture->width || !capture->height)
 		capture->setSize(width, height);
 
@@ -137,17 +137,17 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 #ifdef FRAMEBUFFER_HACKS
 	if (bytes==NULL)
 		bytes = (unsigned char*)malloc(bytesPerRow*height);
-	
+
 	CGColorSpaceRef rgbcolor=CGColorSpaceCreateDeviceRGB();
 	CGContextRef ctx = CGBitmapContextCreate(bytes, width, height, 8, width<<2, rgbcolor, kCGImageAlphaNoneSkipLast);
-	
+
 	memset(bytes, 0, bytesPerRow*height);
 //	[subLayer renderInContext:ctx];
 //	[previewView.layer renderInContext:ctx];
 
 	CGContextRelease(ctx);
 #endif
-	
+
 	int imageType;
 	switch (bytesPerRow/width)
 	{
@@ -171,16 +171,16 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 #ifdef FRAMEBUFFER_HACKS
 	memset(pixels, 0xff, width*height*4/2);
 #endif
-	
+
 	[surface unlock];
 	[surface release];
 
 	[previewView setNeedsDisplay];
-	
+
 	CFRelease(coreSurfaceBuffer);
-	
+
 	capture->update();
-}	
+}
 
 - (void)stop
 {
@@ -188,10 +188,10 @@ OBJC_EXPORT void CGBitmapFreeData(const void *data);
 	{
 		[frameTimer invalidate];
 		[frameTimer release];
-		
+
 		[previewView removeFromSuperview];
 	}
-	
+
 	[cameraController stopPreview];
 }
 

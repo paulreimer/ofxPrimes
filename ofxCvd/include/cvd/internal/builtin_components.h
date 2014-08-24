@@ -1,4 +1,4 @@
-/*                       
+/*
 			 This file is part of the CVD Library.
 
 			 Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 			 You should have received a copy of the GNU Lesser General Public
 			 License along with this library; if not, write to the Free Software
-			 Foundation, Inc., 
+			 Foundation, Inc.,
 			 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_BUILTIN_TRAITS_H_
@@ -36,9 +36,9 @@ namespace CVD
   namespace Pixel
   {
 
-    //The "Component" class gives us information about the pixel components, 
+    //The "Component" class gives us information about the pixel components,
     //ie how many components there are and whay the type is.
-		
+
     //We use a 2 layer thing here so that Component is only properly defined
     //for builtin types, unless explicitly overridden.
 
@@ -46,7 +46,7 @@ namespace CVD
       template<bool x> struct component_base_only_for_basic_types;
       static const int fail = sizeof(component_base_only_for_basic_types<false>);
     };
-	  
+
     template<class P> struct component_base<P, 1>
     {
     };
@@ -57,7 +57,7 @@ namespace CVD
     {
       typedef P type;
       static const size_t count = 1;
-		  
+
       static const P& get(const P& pixel, size_t)
       {
 	return pixel;
@@ -67,14 +67,14 @@ namespace CVD
       {
 	return pixel;
       }
-			
+
     };
 
     template<class P, int I> struct Component<P[I]>
     {
       typedef P type;
       static const size_t count=I;
-      
+
       static const P& get(const P pixel[I], size_t i)
       {
 	return pixel[i];
@@ -91,7 +91,7 @@ namespace CVD
     {
       typedef double type;
       static const size_t count=N;
-      
+
       static const type& get(const TooN::Vector<N>& pixel, size_t i)
       {
 	return pixel[i];
@@ -107,7 +107,7 @@ namespace CVD
     {
       typedef double type;
       static const size_t count=N*M;
-      
+
       static const type& get(const TooN::Matrix<N,M>& pixel, size_t i)
       {
 	return pixel[i/M][i%M];
@@ -119,7 +119,7 @@ namespace CVD
       }
     };
 #endif
-		
+
   }
 }
 

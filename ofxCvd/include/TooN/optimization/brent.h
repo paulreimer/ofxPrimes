@@ -35,24 +35,24 @@ namespace TooN
 
 		//The golden ratio:
 		const Precision g = (3.0 - sqrt(5))/2;
-		
+
 		//The following points are tracked by the algorithm:
 		//a, b bracket the interval
 		// x   is the best value so far
 		// w   second best point so far
 		// v   third best point so far
 		// These may not be unique.
-		
+
 		//The following points are used during iteration
 		// u   the point currently being evaluated
 		// xm   (a+b)/2
-		
+
 		//The updates are tracked as:
 		//e is the distance moved last step, or current if golden section is used
 		//d is the point moved in the current step
-		
+
 		Precision w=x, v=x, fw=fx, fv=fx;
-		
+
 		Precision d=0, e=0;
 		int i=0;
 
@@ -62,7 +62,7 @@ namespace TooN
 			//The midpoint of the bracket
 			const Precision xm = (a+b)/2;
 
-			//Per-iteration tolerance 
+			//Per-iteration tolerance
 			const Precision tol1 = abs(x)*tolerance + epsilon;
 
 			//If we recently had an unhelpful step, then do
@@ -86,7 +86,7 @@ namespace TooN
 				//The parabolic fit has only second and first order coefficients:
 				//const Precision c1 = (fxv*xw - fxw*xv) / (xw*xv*(xv-xw));
 				//const Precision c2 = (fxw*xv*xv - fxv*xw*xw) / (xw*xv*(xv-xw));
-				
+
 				//The minimum is at -.5*c2 / c1;
 				//
 				//This can be written as p/q where:
@@ -94,7 +94,7 @@ namespace TooN
 				const Precision q = 2*(fxv*xw - fxw*xv);
 
 				//The minimum is at p/q. The minimum must lie within the bracket for it
-				//to be accepted. 
+				//to be accepted.
 				// Also, we want the step to be smaller than half the old one. So:
 
 				if(q == 0 || x + p/q < a || x+p/q > b || abs(p/q) > abs(e/2))

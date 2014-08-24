@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_EXCEPTIONS_H
@@ -26,12 +26,12 @@
 
 namespace CVD
 {
-	
+
 	/// %All exceptions thrown by CVD objects and functions are contained within this namespace.
 	/// @ingroup gException
 	namespace Exceptions
 	{
-		/// Base class for all CVD exceptions 
+		/// Base class for all CVD exceptions
 		/// @ingroup gException
 		struct All
 		{
@@ -42,7 +42,7 @@ namespace CVD
 		/// @ingroup gException
 		struct OutOfMemory: public All
 		{
-			OutOfMemory();	
+			OutOfMemory();
 		};
 	}
 

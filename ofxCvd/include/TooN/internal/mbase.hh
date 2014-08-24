@@ -33,7 +33,7 @@ namespace TooN {
 namespace Internal
 {
 // As usual, a positive integer means static and -1 means dynamic.
-// The new case is that for strides, -2 means that the stride is 
+// The new case is that for strides, -2 means that the stride is
 // the same as num_cols/num_rows, which must be dynamically sized.
 
 template<int, int, class, int, int, class> struct GenericMBase;
@@ -44,7 +44,7 @@ template<int, int, class, int, int, class> struct GenericMBase;
 //-2 means dynamic stride is tied to size for a normal matrix
 template<int RowStride, int ColStride> struct Slice
 {
-  
+
 	template<int Rows, int Cols, class Precision> struct MLayout: public GenericMBase<Rows, Cols, Precision, RowStride, ColStride, MatrixSlice<Rows, Cols, Precision> >
 	{
 		MLayout(Precision* p, int rows, int cols, int rowstride, int colstride)
@@ -79,7 +79,7 @@ struct DiagStride<Rs, Cs, 0>
 
 
 template<int Rows, int Cols, class Precision, int RowStride, int ColStride, class Mem> struct GenericMBase
-	: public Mem, 
+	: public Mem,
 	RowStrideHolder<RowStride>,
 	ColStrideHolder<ColStride>
 {
@@ -114,7 +114,7 @@ template<int Rows, int Cols, class Precision, int RowStride, int ColStride, clas
 	GenericMBase(Precision* p, int r, int c, int rowstride, int colstride)
 	:Mem(p, r, c),
 	 RowStrideHolder<RowStride>(rowstride),
-	 ColStrideHolder<ColStride>(colstride) 
+	 ColStrideHolder<ColStride>(colstride)
 	{}
 
 	GenericMBase(int r, int c)
@@ -157,7 +157,7 @@ template<int Rows, int Cols, class Precision, int RowStride, int ColStride, clas
 
 	// this is the type of vector obtained by [ ]
 	typedef Vector<Cols, Precision, SliceVBase<SliceColStride> > Vec;
-	
+
 	Vec operator[](int r) {
 		Internal::check_index(num_rows(), r);
 		return Vec(my_data + rowstride()* r, num_cols(), colstride(), Slicing());
@@ -168,7 +168,7 @@ template<int Rows, int Cols, class Precision, int RowStride, int ColStride, clas
 		return Vec(const_cast<Precision*>(my_data + rowstride()* r), num_cols(), colstride(), Slicing());
 	}
 
-	
+
 	//Generic matrix slicing
 	template<int Rstart, int Cstart, int Rlength, int Clength>
 	Matrix<Rlength, Clength, Precision, Slice<SliceRowStride,SliceColStride> > slice(int rs, int cs, int rl, int cl){
@@ -178,9 +178,9 @@ template<int Rows, int Cols, class Precision, int RowStride, int ColStride, clas
 		//Always pass the size and stride as a run-time parameter. It will be ignored
 		//by SliceHolder (above) if it is statically determined.
 		return Matrix<Rlength, Clength, Precision, Slice<SliceRowStride,SliceColStride> >(
-		       my_data+rowstride()*(Rstart==Dynamic?rs:Rstart) + colstride()*(Cstart==Dynamic?cs:Cstart), 
-			   Rlength==Dynamic?rl:Rlength, 
-			   Clength==Dynamic?cl:Clength, 
+		       my_data+rowstride()*(Rstart==Dynamic?rs:Rstart) + colstride()*(Cstart==Dynamic?cs:Cstart),
+			   Rlength==Dynamic?rl:Rlength,
+			   Clength==Dynamic?cl:Clength,
 			   rowstride(), colstride(), Slicing());
 	}
 
@@ -192,9 +192,9 @@ template<int Rows, int Cols, class Precision, int RowStride, int ColStride, clas
 		//Always pass the size and stride as a run-time parameter. It will be ignored
 		//by SliceHolder (above) if it is statically determined.
 		return Matrix<Rlength, Clength, Precision, Slice<SliceRowStride,SliceColStride> >(
-		       const_cast<Precision*>(my_data)+rowstride()*(Rstart==Dynamic?rs:Rstart) + colstride()*(Cstart==Dynamic?cs:Cstart), 
-			   Rlength==Dynamic?rl:Rlength, 
-			   Clength==Dynamic?cl:Clength, 
+		       const_cast<Precision*>(my_data)+rowstride()*(Rstart==Dynamic?rs:Rstart) + colstride()*(Cstart==Dynamic?cs:Cstart),
+			   Rlength==Dynamic?rl:Rlength,
+			   Clength==Dynamic?cl:Clength,
 			   rowstride(), colstride(), Slicing());
 	}
 
@@ -254,7 +254,7 @@ struct RowMajor
 	template<int Rows, int Cols, class Precision> struct MLayout: public Internal::GenericMBase<Rows, Cols, Precision, (Cols==-1?-2:Cols), 1, Internal::MatrixAlloc<Rows, Cols, Precision> >
 	{
 		//Optional constructors.
-		
+
 		MLayout(){}
 
 		MLayout(int rows, int cols)
@@ -274,7 +274,7 @@ struct ColMajor
 	template<int Rows, int Cols, class Precision> struct MLayout: public Internal::GenericMBase<Rows, Cols, Precision, 1, (Rows==-1?-2:Rows), Internal::MatrixAlloc<Rows, Cols, Precision> >
 	{
 		//Optional constructors.
-		
+
 		MLayout(){}
 
 		MLayout(int rows, int cols)

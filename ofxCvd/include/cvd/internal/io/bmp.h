@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef BMP_H
@@ -36,7 +36,7 @@ namespace CVD {
   namespace BMP {
     void writeBMPHeader(unsigned int width, unsigned int height, unsigned int channels, std::ostream& out);
     void readBMPHeader(unsigned int& width, unsigned int& height, unsigned int& channels, unsigned int& compression, std::istream& in);
-      
+
     template <class T, int Channels> struct BMPReader;
 
     template <class T> struct BMPReader<T,1> {
@@ -56,7 +56,7 @@ namespace CVD {
 	if (rowSize % 4)
 	  rowSize += 4 - (rowSize%4);
 	Internal::simple_vector<byte> rowbuf(rowSize);
-	
+
 	if (notgray) {
 	  std::cerr << "not gray" << std::endl;
 	  Internal::simple_vector<T> cvt(256);
@@ -65,8 +65,8 @@ namespace CVD {
           in.read((char*)&rowbuf[0], static_cast<std::streamsize>(rowSize));
 	    for (int c=0; c<im.size().x; c++)
 	      im[r][c] = cvt[rowbuf[c]];
-	  } 
-	} else {	  
+	  }
+	} else {
 	  for (int r=im.size().y-1; r>=0; r--) {
 	    in.read((char*)&rowbuf[0], static_cast<std::streamsize>(rowSize));
 	    Pixel::ConvertPixels<byte,T>::convert(&rowbuf[0], im[r], im.size().x);
@@ -106,13 +106,13 @@ namespace CVD {
     template <class T> void readBMP(BasicImage<T>& im, std::istream& in) {
       unsigned int w,h,ch, comp;
       readBMPHeader(w,h,ch,comp,in);
-      if (comp || (ch != 3 && ch != 1)) 
+      if (comp || (ch != 3 && ch != 1))
 	throw CVD::Exceptions::Image_IO::UnsupportedImageType();
-      
+
       ImageRef size(w, h);
       if(im.size() != size)
         throw Exceptions::Image_IO::ImageSizeMismatch(size, im.size());
-      
+
       if (ch == 1)
 	BMPReader<T,1>::read(im, in);
       else

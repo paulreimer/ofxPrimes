@@ -13,9 +13,9 @@ Engine::Engine()
 	tracker = NULL;
 #ifdef NOTIFY_FIDUCIAL_INTERSECTION
 	bForceFiducialCorners = true;
-	
+
 	dummyFiducial = NULL;
-	
+
 	routines = NULL;
 #endif
 }
@@ -32,12 +32,12 @@ Engine::setup()
 {
 	if (tracker != NULL)
 		cout << "Initialize with videoSize: (" << width << "," << height << ")" << endl;
-	
+
 #ifdef NOTIFY_FIDUCIAL_INTERSECTION
 	if (dummyFiducial == NULL)
 		dummyFiducial = new ofxFiducial();
 #endif
-	
+
 	if (!routines)
 		routines = new Routines(tracker->fiducialsList);
 
@@ -46,7 +46,7 @@ Engine::setup()
 	window_corners[1].set(width,0);
 	window_corners[2].set(width,height);
 	window_corners[3].set(0,	height);
-	
+
 	routines->shapes[SHAPE_WINDOW] = window_corners;
 }
 
@@ -73,7 +73,7 @@ Engine::update()
 	fiducial_iter	fiducial_it;
 	ofxFiducial		*fiducial;
 	fiducialIndex	fiducialId;
-	
+
 	fiducial_state_iter fiducial_state_it;
 	int fiducialStatePrev;
 	fiducials_t	&fiducialsList	= tracker->fiducialsList;
@@ -83,7 +83,7 @@ Engine::update()
 
 #ifdef NOTIFY_FIDUCIAL_STATUS
 	fiducialEvtArgs fid_args(commonStatusArgs);
-	
+
 	// Scan for new fiducials
 	for (fiducial_it =	fiducialsList.begin();
 		 fiducial_it !=	fiducialsList.end();
@@ -105,7 +105,7 @@ Engine::update()
 		fid_args.fiducial = fiducial;
 
 		fiducial_state_it = fiducialStates.find(fiducialId);
-		
+
 		if (fiducial_state_it == fiducialStates.end())
 			fiducialStates[fiducialId] = FIDUCIAL_INVALID;
 
@@ -126,7 +126,7 @@ Engine::update()
 		fiducialStates[fiducialId] = fiducial->state;
 	}
 #endif
-	
+
 #ifdef NOTIFY_FIDUCIAL_INTERSECTION
 	fiducialRayIntersectionEvtArgs args;
 
@@ -171,13 +171,13 @@ Engine::update()
 			continue;
 
 		//fid_intersection_evts = findIntersections(fiducial);
-		
+
 		while (!fid_intersection_evts.empty())
 		{
 			args = fid_intersection_evts.front();
 			args.to_window = commonIntersectionArgs.to_window;
 			args.to_normal = commonIntersectionArgs.to_normal;
-			
+
 			hit_fiducial	= args.to;
 			hit_fiducialId	= args.to? args.to->getId() : INVALID_FIDUCIAL_ID;
 
@@ -196,7 +196,7 @@ Engine::update()
 
 			if (fiducial->state == FIDUCIAL_FOUND)
 				ofNotifyEvent(this->fiducialRayTerminationEvt, args);
-			
+
 			if (fiducialEdgePrev != fiducialEdges.end()
 				&& (!hit_fiducial || hit_fiducialId != fiducialEdgePrev->second))
 			{
@@ -234,14 +234,14 @@ Engine::update()
 //--------------------------------------------------------------
 bool
 Engine::validFiducial(ofxFiducial* fiducial)
-{	
+{
 	if (fiducial == NULL)
 		return false;
-	
+
 	if (	fiducial->getX() == FIDUCIAL_INVALID_COORDS
 		&&	fiducial->getY() == FIDUCIAL_INVALID_COORDS)
 		return false;
-	
+
 #ifdef NOTIFY_FIDUCIAL_STATUS
 	// Do not do intersection tests on fiducials which have
 	// not sent a status event
@@ -249,7 +249,7 @@ Engine::validFiducial(ofxFiducial* fiducial)
 	if (fiducial_state_it == fiducialStates.end())
 		return false;
 #endif
-	
+
 	return true;
 }
 
@@ -259,11 +259,11 @@ Engine::validInputFiducial(ofxFiducial* fiducial)
 {
 	if (!validFiducial(fiducial))
 		return false;
-	
+
 	if (find(ignoreHitFiducialIds.begin(), ignoreHitFiducialIds.end(), fiducial->getId())
 		!= ignoreHitFiducialIds.end())
 		return false;
-	
+
 	return true;
 }
 
@@ -271,9 +271,9 @@ Engine::validInputFiducial(ofxFiducial* fiducial)
 bool
 Engine::validOutputFiducial(ofxFiducial* fiducial)
 {
-	return validFiducial(fiducial);	
+	return validFiducial(fiducial);
 }
-	
+
 //--------------------------------------------------------------
 void
 Engine::updateConversionFactors(ofPoint videoSize, ofPoint windowSize)
@@ -286,10 +286,10 @@ Engine::updateConversionFactors(ofPoint videoSize, ofPoint windowSize)
 
 	ofPoint to_window(windowSize.x/videoSize.x, windowSize.y/videoSize.y);
 	ofPoint to_normal(1.0/videoSize.x, 1.0/videoSize.x);
-	
+
 	commonStatusArgs.to_window = commonIntersectionArgs.to_window = to_window;
 	commonStatusArgs.to_normal = commonIntersectionArgs.to_normal = to_normal;
 }
-	
+
 } //physics
 } //ofxFiducialBacked

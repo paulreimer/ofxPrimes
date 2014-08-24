@@ -1,4 +1,4 @@
-/*			 
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA	 02110-1301  USA
 */
 #ifndef CVD_RGB_TRAITS_H
@@ -33,13 +33,13 @@ namespace CVD
 {
 	namespace Pixel
 	{
-		
+
 		template<class P> struct Component<Rgb<P> >
 		{
 			typedef P type;
 			static const size_t count = 3;
 
-			
+
 			//This version is much faster, with -funroll-loops
 			static const P& get(const Rgb<P>& pixel, size_t i)
 			{
@@ -130,27 +130,27 @@ namespace CVD
 		template <class T> struct is_Rgb<Rgba<T> > { enum { value = 1 }; };
 		template <class T> struct is_Rgb<Argb<T> > { enum { value = 1 }; };
 
-		template<class T, int LIFT> struct traits<Rgb<T>, LIFT> 
-		{ 
-		  typedef Rgb<typename Pixel::traits<T>::wider_type> wider_type; 
+		template<class T, int LIFT> struct traits<Rgb<T>, LIFT>
+		{
+		  typedef Rgb<typename Pixel::traits<T>::wider_type> wider_type;
 		  typedef Rgb<typename Pixel::traits<T>::float_type> float_type;
 		};
 
-		template<class T, int LIFT> struct traits<Rgba<T>, LIFT> 
-		{ 
-		  typedef Rgba<typename Pixel::traits<T>::wider_type> wider_type; 
+		template<class T, int LIFT> struct traits<Rgba<T>, LIFT>
+		{
+		  typedef Rgba<typename Pixel::traits<T>::wider_type> wider_type;
 		  typedef Rgba<typename Pixel::traits<T>::float_type> float_type;
 		};
 
-		template<class T, int LIFT> struct traits<La<T>, LIFT> 
-		{ 
-		  typedef La<typename Pixel::traits<T>::wider_type> wider_type; 
+		template<class T, int LIFT> struct traits<La<T>, LIFT>
+		{
+		  typedef La<typename Pixel::traits<T>::wider_type> wider_type;
 		  typedef La<typename Pixel::traits<T>::float_type> float_type;
 		};
-  
-		template<int LIFT> struct traits<Rgb8, LIFT> 
-		{ 
-		  typedef Rgb<int> wider_type; 
+
+		template<int LIFT> struct traits<Rgb8, LIFT>
+		{
+		  typedef Rgb<int> wider_type;
 		  typedef Rgb<float> float_type;
 		};
 
@@ -225,7 +225,7 @@ namespace CVD
 		template <class T, class S> inline La<T> operator/(const S& b, const La<T>& a) { return La_ops<La<T> >::quot(a,b); }
 		template <class T, class S> inline La<T>& operator/=(La<T>& a, const S& b) { La_ops<La<T> >::div(a,b); return a; }
 
-		
-	
+
+
 }
 #endif

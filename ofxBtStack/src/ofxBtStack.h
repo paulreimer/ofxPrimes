@@ -13,7 +13,7 @@ public:
 //	virtual ~ofxBtStack();
 	void start();
 	void stop();
-	
+
 	bd_addr_t addr;
 
 	void packet_handler(uint8_t packet_type, uint16_t channel, uint8_t *packet, uint16_t size);
@@ -30,7 +30,7 @@ public:
 	ofEvent<uint8_t*>	l2cap_channel_failed;
 
 	ofEvent<char*>		new_state;
-	
+
 private:
 	bool bRunLoopEnabled;
 };

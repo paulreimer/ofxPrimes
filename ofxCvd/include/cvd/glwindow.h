@@ -96,7 +96,7 @@ namespace CVD {
 	/// @param size    Window size
 	/// @param bpp     Colour depth
 	/// @param title   Window title
-	/// @param display X11 display string, passed to XOpenDisplay. "" Is used to indicate NULL. This is ignored for non X11 platforms. 
+	/// @param display X11 display string, passed to XOpenDisplay. "" Is used to indicate NULL. This is ignored for non X11 platforms.
 	GLWindow(const ImageRef& size, int bpp=24, const std::string& title="GLWindow", const std::string& display="") {
 	  init(size, bpp, title, display);
 	}

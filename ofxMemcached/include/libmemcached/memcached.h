@@ -146,14 +146,14 @@ memcached_return memcached_decrement(memcached_st *ptr,
                                      uint64_t *value);
 
 LIBMEMCACHED_API
-memcached_return memcached_increment_by_key(memcached_st *ptr, 
+memcached_return memcached_increment_by_key(memcached_st *ptr,
                                             const char *master_key, size_t master_key_length,
                                             const char *key, size_t key_length,
                                             uint64_t offset,
                                             uint64_t *value);
 
 LIBMEMCACHED_API
-memcached_return memcached_decrement_by_key(memcached_st *ptr, 
+memcached_return memcached_decrement_by_key(memcached_st *ptr,
                                             const char *master_key, size_t master_key_length,
                                             const char *key, size_t key_length,
                                             uint64_t offset,

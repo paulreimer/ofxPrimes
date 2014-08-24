@@ -14,7 +14,7 @@
 	NSTimer *frameTimer;
 	UIView *previewView;
 	NSLock *pixelsUsage;
-	
+
 #ifdef FRAMEBUFFER_HACKS
 //	CGBitmapContextRef ctx;
 	unsigned char* bytes;
@@ -25,7 +25,7 @@
     CALayer *previewLayer;
 #endif
 
-@public	
+@public
 	ofxiPhoneVideoCapture *capture;
 	ofImage image;
 }

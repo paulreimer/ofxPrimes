@@ -131,7 +131,7 @@ namespace Exceptions {
 	    }
 	};
 
-				
+
         /// Input images have incompatible dimensions
         /// @ingroup gException
         struct OddSizedKernelRequired : public All {
@@ -185,7 +185,7 @@ template <class T> void convolveWithBox(const BasicImage<T>& I, BasicImage<T>& J
 	    oldest_row += w;
 	    if (oldest_row == &buffer[0] + w*win.y)
 		oldest_row = &buffer[0];
-	}    
+	}
 	input += w;
 	next_row += w;
 	if (next_row == &buffer[0] + w*win.y)
@@ -205,7 +205,7 @@ template <class T> inline void convolveWithBox(BasicImage<T>& I, int hwin) {
 template <class T> inline void convolveWithBox(BasicImage<T>& I, ImageRef hwin) {
     convolveWithBox(I,I,hwin);
 }
-    
+
 
 template <class T, int A, int B, int C> void convolveSymmetric(Image<T>& I)
   {
@@ -329,7 +329,7 @@ template <class T, class K> void convolveSeparableSymmetric(Image<T>& I, const s
       }
     }
   }
-  
+
 
 template <class A, class B> struct GetPixelRowTyped {
   static inline const B* get(const A* row, int w, B* rowbuf) {
@@ -395,7 +395,7 @@ template <class T> struct ConvolveMiddle<T,0,1> {
 
 template <class T,class S> inline const T* convolveMiddle(const T* input, const S& factor, const S* kernel, int ksize, int n, T* output) {
 #define CALL_CM(I) for (int j=0; j<n; ++j, ++input, ++output) { *output = ConvolveMiddle<T,I>::at(input, factor, kernel); } break
-    
+
   switch (ksize) {
   case 0: CALL_CM(0);
   case 1: CALL_CM(1);
@@ -406,7 +406,7 @@ template <class T,class S> inline const T* convolveMiddle(const T* input, const 
   case 6: CALL_CM(6);
   case 7: CALL_CM(7);
   case 8: CALL_CM(8);
-  default: for (int j=0; j<n; j++, input++) { *(output++) = ConvolveMiddle<T,-1>::at(input, factor, kernel, ksize); }     
+  default: for (int j=0; j<n; j++, input++) { *(output++) = ConvolveMiddle<T,-1>::at(input, factor, kernel, ksize); }
   }
   return input;
 #undef CALL_CM
@@ -477,7 +477,7 @@ template <class T> void convolveGaussian(const BasicImage<T>& I, BasicImage<T>& 
 	    for (int k=0; k<ksize; k++) {
 		const sum_comp_type m = kernel[k];
 		const sum_type* row1 = rows[ksize-k-1];
-		const sum_type* row2 = rows[ksize+k+1];	
+		const sum_type* row2 = rows[ksize+k+1];
 		add_multiple_of_sum(row1, row2, m, outbuf, w);
 	    }
 	    cast_copy(outbuf, output, w);
@@ -494,7 +494,7 @@ template <class T> void convolveGaussian(const BasicImage<T>& I, BasicImage<T>& 
 		    }
 		    cast_copy(outbuf, output, w);
 		    output += w;
-		}	
+		}
 	    }
 	} else if (i == swin-1) {
 	    for (int r=0; r<ksize; r++) {
@@ -503,14 +503,14 @@ template <class T> void convolveGaussian(const BasicImage<T>& I, BasicImage<T>& 
 		for (int k=0; k<ksize; k++) {
 		    const sum_comp_type m = kernel[k];
 		    const sum_type* row1 = rows[std::max(r-k-1,0)+1];
-		    const sum_type* row2 = rows[r+k+2];	
+		    const sum_type* row2 = rows[r+k+2];
 		    add_multiple_of_sum(row1, row2, m, outbuf, w);
 		}
 		cast_copy(outbuf, output, w);
 		output += w;
 	    }
 	}
-    
+
 	sum_type* tmp = rows[0];
 	for (int r=0;r<swin; r++)
 	    rows[r] = rows[r+1];
@@ -526,7 +526,7 @@ void convolveGaussian(const BasicImage<float>& I, BasicImage<float>& out, double
 void convolveGaussian_fir(const BasicImage<float>& I, BasicImage<float>& out, double sigma, double sigmas=3.0);
 
 template <class T, class O, class K> void convolve_gaussian_3(const BasicImage<T>& I, BasicImage<O>& out, K k1, K k2)
-{    
+{
     assert(I.size() == out.size());
     const T* a=I.data();
     const int w = I.size().x;

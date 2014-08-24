@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
@@ -50,7 +50,7 @@ extern "C" {
 }
 
 struct AVFormatContext;
-struct AVFrame; 
+struct AVFrame;
 
 namespace CVD
 {
@@ -95,22 +95,22 @@ namespace CVD
 	};
 
 	template<> struct rgb<CVD::byte>
-	{	
+	{
 		static const bool p=false;
 	};
 
 	template<> struct rgb<CVD::Rgb<CVD::byte> >
-	{	
+	{
 		static const bool p=true;
 	};
-	#endif 
+	#endif
 
 
 	class A_Frame;
 
 	/// Internal (non type-safe) class used by VideoFileBuffer
 	/// This does the real interfacing with the ffmpeg library
-	class RawVideoFileBuffer 
+	class RawVideoFileBuffer
 	{
 		public:
 			/// Construct a video buffer to play this file
@@ -118,7 +118,7 @@ namespace CVD
 			/// @param is_rgb Is RGB data wanted?
 			RawVideoFileBuffer(const std::string& file, bool is_rgb);
 			~RawVideoFileBuffer();
-		
+
 			/// The size of the VideoFrames returned by this buffer
  			ImageRef size()
 			{
@@ -131,7 +131,7 @@ namespace CVD
 			/// \param f The frame that you are finished with.
 			void put_frame(void* f);
 
-			/// Is there a frame waiting in the buffer? This function does not block. 
+			/// Is there a frame waiting in the buffer? This function does not block.
 			bool frame_pending()
 			{
 				return frame_ready;
@@ -140,16 +140,16 @@ namespace CVD
 			/// Go to a particular point in the video buffer (only implemented in buffers of recorded video)
 			/// \param t The frame time in seconds
 			void seek_to(double t);
-			
+
 			/// What should the buffer do when it reaches the end of the list of files?
 			/// @param behaviour The desired behaviour
-			void on_end_of_buffer(VideoBufferFlags::OnEndOfBuffer behaviour) 
+			void on_end_of_buffer(VideoBufferFlags::OnEndOfBuffer behaviour)
 			{
 				end_of_buffer_behaviour = behaviour;
 			}
-		
-			/// What is the (expected) frame rate of this video buffer, in frames per second?		
-			double frames_per_second() 
+
+			/// What is the (expected) frame rate of this video buffer, in frames per second?
+			double frames_per_second()
 			{
                         #if LIBAVCODEC_BUILD >= 4754
 			  return pCodecContext->time_base.den / static_cast<double>(pCodecContext->time_base.num);
@@ -157,22 +157,22 @@ namespace CVD
 				    return pCodecContext->frame_rate / static_cast<double>(pCodecContext->frame_rate_base);
 			#endif
 			};
-			
+
 			/// What is the path to the video file?
-			std::string file_name() 
+			std::string file_name()
 			{
 				return pFormatContext->filename;
 			}
-			
+
 			/// What codec is being used to decode this video?
-			std::string codec_name() 
+			std::string codec_name()
 			{
 				return pCodecContext->codec_name;
 			}
-		
+
 		private:
 			bool read_next_frame();
-				
+
 		private:
 			ImageRef my_size;
 			VideoBufferFlags::OnEndOfBuffer end_of_buffer_behaviour;
@@ -182,13 +182,13 @@ namespace CVD
 			AVFormatContext* pFormatContext;
 			int video_stream;
 			AVCodecContext* pCodecContext;
-		    AVFrame* pFrame; 
+		    AVFrame* pFrame;
     		AVFrame* pFrameRGB;
 			SwsContext *img_convert_ctx;
-			
+
 			CVD::Image<CVD::Rgb<byte> > next_frame_rgb;
 			CVD::Image<CVD::byte> next_frame;
-			
+
 			double frame_time;
 			bool is_rgb;
 	};
@@ -197,19 +197,19 @@ namespace CVD
 	///	A video buffer to play frames from a video file.
 	/// This uses the ffmpeg library (http://ffmpeg.sourceforge.net/) to play
 	/// a wide range of video formats, including MPEG (1, 2 and 4) and AVI (including
-	/// DivX and DV) files. 
+	/// DivX and DV) files.
 	/// Provides frames of type CVD::VideoFileFrame and throws exceptions of type
 	///  CVD::Exceptions::VideoFileBuffer
-	/// @param T The pixel type of the video frames. Currently only <code>CVD::Rgb<CVD::byte> ></code> and 
+	/// @param T The pixel type of the video frames. Currently only <code>CVD::Rgb<CVD::byte> ></code> and
 	/// <code>CVD::byte></code> are supported.
 	/// @ingroup gVideoBuffer
-	template<typename T> 
+	template<typename T>
 	class VideoFileBuffer : public CVD::LocalVideoBuffer<T>
 	{
 		private:
 			VFB::RawVideoFileBuffer vf;
-			
-	
+
+
 		public:
 			/// Construct a VideoFileBuffer to play this file
 			/// @param file The path to the video file
@@ -221,20 +221,20 @@ namespace CVD
 			~VideoFileBuffer()
 			{
 			}
-		
+
 			virtual ImageRef size()
 			{
 				return vf.size();
 			}
 
 			virtual bool frame_pending()
-			{ 
+			{
 				return vf.frame_pending();
 			}
 
 			/// What should the buffer do when it reaches the end of the list of files?
 			/// @param behaviour The desired behaviour
-			virtual void on_end_of_buffer(VideoBufferFlags::OnEndOfBuffer behaviour) 
+			virtual void on_end_of_buffer(VideoBufferFlags::OnEndOfBuffer behaviour)
 			{
 				vf.on_end_of_buffer(behaviour);
 			}
@@ -253,26 +253,26 @@ namespace CVD
 			{
 				vf.put_frame(f);
 			}
-			
-			// This class additions	
-		
-			double frame_rate() 
+
+			// This class additions
+
+			double frame_rate()
 			{
 				return vf.frames_per_second();
 			}
 
 			/// What is the path to the video file?
-			std::string file_name() 
+			std::string file_name()
 			{
 				return vf.file_name();
 			}
 
 			/// What codec is being used to decode this video?
-			std::string codec_name() 
+			std::string codec_name()
 			{
 				return vf.codec_name();
 			}
-		
+
 		private:
 	};
 }

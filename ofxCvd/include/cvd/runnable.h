@@ -3,7 +3,7 @@
 
 namespace CVD {
 //! This is an abstract base class for anything with a run() method.
-class Runnable 
+class Runnable
 {
  public:
   //! Perform the function of this object.

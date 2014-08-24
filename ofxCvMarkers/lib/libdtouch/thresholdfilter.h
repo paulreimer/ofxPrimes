@@ -117,7 +117,7 @@ protected:
 		_contrThres(in_contrThres),
 		_blockSize(in_blockSize)
 	{ }
-	
+
 	void constructL();
 public:
 	static BernsenThresholdFilter * newL(const unsigned int &in_width, const unsigned int &in_height,
@@ -202,7 +202,7 @@ protected:
 		_blockSize(in_blockSize),
 		_sauvolaParam(in_sauvolaParam)
 	{ }
-	
+
 	void constructL();
 public:
 	static SauvolaThresholdFilter * newL( const unsigned int &in_width, const unsigned int &in_height,

@@ -45,29 +45,29 @@ using std::endl;
 using std::cerr;
 #endif
 
-void GraphicImageRGB::markThreshold(unsigned char * proc,unsigned char * thres){	
+void GraphicImageRGB::markThreshold(unsigned char * proc,unsigned char * thres){
 	unsigned char * tPtr = thres;
 	unsigned char * pPtr = proc;
 	unsigned char * imgPtr = _displayBuffer;
 
 	for(int i=_width*_height;i>0;i--){
-		if( *pPtr++ > *tPtr++ ){ 
-			*imgPtr++ = 255; 
-			*imgPtr++ = 255; 
-			*imgPtr++ = 255; 
-		}else{ 
-			*imgPtr++ = 0; 
-			*imgPtr++ = 0; 
+		if( *pPtr++ > *tPtr++ ){
+			*imgPtr++ = 255;
+			*imgPtr++ = 255;
+			*imgPtr++ = 255;
+		}else{
+			*imgPtr++ = 0;
+			*imgPtr++ = 0;
 			*imgPtr++ = 0;
 		}
 	}
-	
+
 	return;
 }
 
 /***
  * This method fills reg
- *  
+ *
  */
 void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r, unsigned char g, unsigned char b ){
 	if( reg==NULL ){
@@ -77,11 +77,11 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r
 	// calculate the bounding box
 	DTPoint min, max;
 	reg->box(min, max, _width, _height );
-	
+
 	// get the label of this region by looking up the first pixel
 	DTPoint f = reg->getFirstData();
 	int label = *(labelsMap[f.x+f.y*_width]);
-	
+
 	/*
 	using namespace std;
 	cout << "label: " << label << endl;
@@ -92,7 +92,7 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r
 	unsigned int offset=0;
 	unsigned int offsetMUL3=0;
 	// scan the bounding box and look at the labels map
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int y=min.y;y<=max.y;y++){
 		offset = min.x + y * _width;
 		int ** lPtr = labelsMap;
@@ -104,7 +104,7 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r
 		gPtr+= offsetMUL3 + 1;
 		unsigned char * bPtr = _displayBuffer;
 		bPtr+= offsetMUL3 + 2;
-		
+
 		for(int x=min.x;x<=max.x;x++){
 			if( **lPtr == label ){
 				// fill this pixel
@@ -118,13 +118,13 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r
 			bPtr+=3;
 		}
 	}
-	
+
 	return;
 }
 
 /***
  * This method fills reg
- *  
+ *
  */
 void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap){
 	if( reg==NULL ){
@@ -134,15 +134,15 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap){
 	// calculate the bounding box
 	DTPoint min, max;
 	reg->box(min, max, _width, _height );
-	
+
 	// get the label of this region by looking up the first pixel
 	DTPoint f = reg->getFirstData();
 	int label = *(labelsMap[f.x+f.y*_width]);
-	
+
 	unsigned int offset=0;
 	unsigned int offsetMUL3=0;
 	// scan the bounding box and look at the labels map
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int y=min.y;y<=max.y;y++){
 		offset = min.x + y * _width;
 		int ** lPtr = labelsMap + offset;
@@ -150,7 +150,7 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap){
 		unsigned char * rPtr = _displayBuffer + offsetMUL3 + 0;
 		unsigned char * gPtr = _displayBuffer + offsetMUL3 + 1;
 		unsigned char * bPtr = _displayBuffer + offsetMUL3 + 2;
-		
+
 		for(int x=min.x;x<=max.x;x++){
 			unsigned char v = (((y%2==0)&&(x%2==0))||((y%2==1)&&(x%2==1)))?(0):(255);
 			if( **lPtr == label ){
@@ -165,23 +165,23 @@ void GraphicImageRGB::fill(dtouch_Region *reg, int ** labelsMap){
 			bPtr+=3;
 		}
 	}
-	
+
 	return;
 }
 
 void GraphicImageRGB::fillRect( int x, int y, int w, int h ){
-	
+
 	unsigned int offset=0;
 	unsigned int offsetMUL3=0;
 	// scan the bounding box and look at the labels map
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int y0=y;y0<=y+h;y0++){
 		offset = x + y0 * _width;
 		offsetMUL3 = offset * 3;
 		unsigned char * rPtr = _displayBuffer + offsetMUL3 + 0;
 		unsigned char * gPtr = _displayBuffer + offsetMUL3 + 1;
 		unsigned char * bPtr = _displayBuffer + offsetMUL3 + 2;
-		
+
 		for(int x0=x;x0<=x+w;x0++){
 			unsigned char v = (((y0%2==0)&&(x0%2==0))||((y0%2==1)&&(x0%2==1)))?(0):(255);
 			// fill this pixel
@@ -193,28 +193,28 @@ void GraphicImageRGB::fillRect( int x, int y, int w, int h ){
 			bPtr+=3;
 		}
 	}
-	
+
 	return;
 }
 
-void GraphicImageGrayscale::markThreshold(unsigned char * proc, unsigned char * thres){	
+void GraphicImageGrayscale::markThreshold(unsigned char * proc, unsigned char * thres){
 	unsigned char * tPtr = thres;
 	unsigned char * pPtr = proc;
 	unsigned char * imgPtr = _displayBuffer;
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int i=_width*_height;i>0;i--){
 		//if( *pPtr++ > *tPtr++ ){ *imgPtr++=255; }
 		//else{ *imgPtr++=0; }
 		( *pPtr++ > *tPtr++ )?( *imgPtr++=255 ):( *imgPtr++=0 );
 	}
-	
+
 	return;
 }
 
 
 /***
  * This method fills reg
- *  
+ *
  */
 void GraphicImageGrayscale::fill(dtouch_Region *reg, int ** labelsMap){
 	if( reg==NULL ){
@@ -224,19 +224,19 @@ void GraphicImageGrayscale::fill(dtouch_Region *reg, int ** labelsMap){
 	// calculate the bounding box
 	DTPoint min, max;
 	reg->box(min, max, _width, _height );
-	
+
 	// get the label of this region by looking up the first pixel
 	DTPoint f = reg->getFirstData();
 	int label = *(labelsMap[f.x+f.y*_width]);
-	
+
 	unsigned int offset=0;
 	// scan the bounding box and look at the labels map
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int y=min.y;y<=max.y;y++){
 		offset = min.x + y * _width;
 		int ** lPtr = labelsMap + offset;
 		unsigned char * imgPtr = _displayBuffer + offset;
-		
+
 		for(int x=min.x;x<=max.x;x++){
 			unsigned char v = (((y%2)&&(x%2))||((y%2==0)&&(x%2==0)))?(0):(255);
 			if( **lPtr == label ){
@@ -247,24 +247,24 @@ void GraphicImageGrayscale::fill(dtouch_Region *reg, int ** labelsMap){
 			imgPtr++;
 		}
 	}
-	
+
 	return;
 }
 
 void GraphicImageGrayscale::fillRect( int x, int y, int w, int h ){
 	unsigned int offset=0;
 	// scan the bounding box and look at the labels map
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int y0=y;y0<=y+h;y0++){
 		offset = x + y0 * _width;
 		unsigned char * imgPtr = _displayBuffer + offset;
-		
+
 		for(int x0=x;x0<=x+w;x0++){
 			unsigned char v = (((y0%2==0)&&(x0%2==0))||((y0%2==1)&&(x0%2==1)))?(0):(255);
 			*imgPtr++ = v;
 		}
 	}
-	
+
 	return;
 }
 
@@ -283,7 +283,7 @@ void GraphicImage::markCross( const DTPoint& p ){
 GraphicImage::GraphicImage(int in_width, int in_height )
 	: _width(in_width), _height(in_height) {
 
-  //cout << "GraphicImage constructor called" << endl;  
+  //cout << "GraphicImage constructor called" << endl;
 
   //_displayBuffer = new unsigned char[3*_width*_height];
 
@@ -535,7 +535,7 @@ void GraphicImage::boxPlus(dtouch_Region *reg, DTPoint &min, DTPoint &max,
 	int xMax = 0;
 	int yMin = _height;
 	int yMax = 0;
-	
+
 	for(reg->reset();!reg->nullTest();reg->fwd()) {
 		DTPoint tmp = reg->getData();
 		if(tmp.x > xMax){
@@ -555,7 +555,7 @@ void GraphicImage::boxPlus(dtouch_Region *reg, DTPoint &min, DTPoint &max,
 			p4 = tmp;
 		}
 	}
-	
+
 	min.x = xMin;
 	min.y = yMin;
 	max.x = xMax;
@@ -602,7 +602,7 @@ void GraphicImage::boxPlus(dtouch_Region *reg, DTPoint &min, DTPoint &max,
 	return;
 }
 */
- 
+
 void GraphicImage::plotDigit(DTPoint p, int digit, unsigned char r, unsigned char g, unsigned char b ){
 	if( digit > 9 || digit < 0 ){
 		return;
@@ -635,7 +635,7 @@ void GraphicImage::plotDigit(DTPoint p, int digit, unsigned char r, unsigned cha
 
 /***
  * This method fills reg
- *  
+ *
  */
 void GraphicImage::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r, unsigned char g, unsigned char b ){
 	if( reg==NULL ){
@@ -645,15 +645,15 @@ void GraphicImage::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r, u
 	// calculate the bounding box
 	DTPoint min, max;
 	reg->box(min, max, _width, _height );
-	
+
 	// get the label of this region by looking up the first pixel
 	DTPoint f = reg->getFirstData();
 	int label = *(labelsMap[f.x+f.y*_width]);
-	
+
 	unsigned int offset=0;
 	unsigned int offsetMUL3=0;
 	// scan the bounding box and look at the labels map
-	// fill any point that has the label that we want	
+	// fill any point that has the label that we want
 	for(int y=min.y;y<=max.y;y++){
 		offset = min.x + y * _width;
 		int ** lPtr = labelsMap + offset;
@@ -661,7 +661,7 @@ void GraphicImage::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r, u
 		unsigned char * rPtr = _displayBuffer + offsetMUL3 + 0;
 		unsigned char * gPtr = _displayBuffer + offsetMUL3 + 1;
 		unsigned char * bPtr = _displayBuffer + offsetMUL3 + 2;
-		
+
 		for(int x=min.x;x<=max.x;x++){
 			if( **lPtr == label ){
 				// fill this pixel
@@ -675,7 +675,7 @@ void GraphicImage::fill(dtouch_Region *reg, int ** labelsMap, unsigned char r, u
 			bPtr+=3;
 		}
 	}
-	
+
 	return;
 }
 

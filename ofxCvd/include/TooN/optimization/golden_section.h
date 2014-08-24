@@ -65,7 +65,7 @@ namespace TooN
 				a = x1;
 				x1 = x2;
 				x2 = x1 + g * (c-x1);
-				
+
 				fx1 = fx2;
 				fx2 = func(x2);
 			}
@@ -77,13 +77,13 @@ namespace TooN
 				c = x2;
 				x2 = x1;
 				x1= x2 - g * (x2 - a);
-				
+
 				fx2 = fx1;
 				fx1 = func(x1);
 			}
 		}
 
-		
+
 		if(fx1 < fx2)
 			return makeVector<Precision>(x1, fx1);
 		else

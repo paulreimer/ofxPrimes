@@ -24,6 +24,6 @@ namespace CVD {
     protected:
 	pthread_cond_t myCondVar;
     };
-    
+
 }
 #endif

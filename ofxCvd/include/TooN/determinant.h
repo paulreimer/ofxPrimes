@@ -12,7 +12,7 @@ namespace TooN
 	namespace Internal
 	{
 		///@internal
-		///@brief  Provides the static size for a square matrix. 
+		///@brief  Provides the static size for a square matrix.
 		///In
 		///the general case, if R != C, then the matrix is not
 		///square and so no size is provided. A compile error results.
@@ -20,7 +20,7 @@ namespace TooN
 		template<int R, int C> struct Square
 		{
 		};
-		
+
 
 		///@internal
 		///@brief Provides the static size for a square matrix where both dimensions are the same.
@@ -29,9 +29,9 @@ namespace TooN
 		{
 			static const int Size = R; ///<The size
 		};
-		
+
 		///@internal
-		///@brief Provides the static size for a square matrix where one dimension is static. 
+		///@brief Provides the static size for a square matrix where one dimension is static.
 		///The size must be equal to the size of the static dimension.
 		///@ingroup gInternal
 		template<int R> struct Square<R, Dynamic>
@@ -39,7 +39,7 @@ namespace TooN
 			static const int Size = R; ///<The size
 		};
 		///@internal
-		///@brief Provides the static size for a square matrix where one dimension is static. 
+		///@brief Provides the static size for a square matrix where one dimension is static.
 		///The size must be equal to the size of the static dimension.
 		///@ingroup gInternal
 		template<int C> struct Square<Dynamic, C>
@@ -71,11 +71,11 @@ namespace TooN
 		using std::abs;
 
 		int size=A.num_rows();
-		
+
 		//If row operations of the form row_a += alpha * row_b
 		//then the determinant is unaffected. However, if a row
-		//is scaled, then the determinant is scaled by the same 
-		//amount. 
+		//is scaled, then the determinant is scaled by the same
+		//amount.
 		Precision determinant=1;
 
 		for (int i=0; i<size; ++i) {
@@ -83,7 +83,7 @@ namespace TooN
 			//Find the pivot
 			int argmax = i;
 			Precision maxval = abs(A[i][i]);
-			
+
 			for (int ii=i+1; ii<size; ++ii) {
 				double v =  abs(A[ii][i]);
 				if (v > maxval) {
@@ -94,7 +94,7 @@ namespace TooN
 			Precision pivot = A[argmax][i];
 
 			//assert(abs(pivot) > 1e-16);
-			
+
 			//Swap the current row with the pivot row if necessary.
 			//A row swap negates the determinant.
 			if (argmax != i) {
@@ -107,7 +107,7 @@ namespace TooN
 
 			if(determinant == 0)
 				return 0;
-			
+
 			for (int u=i+1; u<size; ++u) {
 				//Do not multiply out the usual 1/pivot term
 				//to avoid division. It causes poor scaling.
@@ -120,7 +120,7 @@ namespace TooN
 
 		return determinant;
 	}
-	
+
 	/** Compute the determinant using TooN::LU.
 		@param A The matrix to find the determinant of.
 		@returns determinant.
@@ -134,7 +134,7 @@ namespace TooN
 		return lu.determinant();
 	}
 
-	/** 
+	/**
 		Compute the determinant of a matrix using an appropriate method. The
 		obvious method is used for 2x2, otherwise
 		determinant_gaussian_elimination() or determinant_LU() is used depending

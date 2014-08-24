@@ -8,7 +8,7 @@ ofxSimpleGuiToggle::ofxSimpleGuiToggle(string name, bool &value)
 	setMomentary(false);
 	controlType = "Toggle";
 	setup();
-}	
+}
 
 //---------------------------------------------------------------------
 void

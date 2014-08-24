@@ -8,9 +8,9 @@ ofxSimpleGuiTitle::ofxSimpleGuiTitle(string name, bool &value)
 {
 	beToggle	= false;
 	beenPressed = false;
-	
+
 	this->value	= &value;
-	
+
 	value		= NULL;
 	controlType = "Title";
 	newColumn	= true;
@@ -58,9 +58,9 @@ void
 ofxSimpleGuiTitle::set(bool b)
 {
 	if(!value) return;
-	
+
 	if (oldValue != b)
-	{		
+	{
 		oldValue = (*value) = b;
 		ofNotifyEvent(valueChangedEvt, args);
 	}
@@ -87,7 +87,7 @@ void
 ofxSimpleGuiTitle::onPress(int x, int y, int button)
 {
 	if(!value) return;
-	beenPressed = true;	
+	beenPressed = true;
 	if(beToggle)
 		set(!(*value));
 	else
@@ -108,25 +108,25 @@ void
 ofxSimpleGuiTitle::drawWidget(float x, float y)
 {
 	setPos(x, y);
-	
+
 	glPushMatrix();
 	glTranslatef(x, y, 0);
-	
+
 	ofEnableAlphaBlending();
 	ofFill();
-	
+
 	// if a toggle
 	if(value && (*value) && beToggle) {
 		setTextColor();
 		//ofLine(0, 0, box.width, box.height);
 		//ofLine(box.width, 0, 0, box.height);
 	}
-	
+
 	setTextColor(value != NULL);
 	config->font.drawString(name, config->fontOffset.x, config->fontOffset.y);
-	
+
 	ofDisableAlphaBlending();
-	
+
 	glPopMatrix();
 }
 

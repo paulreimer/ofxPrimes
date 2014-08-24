@@ -43,14 +43,14 @@ namespace TooN {
 namespace Internal{
 	///Default condition number for SymEigen::backsub, SymEigen::get_pinv and SymEigen::get_inv_diag
 	static const double symeigen_condition_no=1e9;
-	
+
 	///@internal
 	///@brief Compute eigensystems for sizes > 2
 	///Helper struct for computing eigensystems, to allow for specialization on
 	///2x2 matrices.
 	///@ingroup gInternal
 	template <int Size> struct ComputeSymEigen {
-		
+
 		///@internal
 		///Compute an eigensystem.
 		///@param m Input matrix (assumed to be symmetric)
@@ -74,7 +74,7 @@ namespace Internal{
 			syev_((char*)"V",(char*)"U",&N,&evectors[0][0],&lda,&evalues[0], &WORK[0],&lwork,&info);
 
 			if(info!=0){
-				std::cerr << "In SymEigen<"<<Size<<">: " << info 
+				std::cerr << "In SymEigen<"<<Size<<">: " << info
 						<< " off-diagonal elements of an intermediate tridiagonal form did not converge to zero." << std::endl
 						<< "M = " << m << std::endl;
 			}
@@ -82,7 +82,7 @@ namespace Internal{
 	};
 
 	///@internal
-	///@brief Compute 2x2 eigensystems 
+	///@brief Compute 2x2 eigensystems
 	///Helper struct for computing eigensystems, specialized on 2x2 matrices.
 	///@ingroup gInternal
 	template <> struct ComputeSymEigen<2> {
@@ -134,7 +134,7 @@ Matrix<3> M(3,3);
 M[0]=makeVector(4,0,2);
 M[1]=makeVector(0,5,3);
 M[2]=makeVector(2,3,6);
- 
+
 // create the eigen decomposition of M
 SymEigen<3> eigM(M);
 cout << "A=" << M << endl;
@@ -194,28 +194,28 @@ public:
 		Internal::ComputeSymEigen<Size>::compute(m, my_evectors, my_evalues);
 	}
 
-	/// Calculate result of multiplying the (pseudo-)inverse of M by a vector. 
-	/// For a vector \f$b\f$, this calculates \f$M^{\dagger}b\f$ by back substitution 
-	/// (i.e. without explictly calculating the (pseudo-)inverse). 
+	/// Calculate result of multiplying the (pseudo-)inverse of M by a vector.
+	/// For a vector \f$b\f$, this calculates \f$M^{\dagger}b\f$ by back substitution
+	/// (i.e. without explictly calculating the (pseudo-)inverse).
 	/// See the SVD detailed description for a description of condition variables.
 	template <int S, typename P, typename B>
 	Vector<Size, Precision> backsub(const Vector<S,P,B>& rhs) const {
 		return (my_evectors.T() * diagmult(get_inv_diag(Internal::symeigen_condition_no),(my_evectors * rhs)));
 	}
 
-	/// Calculate result of multiplying the (pseudo-)inverse of M by another matrix. 
-	/// For a matrix \f$A\f$, this calculates \f$M^{\dagger}A\f$ by back substitution 
-	/// (i.e. without explictly calculating the (pseudo-)inverse). 
+	/// Calculate result of multiplying the (pseudo-)inverse of M by another matrix.
+	/// For a matrix \f$A\f$, this calculates \f$M^{\dagger}A\f$ by back substitution
+	/// (i.e. without explictly calculating the (pseudo-)inverse).
 	/// See the SVD detailed description for a description of condition variables.
 	template <int R, int C, typename P, typename B>
 	Matrix<Size,C, Precision> backsub(const Matrix<R,C,P,B>& rhs) const {
 		return (my_evectors.T() * diagmult(get_inv_diag(Internal::symeigen_condition_no),(my_evectors * rhs)));
 	}
 
-	/// Calculate (pseudo-)inverse of the matrix. This is not usually needed: 
-	/// if you need the inverse just to multiply it by a matrix or a vector, use 
+	/// Calculate (pseudo-)inverse of the matrix. This is not usually needed:
+	/// if you need the inverse just to multiply it by a matrix or a vector, use
 	/// one of the backsub() functions, which will be faster.
-	/// See the SVD detailed description for a description of the pseudo-inverse 
+	/// See the SVD detailed description for a description of the pseudo-inverse
 	/// and condition variables.
 	Matrix<Size, Size, Precision> get_pinv(const double condition=Internal::symeigen_condition_no) const {
 		return my_evectors.T() * diagmult(get_inv_diag(condition),my_evectors);
@@ -224,8 +224,8 @@ public:
 	/// Calculates the reciprocals of the eigenvalues of the matrix.
 	/// The vector <code>invdiag</code> lists the eigenvalues in order, from
 	/// the largest (i.e. smallest reciprocal) to the smallest.
-	/// These are also the diagonal values of the matrix \f$Lambda^{-1}\f$. 
-	/// Any eigenvalues which are too small are set to zero (see the SVD 
+	/// These are also the diagonal values of the matrix \f$Lambda^{-1}\f$.
+	/// Any eigenvalues which are too small are set to zero (see the SVD
 	/// detailed description for a description of the and condition variables).
 	Vector<Size, Precision> get_inv_diag(const double condition) const {
 		Precision max_diag = -my_evalues[0] > my_evalues[my_evalues.size()-1] ? -my_evalues[0]:my_evalues[my_evalues.size()-1];
@@ -239,7 +239,7 @@ public:
 		}
 		return invdiag;
 	}
-	
+
 	/// Returns the eigenvectors of the matrix.
 	/// This returns \f$U^T\f$, so that the rows of the matrix are the eigenvectors,
 	/// which can be extracted using usual Matrix::operator[]() subscript operator.
@@ -254,12 +254,12 @@ public:
 
 	/// Returns the eigenvalues of the matrix.
 	/// The eigenvalues are listed in order, from the smallest to the largest.
-	/// These are also the diagonal values of the matrix \f$\Lambda\f$. 
+	/// These are also the diagonal values of the matrix \f$\Lambda\f$.
 	Vector<Size, Precision>& get_evalues() {return my_evalues;}
 	/**\overload
 	*/
 	const Vector<Size, Precision>& get_evalues() const {return my_evalues;}
-	
+
 	/// Is the matrix positive definite?
 	bool is_posdef() const {
 		for (int i = 0; i < my_evalues.size(); ++i) {
@@ -268,7 +268,7 @@ public:
 		}
 		return true;
 	}
-	
+
 	/// Is the matrix negative definite?
 	bool is_negdef() const {
 		for (int i = 0; i < my_evalues.size(); ++i) {
@@ -277,7 +277,7 @@ public:
 		}
 		return true;
 	}
-	
+
 	/// Get the determinant of the matrix
 	Precision get_determinant () const {
 		Precision det = 1.0;

@@ -6,13 +6,13 @@
 #include "ofxPoint2f.h"
 
 namespace ofxFiducialBacked {
-	namespace types {			
+	namespace types {
 #ifdef OF_USING_POCO
 		namespace events {
 
 			struct fiducialEvtArgs {
 				ofxFiducial* fiducial;
-				
+
 				ofPoint			to_window;
 				ofPoint			to_normal;
 
@@ -35,12 +35,12 @@ namespace ofxFiducialBacked {
 					to = NULL;
 					from_pt = ofxPoint2f(0,0);
 					to_pt = ofxPoint2f(0,0);
-					
+
 					to_window = ofPoint(1, 1);
 					to_normal = ofPoint(1, 1);
 				}
 			};
-		}		
+		}
 #endif
 	}
 }

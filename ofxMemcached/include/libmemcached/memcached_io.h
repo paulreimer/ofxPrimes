@@ -43,8 +43,8 @@ memcached_return memcached_io_readline(memcached_server_st *ptr,
                                        size_t size);
 memcached_return memcached_io_close(memcached_server_st *ptr);
 /* Read n bytes of data from the server and store them in dta */
-memcached_return memcached_safe_read(memcached_server_st *ptr, 
-                                     void *dta, 
+memcached_return memcached_safe_read(memcached_server_st *ptr,
+                                     void *dta,
                                      size_t size);
 /* Read a single response from the server */
 memcached_return memcached_read_one_response(memcached_server_st *ptr,

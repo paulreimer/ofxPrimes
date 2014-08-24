@@ -45,7 +45,7 @@ namespace TooN {
 		// inverse of a triangular matrix * a vector (BLAS level 2)
 		void dtrsm_(char* SIDE, char* UPLO, char* TRANSA, char* DIAG, int* M, int* N, double* alpha, double* A, int* lda, double* B, int* ldb);
 		void strsm_(char* SIDE, char* UPLO, char* TRANSA, char* DIAG, int* M, int* N, float* alpha, float* A, int* lda, float* B, int* ldb);
-  
+
 
 		// SVD of a general matrix
 		void dgesvd_(const char* JOBU, const char* JOBVT, int* M, int *N, double* A, int* lda,
@@ -86,7 +86,7 @@ namespace TooN {
 		dgetrf_(M, N, A, lda, IPIV, INFO);
 	}
 
-	inline void trsm_(const char* SIDE, const char* UPLO, const char* TRANSA, const char* DIAG, int* M, int* N, float* alpha, float* A, int* lda, float* B, int* ldb) { 
+	inline void trsm_(const char* SIDE, const char* UPLO, const char* TRANSA, const char* DIAG, int* M, int* N, float* alpha, float* A, int* lda, float* B, int* ldb) {
 		strsm_(const_cast<char*>(SIDE), const_cast<char*>(UPLO), const_cast<char*>(TRANSA), const_cast<char*>(DIAG), M, N, alpha, A, lda, B, ldb);
 	}
 

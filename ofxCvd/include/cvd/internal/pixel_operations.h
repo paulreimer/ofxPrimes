@@ -31,8 +31,8 @@
 namespace CVD {
 
   namespace Pixel {
-    
-    
+
+
 // operations::assign<DestType>(dest,src)
 template <class T, unsigned int N = Component<T>::count> struct operations {
     inline static void assign(T & lhs, const T & rhs) { memcpy(&lhs, &rhs, sizeof(T)); }

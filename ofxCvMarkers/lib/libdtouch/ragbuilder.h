@@ -49,19 +49,19 @@ protected:
 	//const unsigned char *_threshold;
 
 	//bool *_stored;
-	
+
 	//RegionAdjacencyGraph *_rag;
 
 	//RAGBuilder() {}
 public:
-	
+
 	//RAGBuilder( const unsigned char *in_image, const int &in_width, const int &in_height,
 	//	const unsigned char *in_threshold, RegionAdjacencyGraph *in_rag );
 	//~RAGBuilder();
 
 	//int buildRAGL( const int &maxRegions=3000 );
 	//int buildRAGBorderL( const int &maxRegions=3000 );
-	static int buildRAGFullBorderL( const unsigned char *in_image, 
+	static int buildRAGFullBorderL( const unsigned char *in_image,
 			const unsigned char *in_threshold, RegionAdjacencyGraph *in_rag );
 };
 

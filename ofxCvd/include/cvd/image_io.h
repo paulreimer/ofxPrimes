@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_IMAGE_IO_H
@@ -56,7 +56,7 @@
 
 namespace CVD
 {
-	
+
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -128,14 +128,14 @@ namespace CVD
 	{
 		/// Possible image types
 		enum ImageType
-		{	
+		{
 			/// Placeholder type telling @ref save_image to deduce the type from the filename
 			Automatic,
 			/// Unknown image type (can be returned by @ref string_to_image_type
 			Unknown,
 			/// PNM image format (PBM, PGM or PPM).
 			/// This writes 8 or 16 bit raw PGMs or PPMs. PBM is not currently supported
-			PNM, 
+			PNM,
 			/// JPEG image format. This is a compressed (lossy) image format, but defaults to 95% quality, which has very few compression artefacts. This image type is only present if libjpeg is available.
 			/// RGB and Greyscale JPEGs are supported
 			JPEG,
@@ -148,7 +148,7 @@ namespace CVD
 			/// This image type is only present if libtiff is available. G4 FAX encoding is used for bools, otherwise
 			/// "Deflate" compression is used.
 			TIFF,
-			/// Postscript  format. This outputs a bare PostScript image with the coordinate system set up 
+			/// Postscript  format. This outputs a bare PostScript image with the coordinate system set up
 			/// to that (x,y) corresponds to pixel (x,y), with (0,0) being at the top left of the pixel (0,0).
 			/// The Y axis is therefore inverted compared to normal postscript drawing, but is image aligned.
 			/// To get the drawing axes aligned with the centre of the pixels, write the postscript command
@@ -159,11 +159,11 @@ namespace CVD
 			/// EPS format. This outputs a complete EPS (Encapsulated PostScript) figure.
 			EPS,
 			/// Plain text format. Grey-scale floating point only. This can be read in to MATLAB
-			/// with the load() function. There is no metadata, so it is not possible to support 
-			/// multiple types. 
+			/// with the load() function. There is no metadata, so it is not possible to support
+			/// multiple types.
 			TXT,
 			/// FITS images. Supports (native) byte, short, unsigned short, int, float and double
-			/// of greyscale, RGB and RGBA. Signed char is supported lossley but inefficiently. 
+			/// of greyscale, RGB and RGBA. Signed char is supported lossley but inefficiently.
 			FITS,
 		};
 	}
@@ -176,21 +176,21 @@ namespace CVD
 	#endif
 
 	#if DOXYGEN_INCLUDE_ONLY_FOR_DOCS
-	
+
 	/// Load an image from an istream, and return the image.
 	/// The template type is deduced automatically, and must not be specified.
 	///
-	/// The type deduction is performed using lazy evaluation, so the load operation 
+	/// The type deduction is performed using lazy evaluation, so the load operation
 	/// is only performed if an image is assigned from this.
 	///
 	/// @param i The istream to load from
 	/// @ingroup gImageIO
 	template<class C> Image<C> img_load(std::istream& i);
-	
+
 	/// Load an image from a file, and return the image.
 	/// The template type is deduced automatically, and must not be specified.
 	///
-	/// The type deduction is performed using lazy evaluation, so the load operation 
+	/// The type deduction is performed using lazy evaluation, so the load operation
 	/// is only performed if an image is assigned from this.
 	///
 	/// @param i The istream to load from
@@ -199,7 +199,7 @@ namespace CVD
 
 
 
-	#endif	
+	#endif
 
 
 	/// Load an image from a stream. This function resizes the Image as necessary.
@@ -222,7 +222,7 @@ namespace CVD
 	      throw Exceptions::Image_IO::EofBeforeImage();
 	  }
 	  unsigned char c = i.peek();
-	  
+
 	  if(!i.good())
 	    throw Exceptions::Image_IO::EofBeforeImage();
 
@@ -249,7 +249,7 @@ namespace CVD
 	  else
 	    throw Exceptions::Image_IO::UnsupportedImageType();
 	}
-	
+
 	//  syg21
 	template<class I> void img_load(Image<I> &im, const std::string &s)
 	{
@@ -258,7 +258,7 @@ namespace CVD
 	  if(!i.good())
 	    throw Exceptions::Image_IO::OpenError(s, "for reading", errno);
 	  img_load(im, i);
-	}	
+	}
 
 
 	////////////////////////////////////////////////////////////////////////////////
@@ -270,21 +270,21 @@ namespace CVD
 	/// Deduce an image type from a filename suffix.
 	///	@param name The name of the image file
 	ImageType::ImageType string_to_image_type(const std::string& name);
-	
+
 
 	/// Save an image to a stream. This function will convert types if necessary.
 	/// @param PixelType The pixel type of the image
 	/// @param Conversion The conversion class to use
 	/// @param im The image to save
-	/// @param o The stream 
+	/// @param o The stream
 	/// @param t The image file format to use (see ImageType::ImageType for a list of supported formats)
 	/// @ingroup gImageIO
-	template<class PixelType> 
+	template<class PixelType>
 	void img_save(const BasicImage<PixelType>& im, std::ostream& o, ImageType::ImageType t)
 	{
 	  switch (t) {
 	  default:
-	  case ImageType::PNM:  
+	  case ImageType::PNM:
 	  case ImageType::Automatic:
 	  case ImageType::Unknown:
 		Internal::writeImage<PixelType, PNM::pnm_writer>(im, o); break;
@@ -331,7 +331,7 @@ namespace CVD
 	// Legacy pnm_* functions
 	//
 
-	/// Save an image to a stream as a PNM. 
+	/// Save an image to a stream as a PNM.
 	/// @b Deprecated Use img_save() instead, i.e. <code>img_save(im, o, ImageType::PNM);</code>
 	/// @param PixelType The pixel type of the image
 	/// @param im The image
@@ -343,13 +343,13 @@ namespace CVD
 	}
 
 	/// Load a PNM image from a stream.
-	/// @b Deprecated Use img_load(Image<I>& im, std::istream& i) instead. This can handle 
+	/// @b Deprecated Use img_load(Image<I>& im, std::istream& i) instead. This can handle
 	/// and automatically detect other file formats as well.
 	///
 	///	Loading is simplistic, and automatic conversions of values are performed.
 	/// So, for instance bytes are assumed to be in the range 0--255 and floats in
 	/// the range 0--1, so loading bytes in to an Image<float> will result in an
-	/// image with floats in the range 0--1. In the reverse direction, 
+	/// image with floats in the range 0--1. In the reverse direction,
 	/// floats falling outside the range 0--1, will wrap when converted to bytes.
 	///
 	/// The image loader ignores the data range given by the file, if it is given.

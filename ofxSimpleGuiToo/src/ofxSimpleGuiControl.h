@@ -45,7 +45,7 @@ typedef ofxSimpleGuiControl* controlEvtArgs;
 /*
 struct controlEvtArgs {
 	ofxSimpleGuiControl* control;
-	
+
 	controlEvtArgs(ofxSimpleGuiControl* _control = NULL) {
 		control = _control;
 	}
@@ -75,7 +75,7 @@ public:
 	virtual ofxSimpleGuiControl& setEmptyColor();
 	virtual ofxSimpleGuiControl& setKeyboardShortcut(char c);
 	virtual ofxSimpleGuiControl& setUnits(string units);
-	
+
 	virtual void loadFromXML(ofxXmlSettings &XML) {}
 	virtual void saveToXML(ofxXmlSettings &XML) {}
 
@@ -86,7 +86,7 @@ public:
 
 	void draw(float x, float y);
 	void draw();
-	
+
 	virtual void drawWidget(float x, float y) {}
 	virtual void drawWidget() { drawWidget(x, y); }
 
@@ -95,13 +95,13 @@ public:
 	virtual void onKeyLeft() {}
 	virtual void onKeyRight() {}
 	virtual void onKeyEnter() {}
-	
+
 	controlEvtArgs args;
 	ofEvent<controlEvtArgs> valueChangedEvt;
 
 	ofxSimpleGuiConfig	*config;
 protected:
-	
+
 	short			textAlignment;
 	enum			textAlignments
 	{
@@ -110,7 +110,7 @@ protected:
 		ALIGN_CENTER,
 		ALIGN_JUSTIFIED,
 	};
-	
+
 	enum ChromeTypes
 	{
 		BORDER_LEFT,
@@ -127,7 +127,7 @@ protected:
 
 	inline virtual map<int,ofImage>& chrome()
 	{ return _chrome; }
-	
+
 private:
 	static map<int,ofImage> _chrome;
 };

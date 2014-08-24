@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 // PAS 17/6/04 (revised 16/2/05)
@@ -33,15 +33,15 @@ namespace CVD
 /// A decorator class which wraps a VideoBuffer to perfrom colourspace
 /// conversion on the incoming data. In general, the kernel video buffers
 /// such as dvbuffer and v4l1buffer give access to what the device can provide
-/// natively. However, the native formats may not be what is required. This 
+/// natively. However, the native formats may not be what is required. This
 /// buffer transparently converts incoming frames to the required type.
 ///
 /// Not every possible conversion is available natively through the library,
-/// some conversions have to be performed in several steps. For instance, to 
-/// convert yuv411 to <code>Rgb<float></code>, the conversion must go via 
+/// some conversions have to be performed in several steps. For instance, to
+/// convert yuv411 to <code>Rgb<float></code>, the conversion must go via
 /// <code>Rgb<byte></code> since
 /// the conversions from yuv411 are limited.
-/// 
+///
 /// Provides frames of type <code>CVD::ColourspaceFrame.</code>
 ///
 /// This class throws only generic VideoBuffer exceptions, but the underlying
@@ -58,23 +58,23 @@ template <class T, class From> class ColourspaceBuffer : public CVD::LocalVideoB
 		:LocalVideoBuffer<T>(buf.type()),m_vidbuf(buf),m_size(buf.size())
 		{
 		}
- 
+
 		/// The size of the VideoFrames returns by this buffer.
 		ImageRef size()
 		{
-			return m_size;	
+			return m_size;
 		}
-		
+
 		virtual bool frame_pending()
-		{	
+		{
 			return m_vidbuf.frame_pending();
 		}
-			
+
 		virtual void seek_to(double t)
 		{
 			return m_vidbuf.seek_to(t);
 		}
-			
+
 		virtual double frame_rate()
 	  	{
 			return m_vidbuf.frame_rate();
@@ -99,7 +99,7 @@ template <class T, class From> class ColourspaceBuffer : public CVD::LocalVideoB
 
 			if(csf == NULL)
 				throw CVD::Exceptions::VideoBuffer::BadPutFrame();
-			else 
+			else
 				delete csf;
 		}
 
@@ -130,5 +130,5 @@ template <class T, class From> class ColourspaceBuffer_managed : public Coloursp
 
 };
 
-} 
+}
 #endif

@@ -52,7 +52,7 @@ void dtouch_Region::box( DTPoint &min, DTPoint &max, int width, int height){
 	_max.x = 0;
 	_min.y = height;
 	_max.y = 0;
-	
+
 	for(reg->reset();!reg->nullTest();reg->fwd()) {
 		DTPoint tmp = reg->getData();
 		(tmp.x > _max.x) ? (_max.x=tmp.x) : (0);
@@ -60,10 +60,10 @@ void dtouch_Region::box( DTPoint &min, DTPoint &max, int width, int height){
 		(tmp.x < _min.x) ? (_min.x=tmp.x) : (0);
 		(tmp.y < _min.y) ? (_min.y=tmp.y) : (0);
 	}
-	
+
 	min = _min;
 	max = _max;
-	
+
 	return;
 }
 
@@ -92,10 +92,10 @@ DTPoint dtouch_Region::getCentreRound( ){
 	return result;
 }
 
-#ifndef __SYMBIAN32__ 
+#ifndef __SYMBIAN32__
 PointList * intersect(dtouch_Region * a, dtouch_Region * b, int ** labelsMapA, int ** labelsMapB, int width, int height){
 	PointList * result = PointList::newL();
-	
+
 	DTPoint min_, max_, minA, maxA, minB, maxB;
 	a->box(minA, maxA, width, height);
 	b->box(minB, maxB, width, height);
@@ -109,21 +109,21 @@ PointList * intersect(dtouch_Region * a, dtouch_Region * b, int ** labelsMapA, i
 		f = a->getFirstData();
 		labelA = *(labelsMapA[f.x+f.y*width]);
 	}
-	
+
 	int labelB = -1;
 	// get the label of region b by looking up the first pixel
 	if( !(b->isEmpty()) ){
 		f = b->getFirstData();
 		labelB = *(labelsMapB[f.x+f.y*width]);
 	}
-	
+
 	unsigned int offset=0;
 	// scan the bounding box and look at the labels map
 	for(int y=min_.y;y<=max_.y;y++){
 		offset = min_.x + y * width;
 		int ** lPtrA = labelsMapA + offset;
 		int ** lPtrB = labelsMapB + offset;
-		
+
 		for(int x=min_.x;x<=max_.x;x++){
 			//cout << "lPtrA: " << (**lPtrA) << ", lPtrB: " << (**lPtrB);
 			//cout << " labelA: " << labelA << ", labelB: " << labelB << endl;
@@ -136,19 +136,19 @@ PointList * intersect(dtouch_Region * a, dtouch_Region * b, int ** labelsMapA, i
 			lPtrB++;
 		}
 	}
-	
+
 	return result;
 }
 
 PointList * exclude(dtouch_Region * a, dtouch_Region * b, int ** labelsMapA, int ** labelsMapB, int width, int height){
 	PointList * result = PointList::newL();
-	
+
 	DTPoint min_, max_, minA, maxA, minB, maxB;
 	a->box(minA, maxA, width, height);
 	a->box(minB, maxB, width, height);
 	min_ = DTPoint( max(minA.x,minB.x), max(minA.y,minB.y) );
 	max_ = DTPoint( min(maxA.x,maxB.x), min(maxA.y,maxB.y) );
-	
+
 	// get the label of region a by looking up the first pixel
 	DTPoint f;
 	int labelA = -1;
@@ -163,14 +163,14 @@ PointList * exclude(dtouch_Region * a, dtouch_Region * b, int ** labelsMapA, int
 		f = b->getFirstData();
 		labelB = *(labelsMapA[f.x+f.y*width]);
 	}
-	
+
 	unsigned int offset=0;
 	// scan the bounding box and look at the labels map
 	for(int y=min_.y;y<=max_.y;y++){
 		offset = min_.x + y * width;
 		int ** lPtrA = labelsMapA + offset;
 		int ** lPtrB = labelsMapB + offset;
-		
+
 		for(int x=min_.x;x<=max_.x;x++){
 			//cout << "lPtrA: " << (**lPtrA) << ", lPtrB: " << (**lPtrB);
 			//cout << " labelA: " << labelA << ", labelB: " << labelB << endl;
@@ -183,13 +183,13 @@ PointList * exclude(dtouch_Region * a, dtouch_Region * b, int ** labelsMapA, int
 			lPtrB++;
 		}
 	}
-	
+
 	return result;
 }
 
 PointList * dtouch_Region::getPointList(int ** labelsMap, int width, int height){
 	PointList * result = PointList::newL();
-	
+
 	// TODO: check region size!
 	// convert the runlenght representation to a list of points
 	//cout << "dtouch_Region::getPointList" << endl;
@@ -199,19 +199,19 @@ PointList * dtouch_Region::getPointList(int ** labelsMap, int width, int height)
 	// calculate the bounding box
 	DTPoint min, max;
 	reg->box(min, max, width, height);
-	
+
 	// get the label of this region by looking up the first pixel
 	DTPoint f = reg->getFirstData();
 	//cout << "region size: " << reg->getSize() << endl;
 	//cout << "first point: " << f << endl;
 	int label = *(labelsMap[f.x+f.y*width]);
-	
+
 	unsigned int offset=0;
 	// scan the bounding box and look at the labels map
 	for(int y=min.y;y<=max.y;y++){
 		offset = min.x + y * width;
 		int ** lPtr = labelsMap + offset;
-		
+
 		for(int x=min.x;x<=max.x;x++){
 			if( **lPtr == label ){
 				// this pixel is part of the region

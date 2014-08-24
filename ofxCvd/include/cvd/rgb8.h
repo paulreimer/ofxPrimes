@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef __RGB8_H
@@ -38,11 +38,11 @@ struct Rgb8
    unsigned char dummy; ///< The 4th byte, usually either ignored or used to represent the alpha value
 
    /// Default constructor. Sets all elements to zero.
-   Rgb8() 
+   Rgb8()
    :
-   red(0), green(0), blue(0), dummy(0) 
+   red(0), green(0), blue(0), dummy(0)
    {}
-   
+
    /// Construct an Rgb8 as specified
    /// @param r The red component
    /// @param g The green component
@@ -50,7 +50,7 @@ struct Rgb8
    /// @param a The dummy byte (defaults to zero)
    Rgb8(unsigned char r, unsigned char g, unsigned char b, unsigned char a=0)
    :
-   red(r), green(g), blue(b), dummy(a)  
+   red(r), green(g), blue(b), dummy(a)
    {}
 };
 
@@ -64,5 +64,5 @@ namespace Internal
 }
 #endif
 
-} // end namespace 
+} // end namespace
 #endif

@@ -30,5 +30,5 @@
 #ifdef TOON_DEPRECATED_GCC
 	#define TOON_DEPRECATED __attribute__((deprecated))
 #else
-	#define TOON_DEPRECATED 
+	#define TOON_DEPRECATED
 #endif

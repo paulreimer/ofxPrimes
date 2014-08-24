@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 ///////////////////////////////////////////////////////
@@ -38,22 +38,22 @@ It is released under the LGPL License.
     - Modern C++ design
 	- Optimized assembly code
     - Extensive use of exceptions
-    - OpenGL wrappers 
+    - OpenGL wrappers
 
 \subsection Imaging
 
     - Type-safe easy to use images
     - Flexible loading and saving from a variety of types:
 		- Native
-			- PNM   
+			- PNM
 			- BMP
 			- ASCII text
-			- FITS 
+			- FITS
 			- PS   (saving only)
 			- EPS  (saving only)
 		- External libraries required
 			- JPEG
-			- TIFF 
+			- TIFF
 			- PNG
 		- 1/8/16/32 bit signed and unsigned integer and 32/64 bit floating point images in greyscale, RGB and RGBA.
 		- Optimum bit depth and colour depth selected automatically
@@ -92,14 +92,14 @@ It is released under the LGPL License.
 \subsection Mathematical
 
     - Lie Group(S03, SE3) algebra
-    - Iterative and reweighted least-squares 
+    - Iterative and reweighted least-squares
 	- Random numbers
 
 \section Portability
   LibCVD will compile on any reasonable unixy environment, with a reasonable
   C++ compiler (e.g. gcc version >= 3.1) and GNU Make.  Additionally, libCVD
   supports both normal and cross compilers.  It is known to work on:
-  
+
   -Well tested (current):
 	- Linux: x86, x86-64
 	- Linux: ARM LPC3180, XScale (cross compile)
@@ -125,7 +125,7 @@ It is released under the LGPL License.
 The normal system works:
 @code
 	./configure
-	make 
+	make
 	make install
 @endcode
 
@@ -155,9 +155,9 @@ libCVD fully supports parallel builds (<code>make -j2</code> for instance).
 For Win32 systems, the @c build directory contains project files for different versions
 of Visual Studio. Currently the vc2008 solutin is supported and should work out of the box. There
 are two projects, one for compiling libcvd and one for installing it into a common directory tree.
-Both projects assume the existence of three environment variables describing the location of header, 
+Both projects assume the existence of three environment variables describing the location of header,
 library and binary files (for DLLs).
-	
+
 	- @c INCLUDEDIR contains the header files. libcvd headers will be copied into @c \%INCLUDEDIR%\\\libcvd
 	- @c LIBDIR contains library files. libcvd static libraries (debug and release verions) will be copied into @c \%LIBDIR\%
 	- @c BINDIR is not used for libcvd, but would be the default directory for DLLs
@@ -166,12 +166,12 @@ libCVD requires at least two libraries to compile:
 	- pthreads-win32 at http://sourceware.org/pthreads-win32/
 	- jpeg-7 at http://www.ijg.org/
 
-Both libraries should be moved into the directory tree described by @c INCLUDEDIR, @c LIBDIR and @c BINDIR where the libCVD 
+Both libraries should be moved into the directory tree described by @c INCLUDEDIR, @c LIBDIR and @c BINDIR where the libCVD
 project files will expect them.
 
 libCVD compiles to static libraries for simpler linking and to avoid the _dllexport/_dllimport statements throughout the code.
 
-Configuration of features is manual through a default config file in @c build/vc2005/config.h. Edit this file to change your configuration, 
+Configuration of features is manual through a default config file in @c build/vc2005/config.h. Edit this file to change your configuration,
 for example to support other image formats such as PNG.
 
 */
@@ -184,7 +184,7 @@ for example to support other image formats such as PNG.
 /// flexible access to images.
 
 /// @defgroup gImageIO Image loading and saving, and format conversion
-/// Functions to support saving and loading of BasicImage and Image 
+/// Functions to support saving and loading of BasicImage and Image
 /// to and from streams. Supports a few common file formats (autodetecting on loading).
 /// Also functions for perfoming type conversion as necessary.
 
@@ -199,7 +199,7 @@ for example to support other image formats such as PNG.
 /// @ingroup gVideo
 /// All classes and functions relating to video frames (as opposed to video buffers)
 
-/// @defgroup gException Exceptions 
+/// @defgroup gException Exceptions
 /// Exceptions generated and thrown by %CVD classes and functions
 
 /// @defgroup gGraphics Computer graphics

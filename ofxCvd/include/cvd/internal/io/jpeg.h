@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef PNM_JPEG_H
@@ -56,12 +56,12 @@ namespace JPEG
 			std::string name();
 
 
-			typedef TypeList<byte, 
-					TypeList<Rgb<byte>, 
+			typedef TypeList<byte,
+					TypeList<Rgb<byte>,
 					Head> > Types;
-		
+
 		private:
-			std::auto_ptr<ReadPimpl> t; 
+			std::auto_ptr<ReadPimpl> t;
 	};
 
 
@@ -77,26 +77,26 @@ namespace JPEG
 			void write_raw_pixel_line(const Rgb<byte>*);
 
 			template<class Incoming> struct Outgoing
-			{		
+			{
 				typedef byte type;
-			};		
+			};
 
 		protected:
-			std::auto_ptr<WritePimpl> t; 
+			std::auto_ptr<WritePimpl> t;
 	};
 
-	template<class C> struct writer::Outgoing<Rgb<C> > 
+	template<class C> struct writer::Outgoing<Rgb<C> >
 	{
 		typedef Rgb<byte> type;
 	};
 
 
-	template<class C> struct writer::Outgoing<Rgba<C> > 
+	template<class C> struct writer::Outgoing<Rgba<C> >
 	{
 		typedef Rgb<byte> type;
 	};
 
-	template<> struct writer::Outgoing<Rgb8> 
+	template<> struct writer::Outgoing<Rgb8>
 	{
 		typedef Rgb<byte> type;
 	};

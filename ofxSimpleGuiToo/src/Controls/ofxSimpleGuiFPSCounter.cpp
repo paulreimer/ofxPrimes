@@ -23,13 +23,13 @@ void
 ofxSimpleGuiFPSCounter::drawWidget(float x, float y)
 {
 	setPos(x, y);
-	
+
 	glPushMatrix();
 	glTranslatef(x, y, 0);
-	
+
 	setTextColor(false);
 	config->font.drawString("FPS: " + ofToString(ofGetFrameRate()), config->fontOffset.x, config->fontOffset.y);
-	
+
 	glPopMatrix();
 }
 

@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 //-*- c++ -*-
@@ -76,11 +76,11 @@ namespace CVD {
 	extern int defAttr[];
 
 	/// A cheap and cheerful GL display window using X and the GLX library.
-	/// VideoDisplay maintains for you the mapping between your choice of local 
+	/// VideoDisplay maintains for you the mapping between your choice of local
 	/// GL co-ordinates, and image co-ordinates and provides functions for
 	/// converting between the two. It does not, however, manage any
 	/// X events, for example resize or redraw events. To develop a
-	/// more sophisticated display window, you must select which XEvents to monitor 
+	/// more sophisticated display window, you must select which XEvents to monitor
 	/// using select_events() and then poll using pending() and use get_event()
 	/// to handle events.
 	/// @ingroup gGL
@@ -103,20 +103,20 @@ namespace CVD {
 			/// @param scale The number of image pixels per GL unit (default 1:1)
 			/// @param visualAttr The attributes passed to glXChooseVisual
 			VideoDisplay(ImageRef size, double scale=1, int* visualAttr = defAttr);
-			
+
 			/// Destructor. This also removes the window from the display
 			~VideoDisplay();
 
 			/// Set the window title.
 			/// @param s The new title
 			void set_title(const std::string& s);
-			
+
 			/// Returns the connection number for this display
 			int get_fd() {return ConnectionNumber(my_display);}
 			/// Select which X events to handle (by default, nothing is handled)
 			/// @param event_mask ORed list of XEvents to handle
 			void select_events(long event_mask);
-			/// Get the next X event from the queue by calling XNextEvent. 
+			/// Get the next X event from the queue by calling XNextEvent.
 			/// If the queue is empty, this function blocks until the next event
 			/// @param event The next event
 			void get_event(XEvent* event);
@@ -128,7 +128,7 @@ namespace CVD {
 			/// @param x The x co-ordinate
 			/// @param y The y co-ordinate
 			void locate_video_pointer(double& x, double& y);
-			/// Flushes the output buffer by calling XFlush			
+			/// Flushes the output buffer by calling XFlush
 			void flush();
 			/// How many events are waiting the queue?
 			int pending();
@@ -174,7 +174,7 @@ namespace CVD {
 			void video_to_display(double dx, double dy, int& vx, int & vy);
 
 			/// Make this window the current GL context. If there is more than one
-			/// GL window being used in your program, this function should be called 
+			/// GL window being used in your program, this function should be called
 			/// before drawing to ensure you draw to the correct window.
 			void make_current();
 
@@ -211,7 +211,7 @@ namespace CVD {
 
 			void init(double, double, double, double, double, int* visualAttr);
 	};
-   
+
 } // CVD
 
 #endif

@@ -2,7 +2,7 @@
 
 namespace ofxFiducialBacked {
 	namespace renderer {
-		namespace style {			
-		}	
+		namespace style {
+		}
 	}
 }

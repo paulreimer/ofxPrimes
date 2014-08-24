@@ -48,7 +48,7 @@ template<class C> void twoThirdsSample(const SubImage<C>& in, SubImage<C>& out)
     typedef typename Pixel::traits<C>::wider_type sum_type;
 	if( (in.size()/3*2) != out.size())
         throw Exceptions::Vision::IncompatibleImageSizes(__FUNCTION__);
-	
+
 	for(int yy=0, y=0; y < in.size().y-2; y+=3, yy+=2)
 		for(int xx=0, x=0; x < in.size().x-2; x+=3, xx+=2)
 		{
@@ -125,7 +125,7 @@ void halfSample(const BasicImage<T>& in, BasicImage<T>& out)
     int ow = out.size().x;
     int skip = in.size().x + (in.size().x % 2);
     T* p = out.data();
-    while (bottom < end) {      
+    while (bottom < end) {
       for (int j=0; j<ow; j++) {
 	*p = static_cast<T>((sum_type(top[0]) + top[1] + bottom[0] + bottom[1])/4);
 	p++;
@@ -156,7 +156,7 @@ inline Image<T> halfSample(const BasicImage<T>& in)
 /// This version will not create a copy for 0 octaves because it receives already
 /// an Image and will reuse the data.
 /// @param in input image
-/// @param octaves number of halfsamplings 
+/// @param octaves number of halfsamplings
 /// @return The output image
 /// @throw IncompatibleImageSizes if out does not have half the dimensions of in
 /// @ingroup gVision
@@ -315,28 +315,28 @@ inline void sample(const BasicImage<float>& im, double x, double y, float& resul
  * @param M the matrix used to map point in the out matrix to those in the in matrix
  * @param inOrig origin in the in image
  * @param outOrig origin in the out image
- * @return the number of pixels not in the in image 
+ * @return the number of pixels not in the in image
  * @Note: this will collide with transform in the std namespace
  */
 template <class T, class S>
 int transform(const BasicImage<S>& in, BasicImage<T>& out, const TooN::Matrix<2>& M, const TooN::Vector<2>& inOrig, const TooN::Vector<2>& outOrig, const T defaultValue = T())
 {
-    const int w = out.size().x, h = out.size().y, iw = in.size().x, ih = in.size().y; 
+    const int w = out.size().x, h = out.size().y, iw = in.size().x, ih = in.size().y;
     const TooN::Vector<2> across = M.T()[0];
     const TooN::Vector<2> down =   M.T()[1];
-   
+
     const TooN::Vector<2> p0 = inOrig - M*outOrig;
     const TooN::Vector<2> p1 = p0 + w*across;
     const TooN::Vector<2> p2 = p0 + h*down;
     const TooN::Vector<2> p3 = p0 + w*across + h*down;
-        
+
     // ul --> p0
     // ur --> w*across + p0
     // ll --> h*down + p0
     // lr --> w*across + h*down + p0
     double min_x = p0[0], min_y = p0[1];
     double max_x = min_x, max_y = min_y;
-   
+
     // Minimal comparisons needed to determine bounds
     if (across[0] < 0)
 	min_x += w*across[0];
@@ -354,20 +354,20 @@ int transform(const BasicImage<S>& in, BasicImage<T>& out, const TooN::Matrix<2>
 	min_y += h*down[1];
     else
 	max_y += h*down[1];
-   
+
     // This gets from the end of one row to the beginning of the next
     const TooN::Vector<2> carriage_return = down - w*across;
 
-    //If the patch being extracted is completely in the image then no 
+    //If the patch being extracted is completely in the image then no
     //check is needed with each point.
-    if (min_x >= 0 && min_y >= 0 && max_x < iw-1 && max_y < ih-1) 
+    if (min_x >= 0 && min_y >= 0 && max_x < iw-1 && max_y < ih-1)
     {
 	TooN::Vector<2> p = p0;
 	for (int i=0; i<h; ++i, p+=carriage_return)
-	    for (int j=0; j<w; ++j, p+=across) 
+	    for (int j=0; j<w; ++j, p+=across)
 		sample(in,p[0],p[1],out[i][j]);
 	return 0;
-    } 
+    }
     else // Check each source location
     {
 	// Store as doubles to avoid conversion cost for comparison
@@ -441,16 +441,16 @@ namespace median {
 	if (b<a)
 	    return std::max(b,std::min(a,c));
 	else
-	    return std::max(a,std::min(b,c));	
+	    return std::max(a,std::min(b,c));
     }
-    
+
     template <class T> inline void sort3(T& a, T& b, T& c) {
 	using std::swap;
 	if (b<a) swap(a,b);
 	if (c<b) swap(b,c);
 	if (b<a) swap(a,b);
     }
-    
+
     template <class T> T median_3x3(const T* p, const int w) {
 	T a = p[-w-1], b = p[-w], c = p[-w+1], d=p[-1], e=p[0], f=p[1], g=p[w-1], h=p[w], i=p[w+1];
 	sort3(a,b,c);
@@ -461,7 +461,7 @@ namespace median {
 	c = std::min(c,std::min(f,i));
 	return median3(c,e,g);
     }
-    
+
     template <class T> void median_filter_3x3(const T* p, const int w, const int n, T* out)
     {
 	T a = p[-w-1], b = p[-w], d=p[-1], e=p[0], g=p[w-1], h=p[w];
@@ -470,8 +470,8 @@ namespace median {
 	for (int j=0; j<n; ++j, ++p, ++out) {
 	    T c = p[-w+1], f = p[1], i = p[w+1];
 	    sort3(c,f,i);
-	    *out = median3(std::min(std::min(g,h),i), 
-			   median3(d,e,f), 
+	    *out = median3(std::min(std::min(g,h),i),
+			   median3(d,e,f),
 			   std::max(std::max(a,b),c));
 	    a=b; b=c; d=e; e=f; g=h; h=i;
 	}

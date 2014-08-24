@@ -5,7 +5,7 @@
 
 namespace ofxFiducialBacked {
 	namespace renderer {
-		namespace primitives {			
+		namespace primitives {
 			namespace render {
 				void setup();
 
@@ -19,7 +19,7 @@ namespace ofxFiducialBacked {
 							 ofxFiducialBacked::types::actors::actor_type_t starttype,
 							 ofxFiducialBacked::types::actors::actor_type_t fromtype=ofxFiducialBacked::types::actors::ACTOR_TYPE_NULL,
 							 ofxFiducialBacked::types::actors::arrow_type_t arrowtype=ofxFiducialBacked::types::actors::ARROW_TYPE_BOTH);
-				
+
 				void grayLine	(ofPoint& startpoint, ofPoint& endpoint);
 				void rgbLine	(ofPoint& startpoint, ofPoint& endpoint);
 				void TexLine	(ofPoint& startpoint, ofPoint& endpoint, ofTexture& tex);

@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,11 +15,11 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 // Paul Smith 8 March 2005
-// Flags for video buffers 
+// Flags for video buffers
 
 #ifndef __VIDEOBUFFERFLAGS__
 #define __VIDEOBUFFERFLAGS__
@@ -29,7 +29,7 @@ namespace CVD
 	/// Flags common to several different VideoBuffer classes
 	namespace VideoBufferFlags
 	{
-		/// If it is a finite buffer (a video file, for example), what should happen when the 
+		/// If it is a finite buffer (a video file, for example), what should happen when the
 		/// end of the buffer is reached?
 		enum OnEndOfBuffer{
 			RepeatLastFrame, ///< Continue to return the final frame when get_frame() is called (with the same timestamp)
@@ -38,5 +38,5 @@ namespace CVD
 		};
 	}
 }
-		
+
 #endif

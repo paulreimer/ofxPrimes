@@ -52,15 +52,15 @@ void FiducialTracking::process(FiducialDataList * curr)
 	bool* prevTracked = NULL;
 	currTracked = new bool[currSize];
 	prevTracked = new bool[prevSize];
-	
+
 	for(int i=0;i<currSize;i++){
 		currTracked[i]=false;
 	}
 	for(int j=0;j<prevSize;j++){
 		prevTracked[j]=false;
 	}
-	
-	
+
+
 	//blocks are flagged if they appear in previous and current list within a close distance
 	//TODO: check the type/sequence
 	int previndex=0;
@@ -95,7 +95,7 @@ void FiducialTracking::process(FiducialDataList * curr)
 		if( closestIndex > -1 ){
 			//std::cout << "prev type " << prevData.getType() << " curr type " << currData.getType() << " distance " << distance << std::endl;
 			int prevID = prevData.getID();
-			closestData.setID(prevID); 
+			closestData.setID(prevID);
 			closestData.setTracked(_trackingThreshold); //resetting the time out
 			_filtered->appendL(closestData);
 			currTracked[closestIndex]=true;
@@ -120,15 +120,15 @@ void FiducialTracking::process(FiducialDataList * curr)
 					if( distance < _distanceThreshold && (prevData.getType()==currData.getType()) ){
 						near=true;
 					}
-					
+
 				}
 				previndex++;
-				
+
 			}
-			
+
 			if(!near){
-			
-			//generate a new ID	
+
+			//generate a new ID
 			currData.setID(generateID());
 			currData.setTracked(_trackingThreshold);
 			_filtered->appendL(currData);
@@ -139,7 +139,7 @@ void FiducialTracking::process(FiducialDataList * curr)
 			else{
 //#ifdef _EC_DEBUG
 				std::cout << " catched someone near"<< std::endl;
-//#endif	
+//#endif
 			}
 		}
 		currindex++;
@@ -149,7 +149,7 @@ void FiducialTracking::process(FiducialDataList * curr)
 	previndex=0;
 	for( _pre->reset(); !(_pre->nullTest()); _pre->fwd() ){
 		if(!prevTracked[previndex]){
-		//deleted blocks get rescued for a certain amount of time to prevent short unwanted occlusions that would cause jittering	
+		//deleted blocks get rescued for a certain amount of time to prevent short unwanted occlusions that would cause jittering
 		FiducialData delData = _pre->getData();
 		int rescue_counter = delData.getTracked();
 		if(rescue_counter>1){
@@ -157,7 +157,7 @@ void FiducialTracking::process(FiducialDataList * curr)
 			delData.setTracked(rescue_counter);
 			_filtered->appendL(delData);
 #ifdef _EC_DEBUG
-			std::cout << "rescued counter: " << rescue_counter <<std::endl;			
+			std::cout << "rescued counter: " << rescue_counter <<std::endl;
 #endif
 		}
 		else{
@@ -169,7 +169,7 @@ void FiducialTracking::process(FiducialDataList * curr)
 		}
 		previndex++;
 	}
-	
+
 	if(!curr->isEmpty()){
 		curr->empty();
 	}
@@ -182,7 +182,7 @@ void FiducialTracking::process(FiducialDataList * curr)
 	if(!_pre->isEmpty()){
 		_pre->empty();
 	}
-	
+
 	_pre->append(_filtered);
 
 	if(currTracked) delete[] currTracked;

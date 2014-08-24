@@ -14,10 +14,10 @@
 class ofxClScheduler {
 
 public:
-//	vector <cl_device_id>		knownDevices;	
+//	vector <cl_device_id>		knownDevices;
 	cl_context			context;
 	cl_device_id		device;
-	
+
 	cl_command_queue	globalQ;
 	cl_int				clErr;
 
@@ -32,7 +32,7 @@ public:
 	void printDeviceInfo(int device_nr = -1);
 
 	cl_device_id getMaxFlopsDev(cl_context ctx) const;
-	
+
 	//	cl_device_id* findAllDevices();
 //	cl_device_id findDeviceById(short _id);
 //	cl_device_id findDeviceByMaxFlops();

@@ -8,11 +8,11 @@ ofxClKernel::ofxClKernel(char* _kernelName, size_t _kernelDims) {
 	kernelDims = (cl_uint)_kernelDims;
 
 	kernelName = _kernelName;
-	
+
 	kernelFile = NULL;
 	context = NULL;
 	commandQ = NULL;
-	
+
 	globalWorkSize[0] = 0;
 	globalWorkSize[1] = 0;
 	localWorkSize[0] = 0;
@@ -22,7 +22,7 @@ ofxClKernel::ofxClKernel(char* _kernelName, size_t _kernelDims) {
 bool ofxClKernel::loadFromFile(char* _kernelFile) {
 	kernelFile = _kernelFile;
 	const char* kernelPath = ofToDataPath(kernelFile).c_str();
-	
+
 	kernelSource = oclLoadProgSource(kernelPath,
 									 "",//"// ofxClKernel: "+kernelName,
 									 &kernelSourceSize);
@@ -44,9 +44,9 @@ bool ofxClKernel::setup(const cl_context& _context, const cl_command_queue& _com
 											  &kernelSourceSize,
 											  &clErr);
 	if (!checkOpenClError(clErr, "clCreateProgramWithSource")) return false;
-	
+
 	// Build the program
-	printf("clBuildProgram... "); 
+	printf("clBuildProgram... ");
 	clErr = clBuildProgram(kernelProgram, 0, NULL, NULL, NULL, NULL);
 	if (clErr != CL_SUCCESS) {
 		printf("error.\n");
@@ -54,18 +54,18 @@ bool ofxClKernel::setup(const cl_context& _context, const cl_command_queue& _com
 		//->destroy();
 	}
 	printf("ok.\n");
-	
+
 	// Create kernels
 	kernel = clCreateKernel(kernelProgram, kernelName, &clErr);
 	if (!checkOpenClError(clErr, "Created kernel")) return false;
-	
+
 	initKernelAssets();
 	initKernelArgs();
 	return true;
 }
 
 void ofxClKernel::destroy() {
-	if(kernel)			clReleaseKernel(kernel);  
+	if(kernel)			clReleaseKernel(kernel);
 	if(kernelProgram)	clReleaseProgram(kernelProgram);
 }
 
@@ -78,11 +78,11 @@ void ofxClKernel::setWorkSize(size_t _global[2], size_t _local[2], size_t _offse
 */
 bool ofxClKernel::enqueue() {
 	setKernelArgs();
-	
+
 /*
-	printf("Global Work Size:\t%u w x %u h = %u\nLocal Work Size:\t%u w x %u h = %u\n", 
-           globalWorkSize[0], globalWorkSize[1], (globalWorkSize[0] * globalWorkSize[1]), 
-           localWorkSize[0], localWorkSize[1], (localWorkSize[0] * localWorkSize[1])); 
+	printf("Global Work Size:\t%u w x %u h = %u\nLocal Work Size:\t%u w x %u h = %u\n",
+           globalWorkSize[0], globalWorkSize[1], (globalWorkSize[0] * globalWorkSize[1]),
+           localWorkSize[0], localWorkSize[1], (localWorkSize[0] * localWorkSize[1]));
 */
 	if (localWorkSize[0] == 0 && localWorkSize[1] == 0)
 		clErr = clEnqueueNDRangeKernel(commandQ, kernel, kernelDims,
@@ -96,7 +96,7 @@ bool ofxClKernel::enqueue() {
 									   0, NULL, NULL);
 
 	//checkOpenClError(clErr, "Enqueue kernel");
-	
+
 	return (clErr == CL_SUCCESS);
 }
 

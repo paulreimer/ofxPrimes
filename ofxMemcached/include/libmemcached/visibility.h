@@ -4,7 +4,7 @@
  *
  * Use and distribution licensed under the BSD license.  See
  * the COPYING file in this directory for full text.
- * 
+ *
  * Author: Monty Taylor
  */
 
@@ -32,7 +32,7 @@
 #  define LIBMEMCACHED_API __global
 #  define LIBMEMCACHED_LOCAL __hidden
 # elif defined(_MSC_VER)
-#  define LIBMEMCACHED_API extern __declspec(dllexport) 
+#  define LIBMEMCACHED_API extern __declspec(dllexport)
 #  define LIBMEMCACHED_LOCAL
 # else
 #  define LIBMEMCACHED_API
@@ -40,7 +40,7 @@
 # endif /* defined(HAVE_VISIBILITY) */
 #else  /* defined(BUILDING_LIBMEMCACHED) */
 # if defined(_MSC_VER)
-#  define LIBMEMCACHED_API extern __declspec(dllimport) 
+#  define LIBMEMCACHED_API extern __declspec(dllimport)
 #  define LIBMEMCACHED_LOCAL
 # else
 #  define LIBMEMCACHED_API

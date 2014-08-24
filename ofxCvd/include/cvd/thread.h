@@ -21,35 +21,35 @@ class Thread : public Runnable
 
    //! Start execution of "run" method in separate thread.
    void start(Runnable* runnable=0);
-   
-   //! Tell the thread to stop.  
+
+   //! Tell the thread to stop.
    /** This doesn't make the thread actually stop, it just causes shouldStop() to return true. */
    void stop();
-   
+
    //! Returns true if the stop() method been called, false otherwise.
    bool shouldStop() const;
-   
+
    //! Returns true if the thread is still running.
    bool isRunning() const;
 
-   //! This blocks until the thread has actually terminated.  
+   //! This blocks until the thread has actually terminated.
    /** If the thread is infinite looping, this will block forever! */
    void join();
-   
+
    //! Get the ID of this thread.
    pthread_t getID();
-   
+
    //! Override this method to do whatever it is the thread should do.
    virtual void run(){};
-   
+
    //Static methods:
-   
+
    //! Returns how many threads are actually running, not including the main thread.
    static unsigned int count();
-   
+
    //! Returns a pointer to the currently running thread.
    static Thread* getCurrent();
-   
+
    //! Tell the current thread to sleep for milli milliseconds
    static void sleep(unsigned int milli);
 

@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_CONVERT_PIXEL_TYPES_H
@@ -34,35 +34,35 @@ namespace CVD{namespace Pixel
 {
   //All "conversion" classes must have a "void convert_pixel(from, to)"
   //nonstatic templated member.
-  
+
   //This conversion knows how to convert from any size pixel to any other.
-  
+
   template <class From, class To, int CF=Pixel::Component<From>::count, int CT=Pixel::Component<To>::count> struct GenericConversion;
 
   template <class From, class To> struct GenericConversion<From,To,1,1> {
-    static inline void convert(const From& from, To& to) { 
+    static inline void convert(const From& from, To& to) {
       to = scalar_convert<To,From>(from);
     }
   };
-  
+
   template <class From, class To, int N> struct GenericConversion<From,To,N,N> {
     typedef typename Pixel::Component<From>::type FromS;
     typedef typename Pixel::Component<To>::type ToS;
-    static inline void convert(const From& from, To& to) { 
+    static inline void convert(const From& from, To& to) {
       for (int i=0; i<N; i++)
 	Pixel::Component<To>::get(to,i) = scalar_convert<ToS,FromS>(Pixel::Component<From>::get(from,i));
     }
   };
 
-  template <class T, int N> struct GenericConversion<T,T,N,N> { 
-    static inline void convert(const T& from, T& to) { 
+  template <class T, int N> struct GenericConversion<T,T,N,N> {
+    static inline void convert(const T& from, T& to) {
       to = from;
     }
   };
 
-  template <class T, int N> struct GenericConversion<T[N],T[N], N, N> { 
+  template <class T, int N> struct GenericConversion<T[N],T[N], N, N> {
     typedef T array[N];
-    static inline void convert(const array& from, array& to) { 
+    static inline void convert(const array& from, array& to) {
       for (int i=0; i<N; i++)
 	to[i] = from[i];
     }
@@ -83,30 +83,30 @@ namespace CVD{namespace Pixel
 	  // These will sum exactly to 1. C++ does not yet allow hex floating point
 	  // literals
 	  const double wr=0.2989959716796875, wg=0.587005615234375, wb=0.1139984130859375;
-	  
-	  /* 
+
+	  /*
       The old method does not work properly because the conversion to double from int_type
 	  is inexact. Ttuncation of this causes errors. However, it is unnecessary to convert
 	  to the double pixel type first: the arithmetic merely needs to be done with doubles.
-	  
-      to = scalar_convert<Scalar,double>(wr*scalar_convert<double,typename Pixel::Component<Rgbish>::type>(from.red) + 
-					 wg*scalar_convert<double,typename Pixel::Component<Rgbish>::type>(from.green) + 
+
+      to = scalar_convert<Scalar,double>(wr*scalar_convert<double,typename Pixel::Component<Rgbish>::type>(from.red) +
+					 wg*scalar_convert<double,typename Pixel::Component<Rgbish>::type>(from.green) +
 					 wb*scalar_convert<double,typename Pixel::Component<Rgbish>::type>(from.blue));
-					 
+
 	  Fortunately, we have forseen this eventuality, and scalar_convert can convert from
 	  type A, to type B when pixel type B is held in a variable of type C
 	  */
 	  to = scalar_convert<Scalar,typename Pixel::Component<Rgbish>::type,double>(wr*from.red + wg*from.green + wb*from.blue);
 
 	  /* The following method could be used (for speed):
-	  
+
 	  to = scalar_convert<Scalar,typename Pixel::Component<Rgbish>::type>(
 				static_cast<typename Pixel::Component<Rgbish>::type>(wr*from.red + wg*from.green + wb*from.blue));
 
 	  but this looses precision and may produce odd results for rgb(x,y,z) (x!=y!=z). Does this matter? Bear
 	  in mind that wr, wg, wb are only approximations of "average" human eye response anyway.
 	  */
-	
+
     }
   };
 
@@ -131,7 +131,7 @@ namespace CVD{namespace Pixel
       }
       to = scalar_convert<Scalar,T,double>(sqrt(sum/(Pixel::Component<P>::count)));
     }
-  };  
+  };
 
   template <class P, class Scalar> struct AverageAbs {
     static inline void convert(const P& from, Scalar& to) {
@@ -143,7 +143,7 @@ namespace CVD{namespace Pixel
       }
       to = scalar_convert<Scalar,T,sum_type>(sum/Pixel::Component<P>::count);
     }
-  };  
+  };
 
   template <class P, class Scalar> struct L2Norm {
     static inline void convert(const P& from, Scalar& to) {
@@ -156,7 +156,7 @@ namespace CVD{namespace Pixel
       }
       to = scalar_convert<Scalar,T,double>(sqrt(sum));
     }
-  };  
+  };
 
   template <class P, class Scalar> struct SumOfSquares {
     static inline void convert(const P& from, Scalar& to) {
@@ -175,11 +175,11 @@ namespace CVD{namespace Pixel
     static inline void convert(const Scalar& from, Vec& to) {
       typedef typename Pixel::Component<Vec>::type T;
       Pixel::Component<Vec>::get(to,0) = scalar_convert<T, Scalar>(from);
-      for (size_t i=1; i<Pixel::Component<Vec>::count; i++) 
+      for (size_t i=1; i<Pixel::Component<Vec>::count; i++)
 	Pixel::Component<Vec>::get(to,i) = Pixel::Component<Vec>::get(to,0);
     }
   };
-  
+
   template <class Scalar, class T> struct GreyToRgba {
     static inline void convert(const Scalar& from, Rgba<T>& to) {
       to.red = to.green = to.blue = scalar_convert<T, Scalar>(from);
@@ -194,20 +194,20 @@ namespace CVD{namespace Pixel
     to.green = scalar_convert<S,T>(from.green);
     to.blue = scalar_convert<S,T>(from.blue);
   }
-  
+
   template <class A, class B> struct RgbishToRgbish {
     static inline void convert(const A& from, B& to) {
       RgbToRgb(from,to);
     }
   };
-  
+
   template <class A,class T> struct RgbishToRgbish<A,Rgba<T> > {
     static inline void convert(const A& from, Rgba<T>& to) {
       RgbToRgb(from,to);
       to.alpha = traits<T>::max_intensity;
     }
   };
-  
+
   template <class A,class T> struct RgbishToRgbish<A,Argb<T> > {
     static inline void convert(const A& from, Argb<T>& to) {
       RgbToRgb(from,to);
@@ -221,20 +221,20 @@ namespace CVD{namespace Pixel
       to.alpha = scalar_convert<T,S>(from.alpha);
     }
   };
-  
+
   template <class S,class T> struct RgbishToRgbish<Argb<S>,Argb<T> > {
     static inline void convert(const Argb<S>& from, Argb<T>& to) {
       RgbToRgb(from,to);
       to.alpha = scalar_convert<T,S>(from.alpha);
     }
   };
-  
-  
+
+
 
   // Default conversions
 
-  template <class From, class To, int FN=Pixel::Component<From>::count, int TN=Pixel::Component<To>::count> struct DefaultConversion { 
-    typedef GenericConversion<From,To> type; 
+  template <class From, class To, int FN=Pixel::Component<From>::count, int TN=Pixel::Component<To>::count> struct DefaultConversion {
+    typedef GenericConversion<From,To> type;
   };
 
   // Scalar to X
@@ -262,7 +262,7 @@ namespace CVD{namespace Pixel
   template <class T, class S> struct DefaultConversion<Rgba<T>,Rgba<S>,4,4> { typedef RgbishToRgbish<Rgba<T>, Rgba<S> > type; };
   template <class T, class S> struct DefaultConversion<Rgba<T>,Argb<S>,4,4> { typedef RgbishToRgbish<Rgba<T>, Argb<S> > type; };
   template <class T> struct DefaultConversion<Rgba<T>,Rgba<T>,4,4> { typedef GenericConversion<Rgba<T>, Rgba<T> > type; };
-  
+
 
   // Argb<T> to X
   template <class T, class S> struct DefaultConversion<Argb<T>,S,4,1> { typedef CIE<Argb<T>,S> type; };
@@ -271,11 +271,11 @@ namespace CVD{namespace Pixel
   template <class T, class S> struct DefaultConversion<Argb<T>,Rgba<S>,4,4> { typedef RgbishToRgbish<Argb<T>, Rgba<S> > type; };
   template <class T> struct DefaultConversion<Argb<T>,Argb<T>,4,4> { typedef GenericConversion<Argb<T>, Argb<T> > type; };
 
-  
-  template <class From, class To, class Conv=typename DefaultConversion<From,To>::type, 
+
+  template <class From, class To, class Conv=typename DefaultConversion<From,To>::type,
     bool both_pod=CVD::Internal::is_POD<From>::is_pod && CVD::Internal::is_POD<To>::is_pod> struct ConvertPixels {
     static inline void convert(const From* from, To* to, size_t count) {
-      for (size_t i=0; i<count; i++) 
+      for (size_t i=0; i<count; i++)
 	Conv::convert(from[i], to[i]);
     }
   };
@@ -285,9 +285,9 @@ namespace CVD{namespace Pixel
       memcpy(to, from, count*sizeof(T));
     }
   };
-	
+
   ///All pixel types which are DefaultConvertible can be converted freely from one
-  ///to another. This struct indicated which types are DefaultConvertible. All 
+  ///to another. This struct indicated which types are DefaultConvertible. All
   ///bulitin numeric types, Rgb of them, Rgba and Rgb8 etc fall in to this class.
   /// @ingroup gImageIO
   template<class C> struct DefaultConvertible
@@ -314,6 +314,6 @@ namespace CVD{namespace Pixel
   {
   	static const int is = 1;
   };
-  
+
 }}
 #endif

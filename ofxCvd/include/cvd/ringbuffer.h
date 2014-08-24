@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef __RINGBUFFER_H
@@ -87,7 +87,7 @@ class RingBuffer {
   void advance(int n=1){
     my_start = (my_start+my_buffer.size()+n)%my_buffer.size();
   }
-  
+
  private:
   std::vector<T> my_buffer;
   int my_start;

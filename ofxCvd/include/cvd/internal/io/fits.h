@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_INCLUDE_INTERNAL_IO_FITS_H
@@ -78,31 +78,31 @@ namespace FITS
 			std::string name();
 
 
-			typedef TypeList<byte, 
+			typedef TypeList<byte,
 					TypeList<signed short,
 					TypeList<unsigned short,
 					TypeList<signed int,
 					TypeList<float,
 					TypeList<double,
-					TypeList<Rgb<byte>, 
-					TypeList<Rgb<signed short>, 
-					TypeList<Rgb<unsigned short>, 
-					TypeList<Rgb<signed int>, 
-					TypeList<Rgb<float>, 
-					TypeList<Rgb<double>, 
-					TypeList<Rgba<byte>, 
-					TypeList<Rgba<signed short>, 
-					TypeList<Rgba<unsigned short>, 
-					TypeList<Rgba<signed int>, 
-					TypeList<Rgba<float>, 
-					TypeList<Rgba<double>, 
+					TypeList<Rgb<byte>,
+					TypeList<Rgb<signed short>,
+					TypeList<Rgb<unsigned short>,
+					TypeList<Rgb<signed int>,
+					TypeList<Rgb<float>,
+					TypeList<Rgb<double>,
+					TypeList<Rgba<byte>,
+					TypeList<Rgba<signed short>,
+					TypeList<Rgba<unsigned short>,
+					TypeList<Rgba<signed int>,
+					TypeList<Rgba<float>,
+					TypeList<Rgba<double>,
 					                      Head> > > > > > > > > > > > > > > > > > Types;
-		
+
 		private:
-			std::auto_ptr<ReadPimpl> t; 
+			std::auto_ptr<ReadPimpl> t;
 	};
 
-	
+
 	////////////////////////////////////////////////////////////////////////////////
 	//
 	// FITS writing, copied and modified from tiff.h
@@ -125,12 +125,12 @@ namespace FITS
 	//Mapping for non integral types
 	template<class ComponentIn> struct ComponentMapper_<ComponentIn, 0> { typedef double type; };
 	template<> struct ComponentMapper_<float, 0> { typedef float type; };
-	
+
 	template<class ComponentIn> struct ComponentMapper
 	{
 		typedef typename ComponentMapper_<ComponentIn, Pixel::traits<ComponentIn>::integral>::type type;
 	};
-	
+
 	//Mapping for Rgbish types
 	template<class ComponentIn> struct ComponentMapper<Rgb<ComponentIn> >
 	{
@@ -149,7 +149,7 @@ namespace FITS
 
 
 
-	
+
 	class WritePimpl;
 
 	class writer
@@ -180,14 +180,14 @@ namespace FITS
 			void write_raw_pixel_line(const Rgba<double>*);
 
 			template<class Incoming> struct Outgoing
-			{		
+			{
 				typedef typename ComponentMapper<Incoming>::type type;
-			};		
+			};
 
 		private:
-			WritePimpl* t; 
+			WritePimpl* t;
 	};
-	
+
 }
 }
 #endif

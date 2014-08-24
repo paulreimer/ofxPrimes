@@ -10,21 +10,21 @@
 
 class ofxCvDtouchMarkerFinder : public ofBaseUpdates, public ofRectangle {
 public:
-	
+
 	ofxCvDtouchMarkerFinder();
 	virtual ~ofxCvDtouchMarkerFinder();
 
 	void setup();
 	void update();
 	void destroy();
-	
+
 	unsigned char* getPixels() {
 		return displayBufferPtr->getImageBuffer();
 	}
-	
+
 	ofxCvGrayscaleImage		displayImg;
 	ofxCvGrayscaleImage		grayImg;
-	
+
 	int fiducialsTarget;
 	std::list<FiducialData>	fiducials;
 
@@ -34,13 +34,13 @@ public:
 
 	int trackingDist;
 	int trackingThresh;
-	
+
 	bool noFiducials;
 	bool doTracking;
 	bool doGenerateRecognition;
 	bool displayThresholded;
 	bool calcGeometry;
-	
+
 	std::string				storeFilename;
 protected:
 	FiducialRecognition*	fiducialRecognitionPtr;

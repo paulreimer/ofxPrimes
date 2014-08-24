@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef CVD_IMAGE_CONVERT_H
@@ -38,7 +38,7 @@ namespace CVD
     };
   };
 
-  // The blat case: memcpy all data at once 
+  // The blat case: memcpy all data at once
   template <class T> struct ConvertImage<T,T,Pixel::GenericConversion<T,T>,1> {
     static void convert(const SubImage<T>& from, SubImage<T>& to) {
       memcpy(to.data(), from.data(), from.totalsize() * sizeof(T));
@@ -48,14 +48,14 @@ namespace CVD
   template <> struct ConvertImage<Rgb<byte>, byte, Pixel::CIE<Rgb<byte>, byte>, 1> {
       static void convert(const SubImage<Rgb<byte> >& from, SubImage<byte>& to);
   };
-  
+
   template<class Conv, class C, class D> void convert_image(const SubImage<C>& from, SubImage<D>& to)
   {
     if (from.size() != to.size())
       throw Exceptions::Image::IncompatibleImageSizes(__FUNCTION__);
     ConvertImage<C,D,Conv>::convert(from, to);
   }
-  
+
   template<template <class From, class To> class Conv, class C, class D> void convert_image(const SubImage<C>& from, SubImage<D>& to)
   {
     if (from.size() != to.size())
@@ -89,7 +89,7 @@ namespace CVD
     convert_image<Conv>(from, to);
     return to;
   }
-    
+
   template<class D, template <class From, class To> class Conv, class C> Image<D> convert_image(const SubImage<C>& from)
   {
     Image<D> to(from.size());
@@ -120,7 +120,7 @@ namespace CVD
     convert_image(from, to);
     return to;
   }
-  
+
   // Function name changed from 'convert_image' to prevent compile-time
   // error arising from the clash with a function of same name declared above.
 
@@ -136,7 +136,7 @@ namespace CVD
     convert_image(from, to.first);
     convert_image(from, to.second);
     return to;
-  }  
+  }
 
 
   #ifndef DOXYGEN_IGNORE_INTERNAL
@@ -183,7 +183,7 @@ namespace CVD
     /// Can teo types be converted with CVD::convert_image?
     /// @ingroup gImageIO
 	template<class In, class Out> struct IsConvertible
-  	{ 
+  	{
 		static const bool is=Pixel::DefaultConvertible<In>::is && Pixel::DefaultConvertible<Out>::is;
 	};
 

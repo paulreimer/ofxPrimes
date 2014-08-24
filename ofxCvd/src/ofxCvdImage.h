@@ -19,7 +19,7 @@ public:
 	{
 		draw(x, y, getWidth(), getHeight());
 	}
-	
+
 	void draw(float x, float y, float w, float h)
 	{
 		glPushMatrix();
@@ -30,7 +30,7 @@ public:
 		}
 		glPopMatrix();
 	}
-	
+
 	float getWidth()
 	{
 		return size().x;
@@ -39,7 +39,7 @@ public:
 	{
 		return size().y;
 	}
-	
+
 	unsigned char* getPixels()
 	{
 		return (unsigned char*)data();
@@ -60,7 +60,7 @@ public:
 	{
 		draw(x, y, getWidth(), getHeight());
 	}
-	
+
 	void draw(float x, float y, float w, float h)
 	{
 		glPushMatrix();
@@ -71,7 +71,7 @@ public:
 		}
 		glPopMatrix();
 	}
-	
+
 	float getWidth()
 	{
 		return size().x;
@@ -80,7 +80,7 @@ public:
 	{
 		return size().y;
 	}
-	
+
 	unsigned char* getPixels()
 	{
 		return (unsigned char*)data();
@@ -97,7 +97,7 @@ public:
 	{
 		draw(x, y, getWidth(), getHeight());
 	}
-	
+
 	void draw(float x, float y, float w, float h)
 	{
 		glPushMatrix();
@@ -108,7 +108,7 @@ public:
 		}
 		glPopMatrix();
 	}
-	
+
 	float getWidth()
 	{
 		return size().x;
@@ -117,7 +117,7 @@ public:
 	{
 		return size().y;
 	}
-	
+
 	unsigned char* getPixels()
 	{
 		return (unsigned char*)data();

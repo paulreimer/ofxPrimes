@@ -1,4 +1,4 @@
-/*                       
+/*
 	This file is part of the CVD Library.
 
 	Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 	You should have received a copy of the GNU Lesser General Public
 	License along with this library; if not, write to the Free Software
-	Foundation, Inc., 
+	Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef __BREZENHAM_H
@@ -30,7 +30,7 @@ namespace CVD {
 /// Class to implement the Bresenham line-drawing algorithm.
 /// This object does not draw directly into an image, it simply outputs the set
 /// of image co-ordinates that should be visited to draw a line in a certain
-/// direction. Pixels are generated in a 4-connected sense (i.e. there are 
+/// direction. Pixels are generated in a 4-connected sense (i.e. there are
 /// no diagonal steps--each step is either horizontal or vertical)
 /// details of the algorithm. See also Brezenham8.
 /// @ingroup gGraphics
@@ -52,7 +52,7 @@ class Brezenham {
 };
 
 
-/// Class to implement the Bresenham line-drawing algorithm. 
+/// Class to implement the Bresenham line-drawing algorithm.
 /// This object does not draw directly into an image, it simply outputs the set
 /// of image co-ordinates that should be visited to draw a line in a certain
 /// direction. Pixels are generated in a 8-connected sense (i.e. diagonal steps
@@ -68,7 +68,7 @@ class Brezenham8 {
   ImageRef step();
 
   /// Which compass position most orthogonal to the line's direction?
-  /// At each pixel given by 
+  /// At each pixel given by
   /// step() you are guaranteed to be able to walk in the direction given
   /// by sideways and not walk on the line.
   ImageRef sideways() {return my_sideways;}

@@ -46,7 +46,7 @@ protected:
 	using List<T>::_last;
 	using List<T>::_current;
 	using List<T>::_size;
-	
+
 	Pool<T> *_pool;
 
 	ListPool() {}
@@ -82,11 +82,11 @@ public:
 		else{
 			_last->setNext( _pool->getElementL() );
 			_last->getNext()->setData( in_data );
-			
+
 			//if( _last->next == NULL ){
 			//	throw( "\n\nList<T>::append: allocation failed!\n\n" );
 			//}
-			
+
 			_last = _last->getNext();
 			// not too sure about the following
 			//current = last;
@@ -133,7 +133,7 @@ protected:
 	using List<T>::_last;
 	using List<T>::_current;
 	using List<T>::_size;
-	
+
 	StaticPool<T> _pool;
 
 	ListPoolStatic() {}
@@ -171,7 +171,7 @@ protected:
 	using List<T>::_last;
 	using List<T>::_current;
 	using List<T>::_size;
-	
+
 	DynamicPool<T> _pool;
 
 public:

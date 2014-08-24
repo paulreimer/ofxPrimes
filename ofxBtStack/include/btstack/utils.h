@@ -56,7 +56,7 @@ typedef uint8_t bd_addr_t[BD_ADDR_LEN];
  * @brief The link key type
  */
 #define LINK_KEY_LEN 16
-typedef uint8_t link_key_t[LINK_KEY_LEN]; 
+typedef uint8_t link_key_t[LINK_KEY_LEN];
 
 // helper for BT little endian format
 #define READ_BT_16( buffer, pos) ( ((uint16_t) buffer[pos]) | (((uint16_t)buffer[pos+1]) << 8))

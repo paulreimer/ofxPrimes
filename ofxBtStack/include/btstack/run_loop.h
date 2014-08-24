@@ -53,7 +53,7 @@ typedef struct data_source {
 } data_source_t;
 
 typedef struct timer {
-    linked_item_t item; 
+    linked_item_t item;
     struct timeval timeout;                             // <-- next timeout
     void  (*process)(struct timer *ts);                 // <-- do processing
 } timer_t;
@@ -85,7 +85,7 @@ typedef struct {
 	void (*add_data_source)(data_source_t *dataSource);
 	int  (*remove_data_source)(data_source_t *dataSource);
 	void (*add_timer)(timer_t *timer);
-	int  (*remove_timer)(timer_t *timer); 
+	int  (*remove_timer)(timer_t *timer);
 	void (*execute)();
 	void (*dump_timer)();
 } run_loop_t;

@@ -21,14 +21,14 @@ namespace ofxFiducialBacked {
 			void update();
 
 			ofxFiducialTracker *tracker;
-			
+
 		#ifdef NOTIFY_FIDUCIAL_STATUS
 			ofEvent<ofxFiducialBacked::types::events::fiducialEvtArgs> fiducialFoundEvt;
 			ofEvent<ofxFiducialBacked::types::events::fiducialEvtArgs> fiducialLostEvt;
 			ofEvent<ofxFiducialBacked::types::events::fiducialEvtArgs> fiducialUpdatedEvt;
 			ofxFiducialBacked::types::fiducial_category_t ignoreFiducialIds;
 		#endif
-			
+
 		#ifdef NOTIFY_FIDUCIAL_INTERSECTION
 			ofEvent<ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs> fiducialRayIntersectionFoundEvt;
 			ofEvent<ofxFiducialBacked::types::events::fiducialRayIntersectionEvtArgs> fiducialRayIntersectionLostEvt;
@@ -39,7 +39,7 @@ namespace ofxFiducialBacked {
 			ofxFiducialBacked::types::fiducial_ranges_flags_t	specialFiducialIdRanges;
 		#endif
 
-			bool bForceFiducialCorners;			
+			bool bForceFiducialCorners;
 			void updateConversionFactors(ofPoint videoSize, ofPoint windowSize);
 		protected:
 		#ifdef NOTIFY_FIDUCIAL_INTERSECTION
@@ -51,12 +51,12 @@ namespace ofxFiducialBacked {
 
 			ofxFiducialBacked::types::physics::fiducial_edges_t	fiducialEdges;
 			ofxFiducial	*dummyFiducial;
-			
+
 			virtual bool validFiducial			(ofxFiducial* fiducial);
 			virtual bool validInputFiducial		(ofxFiducial* fiducial);
 			virtual bool validOutputFiducial	(ofxFiducial* fiducial);
 		#endif
-			
+
 		#ifdef NOTIFY_FIDUCIAL_STATUS
 			ofxFiducialBacked::types::physics::fiducial_states_t fiducialStates;
 		#endif

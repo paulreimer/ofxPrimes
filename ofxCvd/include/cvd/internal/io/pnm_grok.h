@@ -1,4 +1,4 @@
-/*                       
+/*
 			 This file is part of the CVD Library.
 
 			 Copyright (C) 2005 The Authors
@@ -15,7 +15,7 @@
 
 			 You should have received a copy of the GNU Lesser General Public
 			 License along with this library; if not, write to the Free Software
-			 Foundation, Inc., 
+			 Foundation, Inc.,
 			 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #ifndef PNM_GROK_H
@@ -23,7 +23,7 @@
 
 #include <iostream>
 #include <string>
-#include <vector> 
+#include <vector>
 #include <cvd/internal/convert_pixel_types.h>
 #include <cvd/image.h>
 #include <cvd/internal/load_and_save.h>
@@ -44,7 +44,7 @@ namespace CVD
 		  void get_raw_pixel_lines(unsigned char*, unsigned long nlines);
 		  void get_raw_pixel_lines(unsigned short*, unsigned long nlines);
 
-				
+
 		private:
 		  std::istream&	i;
 		  bool 	is_text;
@@ -59,26 +59,26 @@ namespace CVD
 
 	template <class T, class S, int N> struct PNMReader;
 
-	template <class T, class S> struct PNMReader<T,S,3> 
+	template <class T, class S> struct PNMReader<T,S,3>
 	{
 		typedef Rgb<S> array;
-		static void readPixels(BasicImage<T>& im, pnm_in& pnm) 
+		static void readPixels(BasicImage<T>& im, pnm_in& pnm)
 		{
  			std::vector<array> rowbuf(pnm.x_size());
-			for (int r=0; r<pnm.y_size(); r++) 
+			for (int r=0; r<pnm.y_size(); r++)
 			{
 	  			pnm.get_raw_pixel_lines((S*) &(rowbuf[0]), 1);
 	  			Pixel::ConvertPixels<array, T>::convert(&(rowbuf[0]), im[r], pnm.x_size());
 			}
 		}
 	};
-  
-    template <class T, class S> struct PNMReader<T,S,1> 
+
+    template <class T, class S> struct PNMReader<T,S,1>
 	{
-      	static void readPixels(BasicImage<T>& im, pnm_in& pnm) 
+      	static void readPixels(BasicImage<T>& im, pnm_in& pnm)
 		{
 			std::vector<S> rowbuf(pnm.x_size());
-			for (int r=0; r<pnm.y_size(); r++) 
+			for (int r=0; r<pnm.y_size(); r++)
 			{
 	  			pnm.get_raw_pixel_lines(&(rowbuf[0]), 1);
 	  			Pixel::ConvertPixels<S, T>::convert(&(rowbuf[0]), im[r], pnm.x_size());
@@ -86,48 +86,48 @@ namespace CVD
       	}
     };
 
-    template <> struct PNMReader<Rgb<byte>,byte,3> 
+    template <> struct PNMReader<Rgb<byte>,byte,3>
 	{
-      	static void readPixels(BasicImage<Rgb<byte> >& im, pnm_in& pnm) 
+      	static void readPixels(BasicImage<Rgb<byte> >& im, pnm_in& pnm)
 		{
 			pnm.get_raw_pixel_lines((byte*)im.data(), pnm.y_size());
       	}
     };
 
-    template <> struct PNMReader<byte,byte,1> 
+    template <> struct PNMReader<byte,byte,1>
 	{
-      	static void readPixels(BasicImage<byte>& im, pnm_in& pnm) 
+      	static void readPixels(BasicImage<byte>& im, pnm_in& pnm)
 		{
 			pnm.get_raw_pixel_lines(im.data(), pnm.y_size());
       	}
     };
 
-    template <> struct PNMReader<Rgb<unsigned short>,unsigned short,3> 
+    template <> struct PNMReader<Rgb<unsigned short>,unsigned short,3>
 	{
-      	static void readPixels(BasicImage<Rgb<unsigned short> >& im, pnm_in& pnm) 
+      	static void readPixels(BasicImage<Rgb<unsigned short> >& im, pnm_in& pnm)
 		{
 			pnm.get_raw_pixel_lines((unsigned short*)im.data(), pnm.y_size());
       	}
     };
 
-    template <> struct PNMReader<unsigned short,unsigned short,1> 
+    template <> struct PNMReader<unsigned short,unsigned short,1>
 	{
-      	static void readPixels(BasicImage<unsigned short>& im, pnm_in& pnm) 
+      	static void readPixels(BasicImage<unsigned short>& im, pnm_in& pnm)
 		{
 			pnm.get_raw_pixel_lines(im.data(), pnm.y_size());
       	}
     };
-  
+
     template <class T> void readPNM(BasicImage<T>& im, pnm_in& pnm)
     {
-      	if (pnm.is_2_byte()) 
+      	if (pnm.is_2_byte())
 	  	{
 			if (pnm.channels() == 3)
 	  			PNMReader<T,unsigned short,3>::readPixels(im, pnm);
-			else 
+			else
 	  			PNMReader<T,unsigned short,1>::readPixels(im, pnm);
 		}
-      	else 
+      	else
 		{
 			if (pnm.channels() == 3)
 	  			PNMReader<T,unsigned char,3>::readPixels(im, pnm);
@@ -135,7 +135,7 @@ namespace CVD
 				PNMReader<T,unsigned char,1>::readPixels(im, pnm);
       	}
     }
-	
+
 	template <class T> void readPNM(BasicImage<T>&im, std::istream& in)
 	{
       pnm_in pnm(in);
@@ -143,7 +143,7 @@ namespace CVD
 
 	  if(size != im.size())
 	    throw Exceptions::Image_IO::ImageSizeMismatch(size, im.size());
-	
+
 		readPNM(im, pnm);
 
 	}
@@ -177,12 +177,12 @@ namespace CVD
 			void write_raw_pixel_line(const Rgb<unsigned short>*);
 
 			template<class Incoming> struct Outgoing
-			{		 
+			{
 				typedef typename Pixel::Component<Incoming>::type Element;
 				typedef typename ComponentMapper<Pixel::is_Rgb<Incoming>::value,
 												 std::numeric_limits<Element>::is_integer &&
 												 std::numeric_limits<Element>::digits <= 8>::type type;
-			};		
+			};
 		private:
 
 			template<class P> void sanity_check(const P*);

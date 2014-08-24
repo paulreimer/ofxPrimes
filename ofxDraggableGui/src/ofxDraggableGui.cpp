@@ -1,11 +1,11 @@
 #include "ofxDraggableGui.h"
-#include "ofxPoint2f.h"	
+#include "ofxPoint2f.h"
 
 //--------------------------------------------------------------
 ofxDraggableGui::ofxDraggableGui(string name) : ofxSimpleGuiPage(name)
 {
 	bDraggable = false;
-	
+
 	disableAllEvents();
 	enableKeyEvents();
 	enableMouseEvents();
@@ -16,7 +16,7 @@ void ofxDraggableGui::onPress(int x, int y, int button)
 {
 	if (!bDraggable)
 		return;
-	
+
 	for (int i=0; i<controls.size(); i++)
 		if (controls[i]->controlType!="Title"
 			&&controls[i]->controlType!="Content"
@@ -33,7 +33,7 @@ void ofxDraggableGui::onDragOver(int x, int y, int button)
 {
 	if (!bDraggable)
 		return;
-	
+
 	for (int i=0; i<controls.size(); i++)
 		if (controls[i]->controlType!="Title"
 			&&controls[i]->controlType!="Content"
@@ -49,10 +49,10 @@ void ofxDraggableGui::draw()
 	if(!enabled) return;
 
 	ofxSimpleGuiPage::draw(x, y, false);
- 
+
 	if (!bDraggable)
-		return;	
-	
+		return;
+
 	int border = 4;
 	// add a border if mouse is pressed or over the object
 	ofSetLineWidth(border);
@@ -82,7 +82,7 @@ void ofxDraggableGui::draw()
 	//		ofRect(x, y, width, height - config->padding.y);
 	ofDisableAlphaBlending();
 	ofSetLineWidth(1.0);
-	
+
 	glPopMatrix();
 }
 
@@ -92,8 +92,8 @@ void ofxDraggableGui::activate(bool isActivated)
 	enabled = isActivated;
 	if (isActivated)
 		for (int i=0; i<controls.size(); i++)
-			controls[i]->enableMouseEvents();		
+			controls[i]->enableMouseEvents();
 	else
 		for (int i=0; i<controls.size(); i++)
-			controls[i]->disableMouseEvents();		
+			controls[i]->disableMouseEvents();
 }

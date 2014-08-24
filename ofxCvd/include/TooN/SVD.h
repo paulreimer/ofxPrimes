@@ -47,24 +47,24 @@ static const double condition_no=1e9; // GK HACK TO GLOBAL
 /**
 @class SVD TooN/SVD.h
 Performs %SVD and back substitute to solve equations.
-Singular value decompositions are more robust than LU decompositions in the face of 
+Singular value decompositions are more robust than LU decompositions in the face of
 singular or nearly singular matrices. They decompose a matrix (of any shape) \f$M\f$ into:
 \f[M = U \times D \times V^T\f]
-where \f$D\f$ is a diagonal matrix of positive numbers whose dimension is the minimum 
-of the dimensions of \f$M\f$. If \f$M\f$ is tall and thin (more rows than columns) 
-then \f$U\f$ has the same shape as \f$M\f$ and \f$V\f$ is square (vice-versa if \f$M\f$ 
-is short and fat). The columns of \f$U\f$ and the rows of \f$V\f$ are orthogonal 
-and of unit norm (so one of them lies in SO(N)). The inverse of \f$M\f$ (or pseudo-inverse 
+where \f$D\f$ is a diagonal matrix of positive numbers whose dimension is the minimum
+of the dimensions of \f$M\f$. If \f$M\f$ is tall and thin (more rows than columns)
+then \f$U\f$ has the same shape as \f$M\f$ and \f$V\f$ is square (vice-versa if \f$M\f$
+is short and fat). The columns of \f$U\f$ and the rows of \f$V\f$ are orthogonal
+and of unit norm (so one of them lies in SO(N)). The inverse of \f$M\f$ (or pseudo-inverse
 if \f$M\f$ is not square) is then given by
 \f[M^{\dagger} = V \times D^{-1} \times U^T\f]
- 
-If \f$M\f$ is nearly singular then the diagonal matrix \f$D\f$ has some small values 
-(relative to its largest value) and these terms dominate \f$D^{-1}\f$. To deal with 
-this problem, the inverse is conditioned by setting a maximum ratio 
+
+If \f$M\f$ is nearly singular then the diagonal matrix \f$D\f$ has some small values
+(relative to its largest value) and these terms dominate \f$D^{-1}\f$. To deal with
+this problem, the inverse is conditioned by setting a maximum ratio
 between the largest and smallest values in \f$D\f$ (passed as the <code>condition</code>
-parameter to the various functions). Any values which are too small 
+parameter to the various functions). Any values which are too small
 are set to zero in the inverse (rather than a large number)
- 
+
 It can be used as follows to solve the \f$M\underline{x} = \underline{c}\f$ problem as follows:
 @code
 // construct M
@@ -89,7 +89,7 @@ class SVD {
 	// this is the size of the diagonal
 	// NB works for semi-dynamic sizes because -1 < +ve ints
 	static const int Min_Dim = Rows<Cols?Rows:Cols;
-	
+
 public:
 
 	/// default constructor for Rows>0 and Cols>0
@@ -119,7 +119,7 @@ public:
 		my_copy=m;
 		do_compute();
 	}
-	
+
 	private:
 	void do_compute(){
 		Precision* const a = my_copy.my_data;
@@ -154,27 +154,27 @@ public:
 		// thus u and vt play each other's roles.
 		dgesvd_( &JOBVT, &JOBU, &m, &n, a, &lda, s, uorvt,
 				 &ldvt, uorvt, &ldu, &size, &LWORK, &INFO);
-	
+
 		LWORK = (long int)(size);
 		wk = new Precision[LWORK];
 
 		dgesvd_( &JOBVT, &JOBU, &m, &n, a, &lda, s, uorvt,
 				 &ldvt, uorvt, &ldu, wk, &LWORK, &INFO);
-	
+
 		delete[] wk;
 	}
-	
-	bool is_vertical(){ 
-		return (my_copy.num_rows() >= my_copy.num_cols()); 
+
+	bool is_vertical(){
+		return (my_copy.num_rows() >= my_copy.num_cols());
 	}
 
 	int min_dim(){ return std::min(my_copy.num_rows(), my_copy.num_cols()); }
-	
+
 	public:
 
-	/// Calculate result of multiplying the (pseudo-)inverse of M by another matrix. 
-	/// For a matrix \f$A\f$, this calculates \f$M^{\dagger}A\f$ by back substitution 
-	/// (i.e. without explictly calculating the (pseudo-)inverse). 
+	/// Calculate result of multiplying the (pseudo-)inverse of M by another matrix.
+	/// For a matrix \f$A\f$, this calculates \f$M^{\dagger}A\f$ by back substitution
+	/// (i.e. without explictly calculating the (pseudo-)inverse).
 	/// See the detailed description for a description of condition variables.
 	template <int Rows2, int Cols2, typename P2, typename B2>
 	Matrix<Cols,Cols2, typename Internal::MultiplyType<Precision,P2>::type >
@@ -185,9 +185,9 @@ public:
 		return (get_VT().T() * diagmult(inv_diag, (get_U().T() * rhs)));
 	}
 
-	/// Calculate result of multiplying the (pseudo-)inverse of M by a vector. 
-	/// For a vector \f$b\f$, this calculates \f$M^{\dagger}b\f$ by back substitution 
-	/// (i.e. without explictly calculating the (pseudo-)inverse). 
+	/// Calculate result of multiplying the (pseudo-)inverse of M by a vector.
+	/// For a vector \f$b\f$, this calculates \f$M^{\dagger}b\f$ by back substitution
+	/// (i.e. without explictly calculating the (pseudo-)inverse).
 	/// See the detailed description for a description of condition variables.
 	template <int Size, typename P2, typename B2>
 	Vector<Cols, typename Internal::MultiplyType<Precision,P2>::type >
@@ -198,8 +198,8 @@ public:
 		return (get_VT().T() * diagmult(inv_diag, (get_U().T() * rhs)));
 	}
 
-	/// Calculate (pseudo-)inverse of the matrix. This is not usually needed: 
-	/// if you need the inverse just to multiply it by a matrix or a vector, use 
+	/// Calculate (pseudo-)inverse of the matrix. This is not usually needed:
+	/// if you need the inverse just to multiply it by a matrix or a vector, use
 	/// one of the backsub() functions, which will be faster.
 	/// See the detailed description of the pseudo-inverse and condition variables.
 	Matrix<Cols,Rows> get_pinv(const Precision condition = condition_no){
@@ -217,7 +217,7 @@ public:
 		}
 		return result;
 	}
-	
+
 	/// Calculate the rank of the matrix.
 	/// See the detailed description of the pseudo-inverse and condition variables.
 	int rank(const Precision condition = condition_no) {
@@ -264,7 +264,7 @@ public:
 	///is returned if the elements are well scaled with respect to the largest element,
 	///otherwise 0 is returned.
 	///@param inv_diag Vector in which to return the inverse diagonal.
-	///@param condition Elements must be larger than this factor times the largest diagonal element to be considered well scaled. 
+	///@param condition Elements must be larger than this factor times the largest diagonal element to be considered well scaled.
 	void get_inv_diag(Vector<Min_Dim>& inv_diag, const Precision condition){
 		for(int i=0; i<min_dim(); i++){
 			if(my_diagonal[i] * condition <= my_diagonal[0]){
@@ -296,7 +296,7 @@ struct SQSVD : public SVD<Size, Size, Precision> {
 	///@{
 	SQSVD() {}
 	SQSVD(int size) : SVD<Size,Size,Precision>(size, size) {}
-	
+
 	template <int R2, int C2, typename P2, typename B2>
 	SQSVD(const Matrix<R2,C2,P2,B2>& m) : SVD<Size,Size,Precision>(m) {}
 	///@}

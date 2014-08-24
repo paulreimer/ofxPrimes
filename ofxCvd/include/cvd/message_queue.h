@@ -27,7 +27,7 @@ template<class C> class MessageQueue
 		///Write a message to the queue.
 		///@param message The message to write to the queue
 		void write(const C& message)
-		{	
+		{
 			//Lock the queue, so it can be safely used.
 			queue_mutex.lock();
 			queue.push_back(message);
@@ -35,7 +35,7 @@ template<class C> class MessageQueue
 
 			sem_post(&empty_slots);
 		}
-		
+
 		///Read a message from the queue.
 		///Wait if the queue is empty.
 		///@return  The message read from the queue

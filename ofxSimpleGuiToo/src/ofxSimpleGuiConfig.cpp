@@ -41,7 +41,7 @@ ofxSimpleGuiConfig::ofxSimpleGuiConfig()
 {
 	sliderHeight		= 12;
 	sliderTextHeight	= 18;
-	
+
 	textColor			= 0xdadada;
 	textOverColor		= 0x4b7a2f;
 	textBGColor			= 0x242323;
@@ -56,17 +56,17 @@ ofxSimpleGuiConfig::ofxSimpleGuiConfig()
 	fullOverColor		= 0xe5b627;
 	fullActiveColor		= 0x996412;
 	emptyColor			= 0xf2f0f2;
-*/	
+*/
 	fullColor			= 0x303030;
 	fullOverColor		= 0x303030;
 	fullActiveColor		= 0xc7611e;
 	emptyColor			= 0x6eab24;
 
 //	borderColor			= 0xCCCCCC;
-	
+
 	fontSize			= 11;
 	fontName			= "Helvetica.ttf";
-	
+
 	chromeDir			= "chrome/";
 
 	setup(false);
@@ -85,10 +85,10 @@ ofxSimpleGuiConfig::setup(bool bReloadFonts)
 	padding.set			(12, 0);
 	offset.set			(titleHeight, titleHeight);
 	slider2DSize.set	(titleHeight * 4, titleHeight * 4);
-	
+
 	gridSize.x			= titleHeight * 8 + margin.x + 2*padding.y;
 	gridSize.y			= toggleHeight + 2*margin.y;
-	
+
 	if (bReloadFonts)
 		font.loadFont(fontName, fontSize);
 
